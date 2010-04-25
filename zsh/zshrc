@@ -1,0 +1,325 @@
+# Some of this has been stolen, some of it written by myself.
+# Troels Henriksen (athas@sigkill.dk), 2004.
+
+# Load the super duper completion stuff
+autoload -U compinit
+compinit
+
+umask 077
+
+# Prompt
+#autoload -U promptinit
+#promptinit
+#prompt gentoo
+
+RPROMPT="%{[01;33m%}%~%{[00;49m%}"
+#PROMPT="%{[0;37m%}[%{[01;31m%}%m%{[0;37m%}]%{[0;34m%}%n%{[1;37m%}>%{[1;32m%}%# %{[0;0m%}"
+PROMPT="%{[0;37m%}[%{[00;31m%}%m%{[0;37m%}]%{[0;32m%}%n%{[1;37m%}>%{[00;31m%}%?%{[0;32m%}%# %{[0;0m%}"
+
+# Set the PATH. Notice that ~/bin and ~/usr/bin is last, to minimize
+# security risks.
+PATH=$PATH:~/.cabal/bin:~/bin/:~/usr/bin/:/usr/lib/plan9/bin/
+
+# Exports
+export HOSTTYPE="$(uname -m)"
+export COLORTERM=yes
+export LINKS_XTERM=screen
+export CC=gcc
+export CXX=g++
+export MANPAGER=less
+export PAGER=less
+export EDITOR=emacsclient
+export LC_ALL=en_DK.UTF-8
+export DARCS_EMAIL="athas@sigkill.dk"
+export DARCS_EDITOR="emacsclient"
+
+# XDG is useful, but not very many things respect it.
+export XDG_CONFIG_HOME=~/.config
+export XDG_DATA_HOME=~/.local/share
+
+# SCREENDIR will screw screen up
+unset SCREENDIR
+
+# Colours
+# 
+# I haven't actually used these yet, apart from for reference. You can use
+# these when prompting. Capitalised stuff is bold.
+
+export red=$'%{\e[0;31m%}'
+export RED=$'%{\e[1;31m%}'
+export green=$'%{\e[0;32m%}'
+export GREEN=$'%{\e[1;32m%}'
+export blue=$'%{\e[0;34m%}'
+export BLUE=$'%{\e[1;34m%}'
+export purple=$'%{\e[0;35m%}'
+export PURPLE=$'%{\e[1;35m}'
+export cyan=$'%{\e[0;36m%}'
+export CYAN=$'%{\e[1;36m}'
+export WHITE=$'%{\e[1;37m}'
+export white=$'%{\e[0;37m}'
+export NC=$'%{\e[0m%}' 
+
+compctl -g '*(-/)' + -g '.*(-/)' -v cd pushd rmdir
+compctl -k hosts -x 'p[2,-1]' -l '' -- rsh ssh
+
+# completion for "man" by Gossamer <gossamer@tertius.net.au> 980827
+# This is damn funky. I'm going to do something similar for pinfo,
+# hopefully.
+compctl -f -x 'S[1][2][3][4][5][6][7][8][9]' -k '(1 2 3 4 5 6 7 8 9)' \
+    - 'R[[1-9nlo]|[1-9](|[a-z]),^*]' -K 'match-man' \
+    - 's[-M],c[-1,-M]' -g '*(-/)' \
+    - 's[-P],c[-1,-P]' -c \
+    - 's[-S],s[-1,-S]' -k '( )' \
+    - 's[-]' -k '(a d f h k t M P)' \
+    - 'p[1,-1]' -c + -K 'match-man' \
+    -- man
+
+
+# Completition
+compctl -b bindkey
+compctl -v export
+compctl -o setopt
+compctl -v unset
+compctl -o unsetopt
+compctl -v vared
+compctl -c which
+compctl -c sudo
+
+# History things
+HISTFILE=$HOME/.zshist
+SAVEHIST=500
+HISTSIZE=800
+TMPPREFIX=$HOME/tmp
+
+# Key bindings, useful.
+bindkey "\e[3~" delete-char
+bindkey "\e[2~" yank        #insert
+bindkey "\e[7~" beginning-of-line
+bindkey "\e[8~" end-of-line
+bindkey "\e[5~" history-search-backward
+bindkey "\e[6~" history-search-forward 
+bindkey "\e[Z" reverse-menu-complete
+
+# Aliases, how I love thee
+alias ls="ls --color=always"
+alias nano="nano -w" # Nano wraps lines by default. How stupid is that?
+alias lynx="lynx -use_mouse -term=${TERM}"
+alias su="su -"
+alias e="emacs"
+alias l="ls -l"
+alias x="exit"
+alias etc-update="sudo /usr/sbin/etc-update"
+alias halt="sudo /sbin/halt"
+alias stophalt="sudo /sbin/shutdown -c"
+alias playmidi="aplaymidi -p 73:0"
+alias p3="play123"
+alias cvsbcl="SBCL_HOME=/home/athas/code/cvsrepos/sbcl/contrib/ /home/athas/code/cvsrepos/sbcl/src/runtime/sbcl --core /home/athas/code/cvsrepos/sbcl/output/sbcl.core"
+alias clim="cvsbcl --eval \"(run-clim-desktop)\""
+alias ccl="~/code/svnrepos/ccl/lx86cl64"
+alias climccl="ccl --eval \"(run-clim-desktop)\""
+alias smlnj="schroot -p -- sml"
+
+# Set the titlebar for the window, and also the window title in screen.
+
+# This function sets the window tile to user@host:/workingdir before each
+# prompt. If you're using screen, it sets the window title (works
+# wonderfully for hardstatus lines :)
+precmd () {
+    [[ -t 1 ]] || return
+    case $TERM in
+	*xterm*|rxvt|(dt|k|E|a)term) print -Pn "\e]2;%n@%m:%~\a"
+;;
+screen*) print -Pn "\e\"%n@%m:%~\e\134"
+esac
+}
+
+# This sets the window title to the last run command.
+[[ -t 1 ]] || return
+case $TERM in
+    *xterm*|rxvt|(dt|k|E|a)term)
+    preexec () {
+	print -Pn "\e]2;$1\a"
+    }
+    ;;
+    screen*)
+	preexec () {
+	    print -Pn "\e\"$1\e\134"
+	}
+	;;
+esac
+
+# Setting goto-start/end keys,
+case $TERM in (xterm*|aterm|rxvt)
+    bindkey '\e[H' beginning-of-line
+    bindkey '\e[F' end-of-line
+    bindkey '^A' beginning-of-line
+    bindkey '^E' end-of-line ;;
+esac
+
+# Okay, I admit that I don't have a clue how the following works:
+
+# Select Prompt
+zstyle ':completion:*' menu select=1
+
+# Expansion options
+zstyle ':completion:*' completer _complete _prefix
+zstyle ':completion::prefix-1:*' completer _complete
+zstyle ':completion:incremental:*' completer _complete _correct
+zstyle ':completion:predict:*' completer _complete
+
+# Completion caching
+zstyle ':completion::complete:*' use-cache 1
+zstyle ':completion::complete:*' cache-path ~/.zsh/cache/$HOST
+
+# Expand partial paths
+zstyle ':completion:*' expand 'yes'
+zstyle ':completion:*' squeeze-slashes 'yes'
+
+# Include non-hidden directories in globbed file completions
+# for certain commands
+
+zstyle ':completion::complete:*' '\'
+
+# Use menuselection for pid completion
+zstyle ':completion:*:*:kill:*' menu yes select
+zstyle ':completion:*:kill:*' force-list always
+
+#  tag-order 'globbed-files directories' all-files 
+zstyle ':completion::complete:*:tar:directories' file-patterns '*~.*(-/)'
+
+# Don't complete backup files as executables
+zstyle ':completion:*:complete:-command-::commands' ignored-patterns '*\~'
+
+# Separate matches into groups
+zstyle ':completion:*:matches' group 'yes'
+
+# With commands like rm, it's annoying if you keep getting offered the same
+# file multiple times. This fixes it. Also good for cp, et cetera..
+zstyle ':completion:*:rm:*' ignore-line yes
+zstyle ':completion:*:cp:*' ignore-line yes
+
+# Describe each match group.
+zstyle ':completion:*:descriptions' format "%B---- %d%b"
+
+# Messages/warnings format
+zstyle ':completion:*:messages' format '%B%U---- %d%u%b' 
+zstyle ':completion:*:warnings' format '%B%U---- no match for: %d%u%b'
+
+# Describe options in full
+zstyle ':completion:*:options' description 'yes'
+zstyle ':completion:*:options' auto-description '%d'
+
+# Simulate spider's old abbrev-expand 3.0.5 patch 
+zstyle ':completion:*:history-words' stop verbose
+zstyle ':completion:*:history-words' remove-all-dups yes
+zstyle ':completion:*:history-words' list false
+
+# Follow GNU LS_COLORS
+zmodload -i zsh/complist
+export ZLSCOLORS="${LS_COLORS}"
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*:*:kill:*' list-colors '=%*=01;31'
+
+# zsh Options. Big long lovely way of setting them.
+
+setopt                       \
+    NO_all_export           \
+    nohashdirs           \
+    always_last_prompt   \
+    always_to_end        \
+    append_history       \
+    auto_list            \
+    auto_menu            \
+    auto_name_dirs       \
+    auto_param_keys      \
+    auto_param_slash     \
+    auto_pushd           \
+    auto_remove_slash    \
+    NO_auto_resume          \
+    bad_pattern          \
+    bang_hist            \
+    NO_beep                 \
+    brace_ccl            \
+    correct_all          \
+    NO_bsd_echo             \
+    cdable_vars          \
+    NO_chase_links          \
+    clobber              \
+    complete_aliases     \
+    complete_in_word     \
+    correct              \
+    NO_correct_all          \
+    csh_junkie_history   \
+    NO_csh_junkie_loops     \
+    NO_csh_junkie_quotes    \
+    NO_csh_null_glob        \
+    equals               \
+    extended_glob        \
+    extended_history     \
+    function_argzero     \
+    glob                 \
+    NO_glob_assign          \
+    glob_complete        \
+    NO_glob_dots            \
+    glob_subst           \
+    NO_hash_cmds            \
+    NO_hash_dirs            \
+    hash_list_all        \
+    hist_allow_clobber   \
+    hist_beep            \
+    hist_ignore_dups     \
+    hist_ignore_space    \
+    NO_hist_no_store        \
+    hist_verify          \
+    NO_hup                  \
+    NO_ignore_braces        \
+    NO_ignore_eof           \
+    interactive_comments \
+    inc_append_history   \
+    NO_list_ambiguous       \
+    NO_list_beep            \
+    list_types           \
+    long_list_jobs       \
+    magic_equal_subst    \
+    NO_mail_warning         \
+    NO_mark_dirs            \
+    menu_complete        \
+    multios              \
+    nomatch              \
+    notify               \
+    NO_null_glob            \
+    numeric_glob_sort    \
+    NO_overstrike           \
+    path_dirs            \
+    posix_builtins       \
+    NO_print_exit_value     \
+    NO_prompt_cr            \
+    prompt_subst         \
+    pushd_ignore_dups    \
+    NO_pushd_minus          \
+    pushd_silent         \
+    pushd_to_home        \
+    rc_expand_param      \
+    NO_rc_quotes            \
+    NO_rm_star_silent       \
+    NO_sh_file_expansion    \
+    sh_option_letters    \
+    short_loops          \
+    NO_sh_word_split        \
+    NO_single_line_zle      \
+    NO_sun_keyboard_hack    \
+    unset                \
+    NO_verbose              \
+    zle
+
+# If we're in Emacs, we'll have to unset a great many things, mostly relating to colors.
+case $EMACS in (t)
+    RPROMPT="" # No right-prompt.
+    PROMPT="%m@%n>%# " # The Emacs shell-mode doesn't handle colors well.
+    unalias ls
+esac
+
+
+
+# Last but not least...
+fortune

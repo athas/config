@@ -1,0 +1,39 @@
+#!/bin/bash
+# .xinitrc for Troels Henriksen <athas@sigkill.dk>
+# These programs are _critical_ for my mental health.
+
+# Sharing is caring! Also when it comes to your X-session.
+xhost +
+
+xrdb ~/.Xdefaults
+
+# Christmas-time?
+#xsnow &
+
+#Start the screensaver.
+#xscreensaver &
+
+# Gotta have a Unix listener.
+urxvt &
+
+# Start GNU Emacs and redirect output to a logfile.
+emacs >& ~/emacs.log &
+
+# Start the webbrowser.
+/bin/sh -c ~/bin/browser &
+
+# Do some stuff to make my Trackman work properly (I'm not sure how
+# this works - it's pure magic.).
+xset m 4 25 &
+/usr/X11R6/bin/xmodmap -e "pointer = 1 2 3 6 7 4 5" &
+/usr/bin/imwheel -k -p -f -b "67" &
+
+# Start a window-manager.
+sh ~/.bashrc
+#exec ratpoison
+exec xmonad
+
+# I live on the edge:
+#exec /home/athas/stumpwm.sh
+
+#exec /home/athas/.cabal/bin/mousetoxi
