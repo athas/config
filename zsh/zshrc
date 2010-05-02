@@ -32,7 +32,7 @@ export EDITOR=emacsclient
 export LC_ALL=en_DK.UTF-8
 export DARCS_EMAIL="athas@sigkill.dk"
 export DARCS_EDITOR="emacsclient"
-export MANPATH="~/.cabal/share/../man/:"
+export MANPATH="~/.cabal/share/man/:"
 
 # XDG is useful, but not very many things respect it.
 export XDG_CONFIG_HOME=~/.config
