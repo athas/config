@@ -14,13 +14,13 @@ xrdb ~/.Xdefaults
 #xscreensaver &
 
 # Gotta have a Unix listener.
-urxvt &
+# urxvt &
 
 # Start GNU Emacs and redirect output to a logfile.
 emacs >& ~/emacs.log &
 
 # Start the webbrowser.
-/bin/sh -c ~/bin/browser &
+# /bin/sh -c ~/bin/browser &
 
 # Do some stuff to make my Trackman work properly (I'm not sure how
 # this works - it's pure magic.).
