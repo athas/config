@@ -18,7 +18,7 @@ PROMPT="%{[0;37m%}[%{[00;31m%}%m%{[0;37m%}]%{[0;32m%}%n%{[1;37m%}>%{[00;31
 
 # Set the PATH. Notice that ~/bin and ~/usr/bin is last, to minimize
 # security risks.
-PATH=$PATH:~/scripts/:~/.cabal/bin:~/bin/:~/usr/bin/:/usr/lib/plan9/bin/
+PATH=~/scripts/:~/.cabal/bin:~/bin/:~/usr/bin/:$PATH:/usr/lib/plan9/bin/
 
 # Exports
 export HOSTTYPE="$(uname -m)"
