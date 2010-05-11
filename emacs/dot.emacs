@@ -207,6 +207,7 @@ able to know what they run under.")
 (global-font-lock-mode t)               ; Font-lock by default.
 
 (setf pop-up-windows nil        ; Don't change my windowconfiguration.
+      pop-up-frames nil
       european-calendar-style t         ; Use european date format.
       delete-auto-save-files t   ; Delete unnecessary auto-save files.
       default-major-mode 'fundamental-mode ; At least this mode won't do anything stupid.
@@ -661,6 +662,10 @@ The slander returned will be in LANGUAGE."
 (add-hook 'change-log-mode-hook (lambda ()
                                   (auto-fill-mode)))
 
+(with-feature
+ (paredit)
+ (add-hook 'emacs-lisp-mode-hook (lambda () (paredit-mode +1))))
+
 ;;; Darcs - a revision control system.
 
 ;; I might accidentaly open a darcs-file, in that case, warn.
@@ -832,7 +837,8 @@ This is used by the command `trh-hyperspec-lookup'.")
  (setq erc-paranoid t)                  ; Show CTCP-messages.
  (setq erc-email-userid "athas@@sigkill.dk"
        erc-user-full-name "Troels Henriksen"
-       erc-prompt (lambda () (concat (buffer-name) ">")))
+       erc-prompt (lambda () (concat (buffer-name) ">"))
+       erc-track-visibility 'visible)
 
  ;; Read-only:
  (add-hook 'erc-insert-post-hook 'erc-make-read-only)
