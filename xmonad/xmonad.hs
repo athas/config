@@ -10,53 +10,33 @@ import Foreign.Storable
 import XMonad
 import qualified XMonad.StackSet as W
 
-import XMonad.Actions.GridSelect hiding (gridselectWindow,
-                                         withSelectedWindow,
-                                         goToSelected)
+import XMonad.Actions.GridSelect
 import XMonad.Actions.Submap
+import XMonad.Hooks.DynamicLog
 import XMonad.Util.NamedWindows
 
-main = xmonad defaultConfig {
-         modMask = mod4Mask
-       , focusFollowsMouse = False
-       , terminal = "urxvt"
-       , keys = newKeys
-       }
+main = xmonad =<< statusBar "xmobar" athasPP toggleStrutsKey myConfig
+       
+myConfig = defaultConfig {
+             modMask = mod4Mask
+           , focusFollowsMouse = False
+           , terminal = "urxvt"
+           , keys = newKeys
+           }
+
+athasPP :: PP
+athasPP = xmobarPP { ppCurrent = xmobarColor "white" "black"
+                   , ppTitle = xmobarColor "#111111" "" . shorten 120
+                   }
+
+toggleStrutsKey :: XConfig t -> (KeyMask, KeySym)
+toggleStrutsKey XConfig{modMask = modm} = (modm, xK_b )
        
 prefix = (controlMask, xK_t)
 
 gsConfig = defaultGSConfig { gs_selectfun = gsmenu 
                            , gs_originFractX = 0.5 }
 
-gridselectWindow :: GSConfig Window -> X (Maybe Window)
-gridselectWindow gsconf = do
-  focus <- gets (W.peek . windowset)
-  wm    <- windowMap
-  case focus of
-    Just fw -> gridselect gsconf $ filter ((/=fw) . snd) wm
-    _       -> gridselect gsconf wm
-
-withSelectedWindow :: (Window -> X ()) -> GSConfig Window -> X ()
-withSelectedWindow callback conf = do
-    mbWindow <- gridselectWindow conf
-    case mbWindow of
-        Just w -> callback w
-        Nothing -> return ()
-
-goToSelected :: GSConfig Window -> X ()
-goToSelected = withSelectedWindow $ windows . W.focusWindow
-
-windowMap :: X [(String,Window)]
-windowMap = do
-    ws <- gets windowset
-    wins <- mapM keyValuePair (W.allWindows ws)
-    return wins
- where keyValuePair w = flip (,) w `fmap` decorateName' w
-       
-decorateName' :: Window -> X String
-decorateName' w = do
-  fmap show $ getName w
-       
 prefixMap conf =
     [((m , k), windows $ f i)
      | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
