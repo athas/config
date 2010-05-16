@@ -43,6 +43,7 @@ prefixMap conf =
      , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
     ++
     [ ((0, xK_k), kill)
+    , ((shiftMask, xK_k), withFocused $ forceKill)
     , ((0, xK_c), spawn $ XMonad.terminal conf)
     , ((0, xK_f), withFocused $ windows . W.sink)
     , ((0, xK_t), withFocused $ sendPress prefix)
@@ -51,7 +52,13 @@ prefixMap conf =
     , ((0, xK_s), spawn "ogg123 /home/athas/sadtrombone.ogg")
     , ((0, xK_v), spawn "ogg123 /home/athas/saddestviolin.ogg")
     , ((shiftMask, xK_e), spawn "exe=`dmenu_path | dmenu` && eval \"exec $exe\"")
+    , ((controlMask, xK_r), spawn "surfsession resume")
     , ((0, xK_g), spawn "surf") ]
+
+forceKill :: Window -> X ()
+forceKill w = withDisplay $ \d -> io $ do
+  protocols <- getWMProtocols d w
+  killClient d w >> return ()
 
 newKeys x = M.insert prefix mappings $ keys defaultConfig x
     where stdmap = M.mapKeys (first rmMod) $ keys defaultConfig x
