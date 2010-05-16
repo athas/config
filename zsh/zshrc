@@ -18,7 +18,7 @@ PROMPT="%{[0;37m%}[%{[00;31m%}%m%{[0;37m%}]%{[0;32m%}%n%{[1;37m%}>%{[00;31
 
 # Set the PATH. Notice that ~/bin and ~/usr/bin is last, to minimize
 # security risks.
-PATH=~/scripts/:~/.cabal/bin:~/bin/:~/usr/bin/:$PATH:/usr/lib/plan9/bin/
+PATH=~/scripts/:~/.cabal/bin:~/bin/:$PLAN9/bin/:~/usr/bin/:$PATH
 
 # Exports
 export HOSTTYPE="$(uname -m)"
@@ -102,7 +102,7 @@ bindkey "\e[6~" history-search-forward
 bindkey "\e[Z" reverse-menu-complete
 
 # Aliases, how I love thee
-alias ls="ls --color=always"
+alias ls="/bin/ls --color=always"
 alias nano="nano -w" # Nano wraps lines by default. How stupid is that?
 alias lynx="lynx -use_mouse -term=${TERM}"
 alias su="su -"
