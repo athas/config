@@ -16,9 +16,10 @@ RPROMPT="%{[01;33m%}%~%{[00;49m%}"
 #PROMPT="%{[0;37m%}[%{[01;31m%}%m%{[0;37m%}]%{[0;34m%}%n%{[1;37m%}>%{[1;32m%}%# %{[0;0m%}"
 PROMPT="%{[0;37m%}[%{[00;31m%}%m%{[0;37m%}]%{[0;32m%}%n%{[1;37m%}>%{[00;31m%}%?%{[0;32m%}%# %{[0;0m%}"
 
-# Set the PATH. Notice that ~/bin and ~/usr/bin is last, to minimize
-# security risks.
-PATH=~/scripts/:~/.cabal/bin:~/bin/:$PLAN9/bin/:~/usr/bin/:$PATH
+PLAN9=/home/athas/.local/plan9 export PLAN9
+
+# Set the PATH.
+PATH=~/scripts/:~/.cabal/bin:~/.local/bin/:$PLAN9/bin/:$PATH
 
 # Exports
 export HOSTTYPE="$(uname -m)"
