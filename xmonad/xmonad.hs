@@ -34,8 +34,7 @@ toggleStrutsKey XConfig{modMask = modm} = (modm, xK_b )
        
 prefix = (controlMask, xK_t)
 
-gsConfig = defaultGSConfig { gs_selectfun = gsmenu 
-                           , gs_originFractX = 0.5 }
+gsConfig = gsmenuGSConfig
 
 prefixMap conf =
     [((m , k), windows $ f i)
