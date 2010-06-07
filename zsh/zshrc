@@ -105,12 +105,9 @@ bindkey "\e[Z" reverse-menu-complete
 # Aliases, how I love thee
 alias ls="/bin/ls --color=always"
 alias nano="nano -w" # Nano wraps lines by default. How stupid is that?
-alias lynx="lynx -use_mouse -term=${TERM}"
 alias su="su -"
-alias e="emacs"
+alias e="emacsclient"
 alias l="ls -l"
-alias x="exit"
-alias etc-update="sudo /usr/sbin/etc-update"
 alias halt="sudo /sbin/halt"
 alias stophalt="sudo /sbin/shutdown -c"
 alias playmidi="aplaymidi -p 73:0"
@@ -320,8 +317,6 @@ case $EMACS in (t)
     PROMPT="%m@%n>%# " # The Emacs shell-mode doesn't handle colors well.
     unalias ls
 esac
-
-
 
 # Last but not least...
 fortune
