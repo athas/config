@@ -7,6 +7,9 @@ xhost +
 
 xrdb ~/.Xdefaults
 
+# Disable bell.
+xset -b
+
 # Christmas-time?
 #xsnow &
 
