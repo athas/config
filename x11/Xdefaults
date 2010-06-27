@@ -1,0 +1,23 @@
+/* Set a default, standard font. */
+*Font: -bitstream-bitstream vera sans mono-medium-r-normal--0-0-0-0-m-0-iso8859-15
+
+/* Emacs */
+Emacs*Font: -bitstream-terminal-medium-r-*-*-18-140-*-*-*-*-*-*
+Emacs*Foreground:	light grey
+Emacs*Background:	black
+
+/* XTerm. */
+Xterm*Font: -bitstream-bitstream vera sans mono-medium-r-normal--0-0-0-0-m-0-iso8859-15
+XTerm*Foreground:	white
+XTerm*Background:	black
+XTerm*faceName:   bitstream
+
+/* URxvt */
+
+URxvt*font: xft:Bitstream Vera Sans Mono:autohint=true
+URxvt*foreground: white
+URxvt*background: black
+URxvt*scrollBar: False
+URxvt*scrollColor: black
+URxvt*saveLines: 60000
+URxvt.color12: LightSlateBlue
