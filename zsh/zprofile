@@ -1,1 +1,2 @@
 eval `ssh-agent -s`
+umask 077

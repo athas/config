@@ -5,39 +5,8 @@
 autoload -U compinit
 compinit
 
-umask 077
-
-# Prompt
-#autoload -U promptinit
-#promptinit
-#prompt gentoo
-
 RPROMPT="%{[01;33m%}%~%{[00;49m%}"
-#PROMPT="%{[0;37m%}[%{[01;31m%}%m%{[0;37m%}]%{[0;34m%}%n%{[1;37m%}>%{[1;32m%}%# %{[0;0m%}"
 PROMPT="%{[0;37m%}[%{[00;31m%}%m%{[0;37m%}]%{[0;32m%}%n%{[1;37m%}>%{[00;31m%}%?%{[0;32m%}%# %{[0;0m%}"
-
-PLAN9=/home/athas/.local/plan9 export PLAN9
-
-# Set the PATH.
-PATH=~/scripts/:~/.cabal/bin:~/.local/bin/:$PLAN9/bin/:$PATH
-
-# Exports
-export HOSTTYPE="$(uname -m)"
-export COLORTERM=yes
-export LINKS_XTERM=screen
-export CC=gcc
-export CXX=g++
-export MANPAGER=less
-export PAGER=less
-export EDITOR=emacsclient
-export LC_ALL=en_DK.UTF-8
-export DARCS_EMAIL="athas@sigkill.dk"
-export DARCS_EDITOR="emacsclient"
-export MANPATH="~/.cabal/share/man/:"
-
-# XDG is useful, but not very many things respect it.
-export XDG_CONFIG_HOME=~/.config
-export XDG_DATA_HOME=~/.local/share
 
 # SCREENDIR will screw screen up
 unset SCREENDIR
@@ -65,8 +34,6 @@ compctl -g '*(-/)' + -g '.*(-/)' -v cd pushd rmdir
 compctl -k hosts -x 'p[2,-1]' -l '' -- rsh ssh
 
 # completion for "man" by Gossamer <gossamer@tertius.net.au> 980827
-# This is damn funky. I'm going to do something similar for pinfo,
-# hopefully.
 compctl -f -x 'S[1][2][3][4][5][6][7][8][9]' -k '(1 2 3 4 5 6 7 8 9)' \
     - 'R[[1-9nlo]|[1-9](|[a-z]),^*]' -K 'match-man' \
     - 's[-M],c[-1,-M]' -g '*(-/)' \
@@ -89,9 +56,9 @@ compctl -c sudo
 
 # History things
 HISTFILE=$HOME/.zshist
-SAVEHIST=500
-HISTSIZE=800
-TMPPREFIX=$HOME/tmp
+SAVEHIST=5000
+HISTSIZE=8000
+TMPPREFIX=$HOME/.tmp
 
 # Key bindings, useful.
 bindkey "\e[3~" delete-char
@@ -310,13 +277,6 @@ setopt                       \
     unset                \
     NO_verbose              \
     zle
-
-# If we're in Emacs, we'll have to unset a great many things, mostly relating to colors.
-case $EMACS in (t)
-    RPROMPT="" # No right-prompt.
-    PROMPT="%m@%n>%# " # The Emacs shell-mode doesn't handle colors well.
-    unalias ls
-esac
 
 # Last but not least...
 fortune
