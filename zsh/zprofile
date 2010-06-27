@@ -1,2 +1,3 @@
-eval `ssh-agent -s`
+# The u is because p9p has its own ssh-agent...
+eval `u ssh-agent -s`
 umask 077
