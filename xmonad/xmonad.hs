@@ -1,6 +1,9 @@
+{-# LANGUAGE TypeSynonymInstances #-}
 import qualified Data.Map as M
 
 import Control.Arrow
+import Control.Applicative
+import Control.Monad
 import Data.Bits
 import Data.List
 import Data.Maybe
@@ -12,6 +15,7 @@ import qualified XMonad.StackSet as W
 
 import XMonad.Actions.GridSelect
 import XMonad.Actions.Submap
+import XMonad.Actions.TagWindows
 import XMonad.Hooks.DynamicLog
 import XMonad.Util.NamedWindows
 
@@ -34,7 +38,17 @@ toggleStrutsKey XConfig{modMask = modm} = (modm, xK_b )
        
 prefix = (controlMask, xK_t)
 
-gsConfig = gsmenuGSConfig
+class AthasTags a where
+  athasTags :: a -> X [String]
+  athasTags _ = return []
+
+instance AthasTags Window where
+  athasTags w = do cn <- runQuery className w
+                   liftM2 (++) (progTags cn) ((cn:) <$> getTags w)
+    where progTags "surf" = (:[]) <$> drop 7 <$> runQuery (stringProperty "_SURF_URI") w
+          progTags _ = return []
+
+gsConfig = buildGsmenuGSConfig defaultColorizer athasTags
 
 prefixMap conf =
     [((m , k), windows $ f i)
