@@ -7,7 +7,7 @@ xrdb ~/.Xdefaults
 xset b off
 
 # Start GNU Emacs and redirect output to a logfile.
-emacs >& ~/emacs.log &
+u emacs >& ~/emacs.log &
 
 # Do some stuff to make my Trackman work properly (I'm not sure how
 # this works - it's pure magic.).
