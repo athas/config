@@ -24,6 +24,7 @@ main = xmonad =<< statusBar "xmobar" athasPP toggleStrutsKey myConfig
 myConfig = defaultConfig {
              modMask = mod4Mask
            , focusFollowsMouse = False
+           , borderWidth = 1
            , terminal = "urxvt"
            , keys = newKeys
            }
@@ -50,6 +51,33 @@ instance AthasTags Window where
 
 gsConfig = buildGsmenuGSConfig defaultColorizer athasTags
 
+windowMap :: X [(String,Window)]
+windowMap = do
+    ws <- gets windowset
+    wins <- mapM keyValuePair (W.allWindows ws)
+    return wins
+ where keyValuePair w = flip (,) w `fmap` decorateName' w
+
+decorateName' :: Window -> X String
+decorateName' w = do
+  fmap show $ getName w
+
+gridselectValue :: X [(String, a)] -> GSConfig a -> X (Maybe a)
+gridselectValue m gsconf = m >>= gridselect gsconf
+
+withSelectedValue :: X [(String, a)] -> (a -> X ()) 
+                  -> GSConfig a -> X ()
+withSelectedValue m callback conf = do
+  maybe (return ()) callback =<< gridselectValue m conf
+
+similarToWinMap :: Window -> X [(String,Window)]
+similarToWinMap w = do
+  cn <- runQuery className w
+  filterM (liftM (==cn) . runQuery className . snd) =<< windowMap
+  
+goToSelectedFrom :: X [(String,Window)] -> GSConfig Window -> X ()
+goToSelectedFrom m = withSelectedValue m $ windows . W.focusWindow
+
 prefixMap conf =
     [((m , k), windows $ f i)
      | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
@@ -60,8 +88,9 @@ prefixMap conf =
     , ((0, xK_c), spawn $ XMonad.terminal conf)
     , ((0, xK_f), withFocused $ windows . W.sink)
     , ((0, xK_t), withFocused $ sendPress prefix)
-    , ((controlMask, xK_t), goToSelected gsConfig)
     , ((0, xK_b), goToSelected gsConfig)
+    , ((controlMask, xK_b), withFocused $ \w ->
+        goToSelectedFrom (similarToWinMap w) gsConfig)
     , ((0, xK_s), spawn "ogg123 /home/athas/sadtrombone.ogg")
     , ((0, xK_v), spawn "ogg123 /home/athas/saddestviolin.ogg")
     , ((shiftMask, xK_e), spawn "exe=`dmenu_path | dmenu` && eval \"exec $exe\"")
