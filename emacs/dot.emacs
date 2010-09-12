@@ -995,6 +995,10 @@ specified in the variables `irc-nickname', `irc-port' and `irc-realname'."
    (erc :server server :port (or port irc-port) :nick irc-nickname :full-name irc-realname)
    (push server irc-connected-hosts))
 
+ (defun irc-bitlbee ()
+   (interactive)
+   (irc-connect "localhost" 6667))
+
  (defun irc-quakenet ()
    "Connect to the QuakeNet IRC-network using ERC."
    (interactive)
@@ -1057,7 +1061,8 @@ and irc.freenode.net using ERC."
    (irc-quakenet)
    (irc-freenode)
    (irc-zybourne)
-   (irc-oftc))
+   (irc-oftc)
+   (irc-bitlbee))
 
  ;; Set up highlight-options:
  (setq erc-keywords '("Athas" "YuleAthas" "Climacs" "climacs"))
@@ -1423,6 +1428,13 @@ mmm-ification, and applies `mmm-classes' and mode-extension classes."
   (save-excursion
     (mmm-apply-all))
   (message "MMM-ifying buffer...done"))
+
+;;;; What to do when starting computer:
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun on-start ()
+  (irc)
+  (gnus))
 
 ;;;; Custom-set-variables:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
