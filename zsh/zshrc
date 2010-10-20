@@ -69,22 +69,6 @@ bindkey "\e[5~" history-search-backward
 bindkey "\e[6~" history-search-forward 
 bindkey "\e[Z" reverse-menu-complete
 
-# Aliases, how I love thee
-alias ls="/bin/ls --color=always"
-alias nano="nano -w" # Nano wraps lines by default. How stupid is that?
-alias su="su -"
-alias e="emacsclient"
-alias l="ls -l"
-alias halt="sudo /sbin/halt"
-alias stophalt="sudo /sbin/shutdown -c"
-alias playmidi="aplaymidi -p 73:0"
-alias p3="play123"
-alias cvsbcl="SBCL_HOME=/home/athas/code/cvsrepos/sbcl/contrib/ /home/athas/code/cvsrepos/sbcl/src/runtime/sbcl --core /home/athas/code/cvsrepos/sbcl/output/sbcl.core"
-alias clim="cvsbcl --eval \"(run-clim-desktop)\""
-alias ccl="~/code/svnrepos/ccl/lx86cl64"
-alias climccl="ccl --eval \"(run-clim-desktop)\""
-alias smlnj="schroot -p -- sml"
-
 # Set the titlebar for the window, and also the window title in screen.
 
 # This function sets the window tile to user@host:/workingdir before each
