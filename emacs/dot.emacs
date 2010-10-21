@@ -1324,25 +1324,6 @@ each line."
        (search-forward-regexp "[^ ]*" ))
       (next-line))))
 
-;;; Start Galeon
-(defun trh-browse-url-galeon (url &optional new-window)
-  "Ask the Galeon WWW browser to load URL.
-Default to the URL around or before point. "
-  (interactive (browse-url-interactive-arg "URL: "))
-  ;; URL encode any `confusing' characters in the URL.  This needs to
-  ;; include at least commas; presumably also close parens.
-  (while (string-match "[,)]" url)
-    (setq url (replace-match
-               (format "%%%x" (string-to-char (match-string 0 url))) t t url)))
-  (let* ((process-environment (browse-url-process-environment))
-         (process (apply 'start-process
-                         (concat "galeon " url) nil
-                         "galeon"
-                         (list url))))
-    (set-process-sentinel process
-                          `(lambda (process change)
-                             (browse-url-netscape-sentinel process ,url)))))
-
 ;; This function is very simple, but it does what I need.
 (defun trh-language-of-buffer (&optional buffer)
   "Get language of current buffer.
@@ -1403,9 +1384,9 @@ The exact law is controlled by LAWNO."
                     (eql x (car y)))))
       (error "No such law.")))
 
-;;; Firefox is my preferred browser.
-;(setq browse-url-browser-function 'browse-url-firefox)
-(setq browse-url-browser-function 'w3m-browse-url)
+;;; Surf is my preferred browser.
+(setq browse-url-generic-program "surf"
+      browse-url-browser-function 'browse-url-generic)
 
 (defun untabify-buffer ()
   "Call `untabify' with the entire buffer as region."
