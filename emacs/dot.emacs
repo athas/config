@@ -37,83 +37,6 @@
 ;;;; Utility Lisp functions:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun trh-value-to-string (value)
-  "Convert VALUE to string. 
-This function will automatically identify the type of VALUE, and invoke
-the appropiate conversion function"
-(cond ((symbolp value)
-       (symbol-name value))
-      ((numberp value)
-       (number-to-string value))
-      (t
-       (error "Cannot convert value to string."))))
-
-(defun trh-read-lines-in-buffer (&optional buffer)
-  "Return list of lines in current buffer.
-If BUFFER if non-nil, switch to BUFFER before reading lines. The list returned
-will be in reverse with regard to the sequence of lines in the buffer read. 
-Empty lines will not be ignored."
-  (save-excursion
-    (when buffer
-      (set-buffer buffer))
-    (let (stringlist)
-      ;; Start from beginning of buffer, remembering to save point.
-      (goto-char (point-min))
-      (while (not (eobp))
-        ;; Because we push the new line to the front of the list, and we start
-        ;; from the beginning of the buffer, the list will be backwards.
-        ;; Should this be fixed?
-        (push (buffer-substring-no-properties 
-               (line-beginning-position)
-               (line-end-position))
-              stringlist)
-        (forward-line))
-      stringlist)))
-
-(defun make-incr-list (length &optional start)
-  "Return list of size LENGTH with increasing values.
-The first element in the list is START, the second is START+1, and so forth."
-  (or start
-      (setq start 0))
-  (if (plusp length)
-      (cons start (make-incr-list (1- length) (1+ start)))
-    nil))
-
-(defun make-symbol-list (elements &optional prefix)
-  "Turn list of values into list of symbols.
-The list returned will contain symbols, whose names correspond to the values
-in ELEMENTS. If PREFIX is non-nil, the name of every symbol will be prefixed
-with PREFIX."
-  (if elements
-      (cons (intern (concat prefix
-                            (trh-value-to-string (car elements))))
-            (make-symbol-list (cdr elements) prefix))
-    nil))
-
-(defun combine-lists (lists &optional number list-prefix)
-  "Combine LISTS into calls of list-elements.
-The list elements will be numbered from NUMBER. LIST-PREFIX will added to the 
-front of the final list. The return value is a list of Lisp-code that should
-be evaluated for side-effects."
-  (or number
-      (setq number 0))
-  (if lists
-      (progn
-        `(dolist (,(intern (concat "element-"
-                                   (number-to-string number)))
-                  ;; If the list is an explicit list, and not a symbol, it will
-                  ;; have to be quoted.
-                  ,(if (symbolp (car lists)) 
-                       (car lists)
-                     `(quote ,(car lists))))
-           ,(combine-lists (cdr lists) (1+ number) list-prefix)))
-    (if list-prefix
-        (cons list-prefix (make-symbol-list (make-incr-list number) "element-"))
-      (make-symbol-list (make-incr-list number) "element-"))))
-
-(defmacro combine-calls (combinators)
-  (combine-lists combinators 0 'funcall))
-
 (require 'cl)
 
 (defun noerr-require (feature)
@@ -170,7 +93,6 @@ able to know what they run under.")
 
 ;;; Loadpaths:
 (add-to-list 'load-path "~/emacs")
-(add-to-list 'load-path "~/emacs/emms")
 (add-to-list 'load-path "/usr/share/maxima/5.9.1/emacs")
 (add-to-list 'load-path "~/emacs/imaxima-imath-0.97a/")
 (add-to-list 'load-path "/usr/share/doc/git-core/contrib/emacs")
@@ -282,21 +204,7 @@ able to know what they run under.")
 (with-feature
  (ispell)
  (ispell-change-dictionary "british" t)
-
- (add-hook 'find-file-hook
-           (lambda ()
-             (when (or (ignore-errors
-                         (save-excursion
-                           (beginning-of-buffer)
-                           (re-search-forward "[æøåÆØÅ]" (buffer-size) t))
-                         (eql (trh-language-of-buffer) "da")))
-               (ispell-change-dictionary "dansk"))))
- (mapcar (lambda (hook)
-           (add-hook hook
-                     (lambda ()
-                       (flyspell-mode 1)
-                       (auto-fill-mode 1))))
-         '(text-mode-hook latex-mode-hook)))
+)
 
 ;;; Make Emacs a bitch to close (C-x C-c is sooo easy to hit):
 (add-to-list 'kill-emacs-query-functions 
@@ -305,18 +213,6 @@ able to know what they run under.")
              (lambda () (y-or-n-p "Are you ABSOLUTELY certain that Emacs should close? ")))
 (add-to-list 'kill-emacs-query-functions 
              (lambda () (y-or-n-p "Should Emacs really close? ")))
-
-(defun textlove ()
-  (interactive)
-  (auto-fill-mode 1)
-  (flyspell-mode 1)
-  (ispell-change-dictionary "british"))
-
-(defun tekstkærlighed ()
-  (interactive)
-  (auto-fill-mode 1)
-  (flyspell-mode 1)
-  (ispell-change-dictionary "dansk"))
 
 ;;; Tease the vi-users:
 (defconst wq "This is not vi!  Use C-x C-c instead.")
@@ -501,93 +397,6 @@ Maps KEY to COMMAND in the keymaps listed in KEYMAPS."
  (set-cursor-color "white")             ; I NEED this!
  )
 
-;;;; Slander subsystem:
-;;;;;;;;;;;;;;;;;;;;;;;
-
-(defvar trh-slander-list-da nil
-  "List of slanders in danish.
-Updated via the function `trh-update-slander-list', and used by `trh-get-slander'.")
-
-(defvar trh-slander-list-C nil
-  "List of slanders in english.
-Updated via the function `trh-update-slander-list', and used by `trh-get-slander'.")
-
-(defun get-slander-list (language)
-  "Return the symbol of the slander-list for LANGUAGE."
-  (read (concat "trh-slander-list-"
-                language)))
-
-(defun get-slander-file (language)
-  "Return the containing slanders for LANGUAGE."
-  (concat
-   "~/.slanders-"
-   language))
-
-(defun trh-slander-check (language)
-  "Will check if a slander of LANGUAGE can be retrieved.
-Signals an error if not, returns T otherwise."
-  (let ((slander-list (get-slander-list language)))
-    ;; If the slander-list does not exist, exit with error.
-    (or (boundp (symbol-value 'slander-list))
-        (error (concat "Slander list for language "
-                       language
-                       " does not exist.")))
-    ;; Otherwise, return T.
-    t))
-  
-(defun trh-update-slander-list (language &optional force-update)
-  "Update the slander list of LANGUAGE.
-This function will read from the relevant ~/slanders-LANGUAGE file.
-Returns the slander list for LANGUAGE."
-  ;; Construct the correct symbol for the slander-list from LANGUAGE.
-  ;; All slander-lists are prefixed with trh-slander-list, followed by a
-  ;; two-letter language code.
-  (let* ((slander-list (get-slander-list language))
-         (slander-file (get-slander-file language))
-         (slander-file-attributes (file-attributes slander-file))
-         ;; Convert two 16bit integers to 32bit (or something close to it).
-         (slander-file-access-time (+ (* (expt 2 16) 
-                                         (first (fifth slander-file-attributes))
-                                         (second (fifth slander-file-attributes))))))
-    ;; Does this list exist?
-    (trh-slander-check language)
-    ;; Now, we don't want to reload the contents of `slander-file' unless
-    ;; the file has been changed since the list was last updated. Therefore,
-    ;; the plist for the slander-list has a `trh-timestamp' property, which
-    ;; contains a UNIX timestamp. We compare this with the files timestamp,
-    ;; and only update it if they are not equal.
-    (when (or
-           force-update
-           (> slander-file-access-time 
-              (or (get (symbol-value 'slander-list) 'trh-timestamp)
-                  0)))
-      (message "Reloaded slander file.")
-      ;; Read from correct ~/.slanders-file.
-      (let ((slander-buffer (find-file-noselect slander-file)))
-        ;; This is a relatively complicated indirection process. It should be 
-        ;; greatly simplified somehow.
-        (setf (symbol-value (symbol-value 'slander-list))
-              (trh-read-lines-in-buffer slander-buffer))
-        ;; Set plist of slander-list to timestamp of file.
-        (put slander-list
-             'trh-timestamp
-             slander-file-access-time)
-        ;; Clean up.
-        (kill-buffer slander-buffer)))
-    (symbol-value (symbol-value 'slander-list))))
-
-(defun trh-get-slander (language)
-  "Return random slander.
-The slander returned will be in LANGUAGE."
-  ;; Ensure that list is up to date.
-  ;; Find a random number in the interval [0,length-of-list).
-  ;; Find the relevant element in the list.
-  (trh-update-slander-list language)
-  (let* ((slander-list (symbol-value (get-slander-list language)))
-         (random-number (random (length slander-list)))
-         (random-element (nth random-number slander-list)))
-    random-element))
-
 ;;;; Git:
 ;;;;;;;;;
 
@@ -597,21 +406,6 @@ The slander returned will be in LANGUAGE."
  (require 'git)
  (autoload 'git-blame-mode "git-blame"
    "Minor mode for incremental blame for Git." t))
-
-;;;; EMMS:
-;;;;;;;;;;
-
-(with-feature
- (emms)
- (noerr-require 'emms-default)
-
- (emms-setup 'cvs "/home/athas/docs/Musik")
-
- ;; Show the current track each time EMMS
- ;; starts to play a track with "EMMS Playing: "
- (add-hook 'emms-player-started-hook 'emms-show)
- (setq emms-show-format "EMMS Playing: %s")
- )
 
 ;;;; Programming:
 ;;;;;;;;;;;;;;;;;
@@ -844,15 +638,6 @@ This is used by the command `trh-hyperspec-lookup'.")
  (add-hook 'erc-insert-post-hook 'erc-make-read-only)
  (add-hook 'erc-send-post-hook 'erc-make-read-only)
 
- (defun erc-toggle-away ()
-   "Toggles away-status in ERC."
-   (interactive)
-   (if (erc-away-p)
-       (erc-cmd-AWAY "")
-     (erc-cmd-AWAY "I'm away for some reason")))
-
- (define-key erc-mode-map "\C-ca" 'erc-toggle-away)
-
  ;; Hooks, put stuff here:
  (add-hook 'erc-mode-hook
            (lambda ()        
@@ -860,19 +645,6 @@ This is used by the command `trh-hyperspec-lookup'.")
              (set (make-variable-buffer-local 'coding-system-for-write) 'emacs-mule)))
 
  ;; /hop command ala mIRC.
-
- (defun erc-cmd-HOP (&rest rest)
-   "Part channel and immediately rejoin."
-   (let ((channel (erc-default-target)))
-     (erc-part-from-channel "hop")
-     (erc-join-channel channel)))
-
- (defun erc-cmd-OS ()
-   "Brag about which operating system is running."
-   (erc-send-message
-
-    (concat "I'm running: "
-            (replace-regexp-in-string "\n" "" (emacs-version)))))
 
  ;; Generic slap.
  (defun erc-cmd-SLAPWITH (&rest rest)
@@ -930,7 +702,6 @@ This is used by the command `trh-hyperspec-lookup'.")
           (erc-send-message (get-epenis)))))
     nil)
 
- ;; WHY doesn't this work?
  (add-hook 'erc-server-PRIVMSG-functions 'penisdyst)
 
  (defun get-epenis ()
@@ -1125,80 +896,7 @@ and irc.freenode.net using ERC."
     (lambda ()
       (when (and (eq major-mode 'erc-mode)
                  (not (null buffer-file-name))) t))))
-
-;;; You know what's cool? 
-;;; Integrating doctor-mode with ERC, that's what's cool!
-
- (autoload 'doctor-doc "doctor")
- (autoload 'make-doctor-variables "doctor")
-
- (defvar erc-doctor-id "{Emacs doctor} ")
-
- (defun erc-cmd-DOCTOR (&optional last-sender &rest ignore)
-   "Get the last message in the channel and doctor it."
-   (let ((limit (- (point) 1000))
-         (pos (point))
-         doctor-buffer
-         last-message
-         text)
-     ;; Make sure limit is not negative
-     (when (< limit 0) (setq limit 0))
-     ;; Search backwards for text from someone
-     (while (and pos (not (let ((data (get-text-property pos 'erc-parsed)))
-                            (and data
-                                 (string= (aref data 3) "PRIVMSG")
-                                 (or (not last-sender)
-                                     (string= (car (split-string (aref data 2) "!"))
-                                              last-sender))))))
-       (setq pos (previous-single-property-change
-                  pos 'erc-parsed nil limit))
-       (when (= pos limit)
-         (error "No appropriate previous message to doctor")))
-     (when pos
-       (setq last-sender (car (split-string
-                               (aref (get-text-property
-                                      pos 'erc-parsed) 2) "!"))
-             doctor-buffer (concat "*ERC Doctor: " last-sender "*")
-             last-message (split-string
-                           ;; Remove punctuation from end of sentence
-                           (replace-regexp-in-string
-                            "[ .?!;,/]+$" ""
-                            (aref (get-text-property pos
-                                                     'erc-parsed) 5)))
-             text (mapcar (lambda (s)
-                            (intern (downcase s)))
-                          ;; Remove salutation if it exists
-                          (if (string-match
-                               (concat "^" erc-valid-nick-regexp
-                                       "[:,]*$\\|[:,]+$")
-                               (car last-message))
-                              (cdr last-message)
-                            last-message))))
-     (erc-send-message
-      (concat erc-doctor-id
-              ;; Only display sender if not in a query buffer
-              (if (not (erc-query-buffer-p))
-                  (concat last-sender ": "))
-              (save-excursion
-                (if (get-buffer doctor-buffer)
-                    (set-buffer doctor-buffer)
-                  (set-buffer (get-buffer-create doctor-buffer))
-                  (make-doctor-variables))
-                (erase-buffer)
-                (doctor-doc text)
-                (buffer-string))))))
-
-;;; A little wisdom for the other IRC-users:
- (defun erc-cmd-WISDOM (lawno)
-   "Writes one of Athas' Laws of Computing to `erc-default-target'
-The specific law is defined by LAWNO."
-   (erc-send-message 
-    (concat
-     "Athas' "
-     lawno
-     ". Law of Computing: "
-     (trh-get-law lawno))))
- )
+)
 
 ;;;; Eshell:
 ;;;;;;;;;;;;
@@ -1308,81 +1006,6 @@ if the buffer already exists."
         (point-max))))))
 
 (global-set-key "\C-c!" 'trh-insert-shell-command-output)
-
-;; TODO: Fix this function, it is broken.
-(defun trh-clean-indentation ()
-  "Remove all whitespace at the beginning of every line of the
-current buffer This function will iterate through the current
-buffer and remove every whitespace character at the beginning of
-each line."
-  (interactive)
-  (save-excursion
-    (goto-char (point-min))
-    (while (not (equal (point) (point-max)))
-      (delete-region
-       (point)
-       (search-forward-regexp "[^ ]*" ))
-      (next-line))))
-
-;; This function is very simple, but it does what I need.
-(defun trh-language-of-buffer (&optional buffer)
-  "Get language of current buffer.
-The algorithm used for finding the language is extremely simple, and not very
-useful outside a small subset of problems. If the name of the buffer ends with
-a \"-\" or a \".\" followed by a language- or country-code, that two-letter 
-language code will be returned. Only very few language codes are supported.
-If BUFFER is non-nil, the language of BUFFER will be returned instead of the
-that of the current buffer."
-  (let ((buffer-name (buffer-name (or buffer
-                                      (current-buffer)))))
-    (cond 
-     ((string-match "[-.]\\(da\\|dk\\)$" buffer-name)
-      "da")
-     (t
-      "C"))))
-
-(defun trh-insert-slander (&optional language)
-  "Insert random slander in buffer.
-If LANGUAGE is non-nil the slander will be of the specified language, otherwise
-it will be calculated from the name of the current buffer, using 
-`trh-language-of-buffer'. If point is next to a word, delete the word and 
-replace it with the slander, otherwise, just insert it."
-  (interactive)
-  ;; Set the language.
-  (or language
-      (setq language (trh-language-of-buffer)))
-  ;; Does slander-list of language even exist?
-  (trh-slander-check language)
-  ;; Go back a character - if we are still looking at a SPACE-character, we
-  ;; must be at least two spaces from the nearest word, so insert the
-  ;; slander. If not, delete the word and insert the slander in its stead.
-  (save-excursion
-    (backward-char)
-    (if (not (looking-at " "))
-        (progn
-          (forward-char)
-          (backward-kill-word 1))
-      (forward-char)))
-  (insert (trh-get-slander language)))
-
-;;; Athas' Laws of Computing. Arranged in a list and stuff.
-
-(defvar trh-athas-laws nil
-  "Athas' Laws of Computing.
-Infinite and eternal truths of everything related to computers and the Internet.")
-
-(setq trh-athas-laws '((1 . "The amount of zombies one can successfully apply in a DDoS-attack, is inversely proportional to the size of ones reproductive organs.")
-                       (2 . "Any language employing a \"mixed type system\" (as seen in PHP) is to be recognized as dumb, and is to be considered unusable.")))
-
-(defun trh-get-law (lawno)
-  "Return one of Athas' Laws of Computing.
-The exact law is controlled by LAWNO."
-  (or (cdr (find 
-            (string-to-int lawno) 
-            trh-athas-laws 
-            :test (lambda (x y)
-                    (eql x (car y)))))
-      (error "No such law.")))
 
 ;;; Surf is my preferred browser.
 (setq browse-url-generic-program "surf"
