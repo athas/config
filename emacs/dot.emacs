@@ -1060,7 +1060,6 @@ and irc.freenode.net using ERC."
    (interactive)
    (irc-quakenet)
    (irc-freenode)
-   (irc-zybourne)
    (irc-oftc)
    (irc-bitlbee))
 
