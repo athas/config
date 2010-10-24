@@ -1,0 +1,4 @@
+(setf custom:*current-language* 'i18n:english)
+(cl:require 'asdf)
+(push "/home/athas/.asdf-install-dir/systems/" asdf:*central-registry*)
+(cl:load "/home/athas/.init.lisp")
