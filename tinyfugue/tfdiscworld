@@ -1,0 +1,16 @@
+/beep off
+
+/set shielded=false
+/def -msimple -t"With a noise that sounds like \"Plink!\", everything around you flashes red for a moment." = /set shielded=true
+/def -msimple -t"There is a sudden white flash.  Your magical shield has broken." = /set shielded=false
+
+/set status_var_shielded=(shielded=~"true") ? "(Shields: up)" : "(Shields: down)"
+/set status_fields=shielded:15 @more:8:Br :1 @world :1 @read:6 :1 @active:11 :1 @log:5 :1 insert:6 :1 @clock:5
+
+/def -BF1 grindspells = octograve with staff%;cast bfp%; cast mpol on dwmmigh%;cast esb%;drop flowers%;bury flowers%;cast ftf%;cast fhe on me%;cast sfp on me%;cast gct on dwmmigh%;cast tmc%;cast cips%;cast fci on stick%;drop sticks%;bury sticks%;cast mwlc%;cast otf%;drop funnel%;bury funnel%;cast wms with creating dumpling%;drop dumpling%;bury dumpling%;cast wemg on pebble
+/def pe = cast cips%;hold stick%;zap eye with stick%;zap 2nd eye with stick%;drop stick%;bury stick%;put eyes in satchel
+/def he = cast mpol on %*%;draw knife%;hold knife%;get eyes from corpse of a %*%;sheathe knife%;/pe%;bury corpse of a %*
+
+/addworld -Tdiku11 DiscWorld discworld.atuin.net 23
+
+/prompt

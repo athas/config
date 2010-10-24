@@ -1,0 +1,162 @@
+/beep off
+/set matching=regexp
+
+/echo Highlighting chatnet and television messages in boldface.
+/hilite ^\[chatnet\]
+/hilite ^On the .+:
+/echo Highlighting in-room dialogue in magenta.
+/def -mregexp -aCmagenta -t"^[a-zA-Z0-9._ -]+ ((says|yells|exclaims|asks), \"|\\[to [a-zA-Z0-9._' -]+\\]: )" talk_highlighter
+/def -mregexp -F -p10 -aCred -t"(SOMETHING JUST TORE IN YOUR \\*GROIN\\*|AUGH! +Something snapped.*)\\." wound_highlighter
+/def -mregexp -F -p10 -aCgreen -t"(Oh, god, your groin feels MUCH better|Ahhh\\.  Your broken leg has healed)\\." cured_highlighter
+
+/def cutup = hack zombie meat from %1%; junk zombie meat%;hack zombie brain from %1%; junk zombie brain%;hack zombie hide from %1%; junk zombie hide%; hack penis from zombie%; junk penis%;wield assegai
+/def stamp = engrave "%*" with "engraving tool"%;Gehenna Hardware Solutions
+/def flyer = get paper from notebook%;write scrap of notebook paper%;The Marked of Caine - a brighter future as illuminated by the divine light of the Father. Contact one of His faithful today for an in-depth explanation of His will, as well as what it means for you.%;engrave scrap of notebook paper with engraving tool%;Copyright Marked of Caine 2127-henceforth
+/def display = /echo %1%;read %1%;
+
+/echo Press F1 to scavenge five times.
+/def -BF1 scav = /repeat -0 5 search
+/echo Press F2 to hack the camera in the room.
+/def -BF2 hack_cam = hack cam
+/echo Press F3 for hilarity!
+/def -BF3 fake_suicide = :pulls a cord on his suicide vest and screams "ALLAHU AKBAR!"
+/def dropshit = drop gloves%;drop tuxedo%;drop tie%;drop slacks%;drop socks%;drop wingtips%;drop boxers%;
+/def getshit = get all ring%;get gloves%;get boxers%;get tuxedo%;get tie%;get slacks%;get socks%;get wingtips%;wear all
+
+/echo Press F5 to automatically tip your hat to people who enter the room, F6 to stop.
+/set tiphat=false
+/def -BF5 = /echo You are now a gentleman! %;/set tiphat=true
+/def -BF6 = /echo You are now a mere pleb! %;/set tiphat=false
+/def -mregexp -t"(You (see|notice) |^)([^ ]+) (come|coming|enter|arrives|emerges|appears)" someone_entered = /if (tiphat=~"true") tip hat to %P3%; /endif
+
+/echo Press F7 to automatically use the appropriate medical tools on people that you diagnose, F8 to stop.
+/echo The script will use first aid kits instead of the specialised tools (groinex, etc).
+/set curepeople=false
+/def -BF7 = /echo You are now a good Samaritan! %;/set curepeople=true
+/def -BF8 = /echo You are now callous and shallow! %;/set curepeople=false
+/def -mregexp -t"^(The )?([a-zA-Z0-9._' -]+) (has|is suffering from|is infected with).* You could treat it with an? ([a-z-]+) hypo" diagnosed_someone = /if (curepeople=~"true") use "%P4 hypo" on %P2%; /endif
+/def -mregexp -t"^(The )?([a-zA-Z0-9._' -]+) (has|is suffering from|is under the influence of).* You could treat it with an? (insta-cast|groinex)" diagnosed_someone_firstaid = /if (curepeople=~"true") use first aid kit on %P2%; /endif
+/def -mregexp -t"^(The )?([a-zA-Z0-9._' -]+) (has|is suffering from|is losing blood|is irradiated).* You could treat it with an? ([a-z -]+) kit" diagnosed_someone_kit = /if (curepeople=~"true") use %P4 kit on %P2%; /endif
+/def -mregexp -t"^(The )?([a-zA-Z0-9._' -]+)'s wounds have left (her|him|it) with [0-9][0-9]?% of (her|his|its) functionality." diagnosed_someone_trauma = /if (curepeople=~"true") use trauma kit on %P2%; /endif
+
+/echo Press F9 to enable a number of handy triggers for grinding, F10 to disable them.
+/set grinding=false
+/def -BF9 = /echo Get those numbers up, soldier! %;/set grinding=true
+/def -BF10 = /echo Finally figured out games are supposed to be fun, huh? %;/set grinding=false
+
+/def -BF11 = /repeat -0 10 wash with canteen
+
+/def tshirt_wwcd = setup press%; black%; WWCD%;a charismatic bald man with a goatee ripping the head off a feeble figure holding a Hammerhead pistol, while at the same time vomiting down the exposed trachea. Above this gruesome imagery the lettering "What Would Caine Do?" is emblazoned in red.%;the text "What Would Caine Do?" above a picture of a man with a Hammerhead pistol being gruesomely murdered
+
+/echo Grind craft via engraving rolling papers.
+/def -msimple -t"What do you want to engrave on the rolling paper?" = /if (grinding=~"true") so... this is probably maybe long enough?%; /endif
+/def -msimple -t"Athas smiles to himself in satisfaction." = /if (grinding=~"true") engrave rolling paper with tool%; /endif
+/def -msimple -t"Shit.  There's no denying it, you did a Worthless. job on it." = /if (grinding=~"true") engrave rolling paper with tool%; /endif
+/def -msimple -t"Athas curses and tosses his rolling paper to the ground, ruined." = /if (grinding=~"true") get paper from book of rolling%;/repeat -1 1 engrave rolling paper with tool%; /endif
+
+/def putshit = put all o-ring in electronics workbench%; put all battery pack in electronics workbench%; put all circuit board in electronics workbench%; put all microprocessor in electronics workbench
+/def getshit = get all portable defib from electronics workbench
+/def makeshit = make 4 on electronics workbench%; make 4 on electronics workbench%; make 4 on electronics workbench%;
+/def breakshit = break defib%; break 2nd defib%; break 3rd defib%; 
+
+/echo Grind repair by attacking sawn-off shotguns.
+/def -mregexp -t"[A-z]+'s [a-z ]+ (smashes|clangs|crashes|puts a dent) (against|in(to)?) the (smashed )?sawn-off shotgun" tv_hit = /if (grinding=~"true") repair sawn-off shotgun%; /endif
+/def -msimple -t"You fixed all of the damage." all_fixed = /if (grinding=~"true") kill sawn-off shotgun%; /endif
+/def -mregexp -t"[A-z]+ curses in frustration and gives up." repair_failure = /if (grinding=~"true") repair sawn-off shotgun%; /endif
+/def -msimple -t"He stands up and dusts off his hands." repair_success = /if (grinding=~"true") repair sawn-off shotgun%; /endif
+
+/echo Grind science by researching as always.
+/def -mregexp -t"The (biochemical|ballistics|electromechanical) research simulator beeps\\. \"Research stage complete\\.\"" research_done = /if (grinding=~"true") start %P1 research simulator%; /endif
+
+/echo Grind scavenge by stashing rolling papers.
+/def -mregexp -t"You found a [a-z -]+ hiding place for the rolling paper in.*" stashed = /if (grinding=~"true") stash rolling paper%; /endif
+/def -mregexp -t"You find an? [a-z -]+ lying off to one side." found = /if (grinding=~"true") stash rolling paper%; /endif
+/def -msimple -t"Yet somehow, you've still got the nagging feeling there's SOMETHING here..." somethinghere = /if (grinding=~"true") search%; /endif
+/def -msimple -t"There's too much junk stashed around here already." toomuch = /if (grinding=~"true") search%; /endif
+/def -msimple -t"I don't understand that." failstash = /if (grinding=~"true") search%; /endif
+
+/def -mregexp -F -t"^ (( [^ ]+)+) +(\\[-?[0-9]+,-?[0-9]+\\]).*(chomoninja|TheHypnotoad).*" chomoninja_scanned = c Found %P4 at GPS coordinates %P3:%P1.
+
+/def portalgrind = /portalgrind1%;/portalgrind2
+/def portalgrind1 = /repeat -1 100 fire blue to w
+/def portalgrind2 = /repeat -1 100 fire blue to e
+
+/set groinpulling=false
+/set weightcuring=false
+/def startgroin = use first aid%;/set groinpulling=true%;/set weightcuring=false%;/groinloop
+/def groinloop = /if (groinpulling=~"true") /if (weightcuring=~"false") e%; /repeat -0 1 /groinloop%; /endif%; /endif
+/def killgroin = /set groinpulling=false%;/set weightcuring=false
+
+/set armwrestling=false
+/set wrestlecuring=false
+/def startwrestle = /set armwrestling=true%;/wrestlecare%;/wrestlehover
+/def -msimple -t"Care Dog slams Athas's arm down with a loud smack, then pumps his fist in the air -- the winner!" wrestlecare = /if (armwrestling=~"true") armwrestle care dog on bar%; /endif
+/def -msimple -t"The hover platform slams Athas's arm down with a loud smack, then pumps its fist in the air -- the winner!" wrestlehover = /if (armwrestling=~"true") armwrestle hover platform on bar%; /endif
+/def killwrestle = /set armwrestling=false%;/set wrestlecuring=false
+
+/def -msimple -t"SOMETHING JUST TORE IN YOUR *GROIN*." groinpulled = /if (groinpulling=~"true") /set weightcuring=true%; stop queue%;use first aid kit%; /elseif (armwrestling=~"true") /set wrestlecuring=true%; stop queue%; use first aid kit%; /endif
+/def -msimple -t"Oh, god, your groin feels MUCH better." groincured = /if (groinpulling=~"true") /set weightcuring=false%; /groinloop%; /elseif (armwrestling=~"true") /wrestlecare%;/wrestlehover%;/endif
+
+/set combatmode=false
+/def -BF12 togglecombat = /if (combatmode=~"true") /set combatmode=false%; /else /set combatmode=true%; /endif
+/def -mregexp -t"^[A-Za-z0-9 !\"#%&/()=,._'-]+ starts attacking you!$" attacked = /if (combatmode=~"true") spew%; /endif
+/def -msimple -t"Tendrils of thick black fog erupt from Merlin's mouth like ghostly tentacles, swirling as they fill the room with darkness." spewed = /if (combatmode=~"true") /repeat -6 1 spew%; /endif
+
+/set status_var_tiphat=(tiphat=~"true") ? "(Classy)" : "(Pleb)"
+/set status_var_curepeople=(curepeople=~"true") ? "(Doctor)" : "(Meanie)"
+/set status_var_grinding=(grinding=~"true") ? "(Statwanker)" : "(Weakfag)"
+/set status_var_combatmode=(combatmode=~"true") ? "(Cautious)" : "(Naive)"
+/set status_fields=tiphat:8 curepeople:8 grinding:12 combatmode:10 @more:8:Br :1 @world :1 @read:6 :1 @active:11 :1 @log:5 :1 insert:6 :1 @clock:5
+
+;;; Localedit script
+;
+; Originally from Kipp, mods by Psyclone, semifixed for the '90s by Athas.
+;
+; Server sends: #$# edit name: <name> upload: <cmd>;
+;
+; Script takes input until a ".", loads an editor on it, then
+;   sends <cmd> and the edited input with an extra "." for
+;   good luck. <name> is ignored. wraplog should be off..
+
+; set this to an absolute path.  /sys does not do tilde completion
+/set loced_basedir /home/athas/tf
+/set loced_doc /home/athas/tf/tf_edit.moo
+
+; set this to your favorite editor
+/def pico=/sh emacsclient %1
+
+; init..
+/set shipping 0
+
+; trigger to finish local editing
+; this should really be defined _within_ the start macro but, ugh.
+
+/def -mregexp -t"^\\.$" do_localedit = \
+        /if /test %{shipping} %;\
+           /then /set shipping 0 %;\
+           /log -w off %;\
+           /pico %loced_doc %;\
+           /sys echo . << %{loced_doc} %;\
+           /send %{upload} %;\
+           /quote -dsend -S !"tail -n +2 %{loced_doc}" %;\
+           /send . %;\
+        /endif
+
+; if you want backups, move the document somewhere instead of deleting it
+
+/def -mregexp -t"^#\\$# edit name: (.*) upload: (.*)$" localedit_trigger = \
+        /set upload %P2%;\
+        /set shipping 1%;\
+        /sh rm %{loced_doc}%;\
+        /log -w %loced_doc
+
+; command to let you edit the file and resend it, to (e.g.) fix bugs
+
+/def redo = \
+        /pico %{loced_doc}%;\
+        /send %{upload}%;\
+        /sys echo . << %{loced_doc} %;\
+        /quote -dsend -S !"tail -n +2 %{loced_doc}"
+
+/set matching=simple
+/addworld HellMOO hellmoo.org 7777
