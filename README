@@ -1,0 +1,15 @@
+Some programs expect their configuration files in a specific location,
+such as in your home directory, or a subfolder.  The mklinks.sh script
+creates symlinks from these expected locations to your central
+configuration file reposiroty.
+
+Put the contents of this directory in your XDG_CONFIG_HOME directory
+(defaults to ~/.config).  Then run the mklinks.sh script while
+standing in your home directory, and symlinks to the configuration
+files should be created.
+
+Note that the above will create a lot of links, far more than you
+likely need - it may be better to inspect the script manually, and
+edit it to only create the links that you need.  Also note that links
+are not created for programs that are more flexible (or unusual) in
+their configuration file requirements.
