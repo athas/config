@@ -12,8 +12,7 @@ u emacs -f on-start >& ~/emacs.log &
 # Do some stuff to make my Trackman work properly (I'm not sure how
 # this works - it's pure magic.).
 xset m 4 25 &
-/usr/X11R6/bin/xmodmap -e "pointer = 1 2 3 6 7 4 5" &
-/usr/bin/imwheel -k -p -f -b "67" &
+imwheel -k -p -f -b "67" &
 
 # Start a window-manager.
 exec xmonad
