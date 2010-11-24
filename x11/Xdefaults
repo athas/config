@@ -1,23 +1,57 @@
 /* Set a default, standard font. */
 *Font: -bitstream-bitstream vera sans mono-medium-r-normal--0-0-0-0-m-0-iso8859-15
+*foreground:				#cccccc
+*background:				#191919
+! Black + Dark Grey
+*color0: #222222
+*color8: #333333
+! Dark Red + Red
+*color1:				#f10a30
+*color9:				#b30a30
+! Dark Green + Green
+*color2:				#9bf65f
+*color10:				#b9b85f
+! Dark Yellow + Yellow
+*color3:				Khaki3
+*color11:				#efe58b
+! Dark Blue + Blue
+*color4:				#324c80
+*color12:				#2b4f98
+! Dark Magenta + Magenta
+*color5:				#706c9a
+*color13:				#826ab1
+! Dark Cyan + Cyan
+*color6:				#92b19e
+*color14:				#a1cdcd
+! Light Grey + White
+*color7:				#ffffff
+*color15:				#dedede
 
 /* Emacs */
 Emacs*Font: -bitstream-terminal-medium-r-*-*-18-140-*-*-*-*-*-*
 Emacs*Foreground:	light grey
 Emacs*Background:	black
 
-/* XTerm. */
-Xterm*Font: -bitstream-bitstream vera sans mono-medium-r-normal--0-0-0-0-m-0-iso8859-15
-XTerm*Foreground:	white
-XTerm*Background:	black
-XTerm*faceName:   bitstream
-
 /* URxvt */
 
 URxvt*font: xft:Bitstream Vera Sans Mono:autohint=true
 URxvt*foreground: white
 URxvt*background: black
+URxvt*scrollStyle: plain
 URxvt*scrollBar: False
 URxvt*scrollColor: black
 URxvt*saveLines: 60000
 URxvt.color12: LightSlateBlue
+URxvt.underlineURLs: true
+URxvt.perl-ext: selection,mark-yank-urls
+URxvt.urlLauncher: /home/athas/bin/surf
+
+/* xmessage */
+
+.xmessage.form.okay.background:		#333333
+.xmessage.form.okay.foreground:		snow
+.xmessage.message.font:			-*-proggyclean-*-*-*-*-*-*-*-*-*-*-*-*
+.xmessage.message.background:		#333333
+.xmessage.form.background:		#333333
+.xmessage.defaultButton:		okay
+.Xmessage.form.message.Scroll:		WhenNeeded
