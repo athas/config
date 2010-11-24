@@ -1008,7 +1008,8 @@ if the buffer already exists."
 (global-set-key "\C-c!" 'trh-insert-shell-command-output)
 
 ;;; Surf is my preferred browser.
-(setq browse-url-generic-program "surf"
+(setq browse-url-generic-program "9"
+      browse-url-generic-args '("surf")
       browse-url-browser-function 'browse-url-generic)
 
 (defun untabify-buffer ()
