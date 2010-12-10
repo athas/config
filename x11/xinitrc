@@ -3,6 +3,9 @@
 
 xrdb ~/.Xdefaults
 
+# Accept all connections from the local machine.
+xhost +local:
+
 # Disable bell.
 xset b off
 
