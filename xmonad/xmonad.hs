@@ -10,6 +10,8 @@ import Data.Maybe
 
 import Foreign.Storable
 
+import Codec.Binary.UTF8.String
+
 import XMonad
 import qualified XMonad.StackSet as W
 
@@ -39,6 +41,15 @@ toggleStrutsKey XConfig{modMask = modm} = (modm, xK_b )
        
 prefix = (controlMask, xK_t)
 
+utf8StringProperty :: String -> Query String
+utf8StringProperty p = ask >>= (\w -> liftX $ withDisplay $ \d -> fmap (fromMaybe "") $ getUtf8StringProperty d w p)
+
+getUtf8StringProperty :: Display -> Window -> String -> X (Maybe String)
+getUtf8StringProperty d w p = do
+  a  <- getAtom p
+  md <- io $ getWindowProperty8 d a w
+  return $ fmap (decode . map fromIntegral) md
+
 class AthasTags a where
   athasTags :: a -> X [String]
   athasTags _ = return []
@@ -46,7 +57,7 @@ class AthasTags a where
 instance AthasTags Window where
   athasTags w = do cn <- runQuery className w
                    liftM2 (++) (progTags cn) ((cn:) <$> getTags w)
-    where progTags "surf" = (:[]) <$> drop 7 <$> runQuery (stringProperty "_SURF_URI") w
+    where progTags "surf" = (:[]) <$> drop 7 <$> runQuery (utf8StringProperty "_SURF_URI") w
           progTags _ = return []
 
 gsConfig = buildGsmenuGSConfig defaultColorizer athasTags
