@@ -18,4 +18,4 @@ xset m 4 25 &
 imwheel -k -p -f -b "67" &
 
 # Start a window-manager.
-exec xmonad
+xmonad >& ~/.xmonad.out
