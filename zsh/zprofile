@@ -1,3 +1,9 @@
+# This file is evaluated for all login shells.
+
+# I prefer my own scripts and programs to those installed by cabal and
+# Plan 9, and system commands last.
+export PATH=~/scripts/:~/.local/bin/:~/.cabal/bin:$PLAN9/bin/:$PATH
+
 # The u is because p9p has its own ssh-agent...
 eval `u ssh-agent -s`
 umask 077

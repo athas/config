@@ -1,9 +1,10 @@
+# This file is evaluated for all zsh shells.
+
 # This is the path to p9p (but it could probably be 9base too)
 export PLAN9=/home/athas/.local/plan9 export PLAN9
 
-# I prefer my own scripts and programs to those installed by cabal and
-# Plan 9, and system commands last.
-export PATH=~/andets/:~/scripts/:~/.local/bin/:~/.cabal/bin:$PLAN9/bin/:$PATH
+# Remove aliases from the PATH (readded in zshrc if login shell)
+export PATH=$(echo $PATH|sed 's/\/home\/athas\/andets\/://')
 
 export MANPATH="$HOME/.cabal/share/man/:$HOME/.local/share/man/:"
 
