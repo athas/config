@@ -299,9 +299,6 @@ Maps KEY to COMMAND in the keymaps listed in KEYMAPS."
 
 (global-set-key  (kbd "C-c TAB") 'lisp-complete-symbol)
 
-(when window-system
-  (global-set-key " " 'other-window))
-
 ;;; A lot of major modes do not allow quick exit, but they should.
 (defvar maps-for-quick-exit nil
   "List of keymaps that should have a key for quick exit defined.")
@@ -416,6 +413,8 @@ Maps KEY to COMMAND in the keymaps listed in KEYMAPS."
  (setq cssm-newline-before-closing-bracket t)
  (setq cssm-indent-function #'cssm-c-style-indenter)
  (setq cssm-mirror-mode nil))
+
+(setq c-basic-offset 4)
 
 (noerr-require 'ld-script)
 
@@ -849,7 +848,7 @@ and irc.freenode.net using ERC."
  (erc-autojoin-mode 1)
  (setq erc-autojoin-channels-alist
        '(("irc.inet.tele.dk" "#sslug")
-         ("freenode.net" "#emacs" "#lisp" "#diku" "#haskell" "#spiltirsdag" "#ghc" "#xmonad" "#cat-v")
+         ("freenode.net" "#emacs" "#lisp" "#diku" "#haskell" "#ghc" "#xmonad" "#cat-v")
          ("chatsociety.net" "#piratgruppen.org")
          ("quakenet.org" "#udvikleren.dk")
          ("zybourne.net" "#cobol")
