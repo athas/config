@@ -95,7 +95,6 @@ able to know what they run under.")
 (add-to-list 'load-path "~/emacs")
 (add-to-list 'load-path "/usr/share/maxima/5.9.1/emacs")
 (add-to-list 'load-path "~/emacs/imaxima-imath-0.97a/")
-(add-to-list 'load-path "/usr/share/doc/git-core/contrib/emacs")
 
 (when (windows-p)
   (add-to-list 'load-path "D:\\Dokumenter\\emacs"))
@@ -393,16 +392,6 @@ Maps KEY to COMMAND in the keymaps listed in KEYMAPS."
 
  (set-cursor-color "white")             ; I NEED this!
  )
-
-;;;; Git:
-;;;;;;;;;
-
-(with-feature
- (vc-git)
- (when (featurep 'vc-git) (add-to-list 'vc-handled-backends 'git))
- (require 'git)
- (autoload 'git-blame-mode "git-blame"
-   "Minor mode for incremental blame for Git." t))
 
 ;;;; Programming:
 ;;;;;;;;;;;;;;;;;
