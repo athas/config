@@ -2,8 +2,6 @@
 # Some of this has been stolen, some of it written by myself.
 # Troels Henriksen (athas@sigkill.dk), 2011.
 
-export PATH=~/andets/:$PATH
-
 # Load the super duper completion stuff
 autoload -U compinit
 compinit

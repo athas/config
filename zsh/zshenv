@@ -3,9 +3,6 @@
 # This is the path to p9p (but it could probably be 9base too)
 export PLAN9=/home/athas/.local/plan9 export PLAN9
 
-# Remove aliases from the PATH (readded in zshrc if login shell)
-export PATH=$(echo $PATH|sed 's/\/home\/athas\/andets\/://')
-
 export MANPATH="$HOME/.cabal/share/man/:$HOME/.local/share/man/:"
 
 export HOSTTYPE="$(uname -m)"
