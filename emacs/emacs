@@ -274,6 +274,9 @@ Maps KEY to COMMAND in the keymaps listed in KEYMAPS."
  "\C-x\C-k" 'kill-region
  "\C-c\C-k" 'kill-region
 
+ "\M-p"     'backward-paragraph
+ "\M-n"     'forward-paragraph
+
  "\C-xw"     'goto-line
  "\C-x\C-b"  'buffer-menu
  "\C-cn"     'bs-cycle-next
