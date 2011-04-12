@@ -274,8 +274,8 @@ Maps KEY to COMMAND in the keymaps listed in KEYMAPS."
  "\C-x\C-k" 'kill-region
  "\C-c\C-k" 'kill-region
 
- "\M-p"     'backward-paragraph
- "\M-n"     'forward-paragraph
+ "M-p"     'backward-paragraph
+ "M-n"     'forward-paragraph
 
  "\C-xw"     'goto-line
  "\C-x\C-b"  'buffer-menu
@@ -287,8 +287,6 @@ Maps KEY to COMMAND in the keymaps listed in KEYMAPS."
  "\C-x!"     'shell-command
  "\C- "      'set-mark-command
  "\C-hg"     'apropos
- "\C-cs"     'trh-insert-slander
- "\C-c\C-s"  'trh-insert-slander
  "<f5>"      (lambda ()
                (interactive)
                (find-file "~/.notes"))
