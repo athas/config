@@ -262,6 +262,3 @@ setopt                       \
     unset                \
     NO_verbose              \
     zle
-
-# Last but not least...
-fortune
