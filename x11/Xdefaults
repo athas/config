@@ -43,7 +43,6 @@ URxvt*scrollColor: black
 URxvt*saveLines: 60000
 URxvt.color12: LightSlateBlue
 URxvt.underlineURLs: true
-URxvt.perl-ext: selection,mark-yank-urls
 URxvt.urlLauncher: /home/athas/bin/surf
 
 /* xmessage */
