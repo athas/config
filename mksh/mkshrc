@@ -67,7 +67,7 @@ export HISTSIZE=200000
 DIRSTACKBASE=$(realpath ~/. 2>&- || print -nr -- "$HOME")
 set -A DIRSTACK
 function chpwd {
-    precd "$(pwd|sed 's/'$(echo -n $HOME|sed 's/\//\\\//g')'/~/')"
+    precmd "$(pwd|sed 's/'$(echo -n $HOME|sed 's/\//\\\//g')'/~/')"
     DIRSTACK[0]=$(realpath . 2>&- || print -r -- "$PWD")
     [[ $DIRSTACKBASE = ?(*/) ]] || \
         DIRSTACK[0]=${DIRSTACK[0]/#$DIRSTACKBASE/~}

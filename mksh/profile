@@ -1,0 +1,26 @@
+# This file is evaluated for all login shells.
+
+# I prefer my own scripts and programs to those installed by cabal and
+# Plan 9, and system commands last.
+export PATH=~/andets/:~/scripts/:~/.local/bin/:~/.cabal/bin:$PLAN9/bin/:$PATH
+
+# The u is because p9p has its own ssh-agent...
+eval `u ssh-agent -s`
+umask 077
+
+export MANPATH="$HOME/.cabal/share/man/:$HOME/.local/share/man/:"
+
+export HOSTTYPE="$(uname -m)"
+export COLORTERM=yes
+export CC=gcc
+export CXX=g++
+export MANPAGER=less
+export PAGER=less
+export EDITOR=emacsclient
+export LC_ALL=en_DK.UTF-8
+export DARCS_EMAIL="athas@sigkill.dk"
+export DARCS_EDITOR="emacsclient"
+
+# XDG is useful, but not very many things respect it.
+export XDG_CONFIG_HOME=~/.config
+export XDG_DATA_HOME=~/.local/share
