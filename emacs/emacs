@@ -359,39 +359,10 @@ Maps KEY to COMMAND in the keymaps listed in KEYMAPS."
 (set-mouse-color "green")
 (set-border-color "light green")
 
-;; Fonts: ;; Specified in .Xdefaults for now.
-;;(if (eq this-os 'gentoo)
-;;    (progn
-;;      (add-to-list
-;;       'default-frame-alist)))
-;;       '(font
-;;       . "9x15"))))
-         
-;;(if (eq this-os 'debian)
-;;    (progn
-;;      (add-to-list
-;;       'default-frame-alist
-;;       '(font
-;;       . "9x16"))))
-
-;; Color theme overrides some of the above stuff.
-
-(with-feature
- (color-theme)
-
- (setq color-theme-is-cumulative nil)
-
- (defvar trh-color-theme nil
-   "This variable contains the current color theme.")
-
- (setq trh-color-theme 'color-theme-charcoal-black)
-
- ;; Only change color theme when running in X.
- (when (> (display-color-cells) 256)
-   ;(funcall trh-color-theme)
-   )
-
- (set-cursor-color "white")             ; I NEED this!
+;; Color theme overrides the above stuff.
+(with-features
+ (color-theme zenburn)
+ (color-theme-zenburn)
  )
 
 ;;;; Programming:

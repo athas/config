@@ -1,42 +1,43 @@
-/* Set a default, standard font. */
+! Set a default, standard font.
 *Font: -bitstream-bitstream vera sans mono-medium-r-normal--0-0-0-0-m-0-iso8859-15
-*foreground:				#cccccc
-*background:				#191919
-! Black + Dark Grey
-*color0: #222222
-*color8: #333333
-! Dark Red + Red
-*color1:				#f10a30
-*color9:				#b30a30
-! Dark Green + Green
-*color2:				#9bf65f
-*color10:				#b9b85f
-! Dark Yellow + Yellow
-*color3:				Khaki3
-*color11:				#efe58b
-! Dark Blue + Blue
-*color4:				#324c80
-*color12:				#2b4f98
-! Dark Magenta + Magenta
-*color5:				#706c9a
-*color13:				#826ab1
-! Dark Cyan + Cyan
-*color6:				#92b19e
-*color14:				#a1cdcd
-! Light Grey + White
-*color7:				#ffffff
-*color15:				#dedede
 
-/* Emacs */
+! Zenburn color-scheme
+*background:  #3f3f3f
+*foreground:  #dcdccc
+! black + red
+!*color0:     #3f3f3f
+*color0:      #1E2320
+*color1:      #705050
+! green + yellow
+*color2:      #60b48a
+*color3:      #dfaf8f
+! blue + purple
+*color4:      #506070
+*color5:      #dc8cc3
+! cyan + white
+*color6:      #8cd0d3
+*color7:      #dcdccc
+! bright-black + bright-red
+*color8:      #709080
+*color9:      #dca3a3
+! bright-green + bright-yellow
+*color10:     #c3bf9f
+*color11:     #f0dfaf
+! bright-blue + bright-purple
+*color12:     #94bff3
+*color13:     #ec93d3
+! bright-cyan + bright-white
+*color14:     #93e0e3
+*color15:     #ffffff
+
+! Emacs
 Emacs*Font: -bitstream-terminal-medium-r-*-*-18-140-*-*-*-*-*-*
 Emacs*Foreground:	light grey
 Emacs*Background:	black
 
-/* URxvt */
+! URxvt
 
 URxvt*font: xft:Bitstream Vera Sans Mono:autohint=true
-URxvt*foreground: white
-URxvt*background: black
 URxvt*scrollStyle: plain
 URxvt*scrollBar: False
 URxvt*scrollColor: black
@@ -45,7 +46,7 @@ URxvt.color12: LightSlateBlue
 URxvt.underlineURLs: true
 URxvt.urlLauncher: /home/athas/bin/surf
 
-/* xmessage */
+! xmessage
 
 .xmessage.form.okay.background:		#333333
 .xmessage.form.okay.foreground:		snow
@@ -54,3 +55,8 @@ URxvt.urlLauncher: /home/athas/bin/surf
 .xmessage.form.background:		#333333
 .xmessage.defaultButton:		okay
 .Xmessage.form.message.Scroll:		WhenNeeded
+
+Sindre*background: grey
+Sindre*foreground: black
+Sindre*focusBackground: blue
+Sindre*focusForeground: white
