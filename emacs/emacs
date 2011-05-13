@@ -96,9 +96,6 @@ able to know what they run under.")
 (add-to-list 'load-path "/usr/share/maxima/5.9.1/emacs")
 (add-to-list 'load-path "~/emacs/imaxima-imath-0.97a/")
 
-(when (windows-p)
-  (add-to-list 'load-path "D:\\Dokumenter\\emacs"))
-
 (noerr-require 'gpl)
 (noerr-require 'gpl-copying)
 (noerr-require 'help-mode)
@@ -148,6 +145,7 @@ able to know what they run under.")
 (setq-default case-fold-search t)
 
 (transient-mark-mode 0)
+(global-hl-line-mode 1)
 
 ;; Backup-files in the working directory sucks.
 (add-to-list 'backup-directory-alist
@@ -189,11 +187,6 @@ able to know what they run under.")
 
 ;; Do not use The Evil Tab, use Holy Spaces instead.
 (setq-default indent-tabs-mode nil) 
-
-;; Go Danish. UTF-8 input breaks under Windows, so... disable.
-;(when (not (windows-p))
-;  (set-keyboard-coding-system 'utf-8-unix)
-;  (set-terminal-coding-system 'utf-8-unix))
 
 ;; Set up Twelf...
 (setq twelf-root "/home/athas/twelf/")
@@ -274,19 +267,19 @@ Maps KEY to COMMAND in the keymaps listed in KEYMAPS."
  "\C-x\C-k" 'kill-region
  "\C-c\C-k" 'kill-region
 
- "M-p"     'backward-paragraph
- "M-n"     'forward-paragraph
+ "M-p"      'backward-paragraph
+ "M-n"      'forward-paragraph
 
- "\C-xw"     'goto-line
- "\C-x\C-b"  'buffer-menu
- "\C-cn"     'bs-cycle-next
- "\C-cp"     'bs-cycle-previous
- "\C-ce"     'eshell
- "\C-c\C-e"  'eshell
- "\C-ck"     'compile
- "\C-x!"     'shell-command
- "\C- "      'set-mark-command
- "\C-hg"     'apropos
+ "\C-xw"    'goto-line
+ "\C-x\C-b" 'buffer-menu
+ "\C-cn"    'bs-cycle-next
+ "\C-cp"    'bs-cycle-previous
+ "\C-ce"    'eshell
+ "\C-c\C-e" 'eshell
+ "\C-ck"    'compile
+ "\C-x!"    'shell-command
+ "\C- "     'set-mark-command
+ "\C-hg"    'apropos
  "<f5>"      (lambda ()
                (interactive)
                (find-file "~/.notes"))
@@ -294,8 +287,9 @@ Maps KEY to COMMAND in the keymaps listed in KEYMAPS."
                (interactive)
                (find-file "~/.todo"))
 
- "<f1>"      'slime-scratch
- "C-x c s"     'slime-selector)
+ "<f1>"     'slime-scratch
+ "C-x c s"  'slime-selector
+ "C-x a r"  'align-regexp)
 
 (global-set-key  (kbd "C-c TAB") 'lisp-complete-symbol)
 
@@ -507,17 +501,14 @@ This is used by the command `trh-hyperspec-lookup'.")
 
 ;;; Haskell setup.
 
-(with-feature
- (haskell-mode)
- (noerr-require 'haskell-ghci)
+(with-features
+ (haskell-mode haskell-indentation inf-haskell)
  (noerr-require 'inf-haskell)
- (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
- (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
- (remove-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+ (add-hook 'haskell-mode-hook 'haskell-doc-mode)
+ (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
  (add-hook 'haskell-mode-hook
            '(lambda ()
-              (setq process-connection-type nil)
-              (turn-on-haskell-ghci)))
+              (setq process-connection-type nil)))
  (setq haskell-program-name "ghci")
 
  (with-feature
@@ -531,12 +522,7 @@ This is used by the command `trh-hyperspec-lookup'.")
   (eval-after-load "tex"
     '(progn
        (add-to-list 'LaTeX-command-style '("lhs" "lhslatex"))
-       (add-to-list 'TeX-file-extensions "lhs"))))
-
- (with-feature
-  (haskell-indentation)
-
-  (add-hook 'haskell-mode-hook 'haskell-indentation-mode)))
+       (add-to-list 'TeX-file-extensions "lhs")))))
 
 ;;; SML setup.
 (with-feature
