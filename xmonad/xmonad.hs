@@ -15,6 +15,7 @@ import Codec.Binary.UTF8.String
 import XMonad
 import qualified XMonad.StackSet as W
 
+import XMonad.Actions.CycleRecentWS
 import XMonad.Actions.GridSelect
 import XMonad.Actions.Submap
 import XMonad.Actions.TagWindows
@@ -102,6 +103,7 @@ prefixMap conf =
     , ((0, xK_b), goToSelected gsConfig)
     , ((controlMask, xK_b), withFocused $ \w ->
         goToSelectedFrom (similarToWinMap w) gsConfig)
+    , ((controlMask, xK_t), cycleRecentWS [xK_Control_L] xK_t xK_t)
     , ((0, xK_s), spawn "ogg123 /home/athas/sadtrombone.ogg")
     , ((0, xK_v), spawn "ogg123 /home/athas/saddestviolin.ogg")
     , ((shiftMask, xK_e), spawn "exe=`dmenu_path | dmenu` && eval \"exec $exe\"")
