@@ -130,6 +130,7 @@ able to know what they run under.")
       delete-auto-save-files t   ; Delete unnecessary auto-save files.
       default-major-mode 'fundamental-mode ; At least this mode won't do anything stupid.
       scroll-step 1                   ; Only move in small increments.
+      scroll-conservatively 10000
       frame-title-format "%b GNU Emacs" ; Make the frame a bit more useful.
       ;; Personal information.
       user-mail-address "athas@sigkill.dk"
@@ -502,10 +503,12 @@ This is used by the command `trh-hyperspec-lookup'.")
 ;;; Haskell setup.
 
 (with-features
- (haskell-mode haskell-indentation inf-haskell)
+ (haskell-mode haskell-indent)
  (noerr-require 'inf-haskell)
  (add-hook 'haskell-mode-hook 'haskell-doc-mode)
- (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
+ (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+ (remove-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+ (setq haskell-indent-offset 2)
  (add-hook 'haskell-mode-hook
            '(lambda ()
               (setq process-connection-type nil)))
