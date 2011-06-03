@@ -17,5 +17,7 @@ u emacs -f on-start >& ~/emacs.log &
 xset m 4 25 &
 imwheel -k -p -f -b "67" &
 
+dmenu_path_watcher &
+
 # Start a window-manager.
 xmonad >& ~/.xmonad.out
