@@ -1,4 +1,4 @@
-#!/usr/bin/zsh
+#!/bin/sh
 # .xinitrc for Troels Henriksen <athas@sigkill.dk>
 
 xrdb ~/.Xdefaults
@@ -9,15 +9,15 @@ xhost +local:
 # Disable bell.
 xset b off
 
+# Set up keyboard
+setxkbmap dk -option ctrl:nocaps
+
 # Start GNU Emacs and redirect output to a logfile.
-u emacs -f on-start >& ~/emacs.log &
+u emacs -f on-start &
 
 # Do some stuff to make my Trackman work properly (I'm not sure how
 # this works - it's pure magic.).
 xset m 4 25 &
-imwheel -k -p -f -b "67" &
-
-dmenu_path_watcher &
 
 # Start a window-manager.
-xmonad >& ~/.xmonad.out
+xmonad 2> ~/.xmonad.out
