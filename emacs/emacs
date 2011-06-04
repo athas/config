@@ -502,10 +502,12 @@ This is used by the command `trh-hyperspec-lookup'.")
 
 ;;; Haskell setup.
 
+(add-to-list 'load-path "~/emacs/haskell-mode-2.8.0/")
+
 (with-features
  (haskell-mode haskell-indent)
+ (load "~/emacs/haskell-mode-2.8.0/haskell-site-file")
  (noerr-require 'inf-haskell)
- (add-hook 'haskell-mode-hook 'haskell-doc-mode)
  (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
  (remove-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
  (setq haskell-indent-offset 2)
