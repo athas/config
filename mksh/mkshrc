@@ -42,6 +42,10 @@ case $TERM in
             print -n "\e\"$1\e\134"
         }
         ;;
+    *)
+        precd () {
+        }
+        ;;
 esac
 
 function promptpath {
