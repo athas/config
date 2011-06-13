@@ -223,5 +223,5 @@ function pushd {
 	dirs $fa
 }
 
-export SHELL=$MKSH MANWIDTH=80 LESSHISTFILE=-
+export SHELL=`which mksh` MANWIDTH=80 LESSHISTFILE=-
 alias cls='print -n \\033c'
