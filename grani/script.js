@@ -11,7 +11,7 @@ function hintMode(new_win){
         hint_enabled = true;
         hint_new_win = new_win;
         setHints();
-        document.addEventListener('keydown', hintHandler, false);
+        document.addEventListener('keydown', hintHandler, true);
         hint_num_str = '';
     }
 }
@@ -182,7 +182,7 @@ function removeHints() {
     if (div != undefined) {
         document.body.removeChild(div);
     }
-    document.removeEventListener('keydown', hintHandler, false);
+    document.removeEventListener('keydown', hintHandler, true);
 }
 
 function get_key(evt){
