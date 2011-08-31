@@ -20,6 +20,7 @@ import XMonad.Actions.GridSelect
 import XMonad.Actions.Submap
 import XMonad.Actions.TagWindows
 import XMonad.Hooks.DynamicLog
+import XMonad.Hooks.ManageDocks
 import XMonad.Util.NamedWindows
 
 main = xmonad =<< statusBar "xmobar" athasPP toggleStrutsKey myConfig
@@ -58,7 +59,7 @@ class AthasTags a where
 instance AthasTags Window where
   athasTags w = do cn <- runQuery className w
                    liftM2 (++) (progTags cn) ((cn:) <$> getTags w)
-    where progTags "surf" = (:[]) <$> drop 7 <$> runQuery (utf8StringProperty "_SURF_URI") w
+    where progTags "grani" = (:[]) <$> drop 7 <$> runQuery (utf8StringProperty "_GRANI_URI") w
           progTags _ = return []
 
 gsConfig = buildGsmenuGSConfig defaultColorizer athasTags
@@ -107,8 +108,8 @@ prefixMap conf =
     , ((0, xK_s), spawn "ogg123 /home/athas/sadtrombone.ogg")
     , ((0, xK_v), spawn "ogg123 /home/athas/saddestviolin.ogg")
     , ((shiftMask, xK_e), spawn "exe=`dmenu_path | dmenu` && eval \"exec $exe\"")
-    , ((controlMask, xK_r), spawn "surfsession resume")
-    , ((0, xK_g), spawn "surf") ]
+    , ((controlMask, xK_r), spawn "grani-session resume")
+    , ((0, xK_g), spawn "url=\"$(grani-field)\" && grani \"$url\"") ]
 
 forceKill :: Window -> X ()
 forceKill w = withDisplay $ \d -> io $ do
