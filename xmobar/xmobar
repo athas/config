@@ -1,0 +1,5 @@
+Config { font = "xft:Terminus-10"
+       , bgColor = "grey"
+       , fgColor = "black"
+       , template = "%StdinReader% }{ <fc=#ffffff,#888888> %theDate%</fc>"
+       }
