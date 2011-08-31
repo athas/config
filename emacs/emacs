@@ -487,6 +487,11 @@ This is used by the command `trh-hyperspec-lookup'.")
 
  )
 
+;;; Erlang setup.
+
+(add-to-list 'load-path "~/emacs/erlang")
+(noerr-require 'erlang-start)
+
 ;;; Scheme setup.
 
 (setq scheme-program-name "mzscheme")
