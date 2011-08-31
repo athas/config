@@ -13,7 +13,7 @@ xset b off
 setxkbmap dk -option ctrl:nocaps
 
 # Start GNU Emacs and redirect output to a logfile.
-u emacs -f on-start &
+emacs -f on-start &
 
 # Do some stuff to make my Trackman work properly (I'm not sure how
 # this works - it's pure magic.).
