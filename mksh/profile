@@ -8,6 +8,8 @@ export PATH=~/andets/:~/scripts/:~/.local/bin/:~/.cabal/bin:/usr/sbin:/sbin:$PAT
 eval `ssh-agent -s`
 umask 077
 
+ulimit -s unlimited
+
 dmenu_path_watcher &
 
 export MANPATH="$HOME/.cabal/share/man/:$HOME/.local/share/man/:"
