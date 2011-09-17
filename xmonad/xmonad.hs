@@ -97,6 +97,7 @@ prefixMap conf =
      , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
     ++
     [ ((0, xK_k), kill)
+    , ((0, xK_BackSpace), spawn "swarp 20000 20000")
     , ((shiftMask, xK_k), withFocused $ forceKill)
     , ((0, xK_c), spawn $ XMonad.terminal conf)
     , ((0, xK_f), withFocused $ windows . W.sink)
