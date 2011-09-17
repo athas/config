@@ -534,12 +534,14 @@ This is used by the command `trh-hyperspec-lookup'.")
        (add-to-list 'LaTeX-command-style '("lhs" "lhslatex"))
        (add-to-list 'TeX-file-extensions "lhs")))))
 
+(add-to-list 'load-path "~/emacs/sml-mode-4.1/")
+
 ;;; SML setup.
 (with-feature
  (sml-mode)
 
  ;; Use MOSML for DIKU.
- (setf sml-program-name "~/bin/mosml")
+ (setf sml-program-name "mosml")
  (setf sml-default-arg "-P full")
  
  (add-to-list 'auto-mode-alist
@@ -805,7 +807,7 @@ and irc.freenode.net using ERC."
  (erc-autojoin-mode 1)
  (setq erc-autojoin-channels-alist
        '(("irc.inet.tele.dk" "#sslug")
-         ("freenode.net" "#emacs" "#lisp" "#diku" "#haskell" "#ghc" "#xmonad" "#cat-v")
+         ("freenode.net" "#emacs" "#lisp" "#diku" "#haskell" "#ghc" "#xmonad" "#cat-v" "#eggsml")
          ("chatsociety.net" "#piratgruppen.org")
          ("quakenet.org" "#udvikleren.dk")
          ("zybourne.net" "#cobol")
