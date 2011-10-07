@@ -184,7 +184,14 @@ able to know what they run under.")
  (add-hook 'ido-define-mode-map-hook 'ido-my-keys)
  (defun ido-my-keys ()
    "Add my keybindings for ido."
-   (define-key ido-mode-map "\C-w" 'backward-kill-word)))
+   (define-key ido-mode-map (kbd "C-w") 'backward-kill-word))
+ ;; Display ido results vertically, rather than horizontally
+ (setq ido-decorations '("\n-> " "" "\n   " "\n   ..." "[" "]"
+                         " [No match]" " [Matched]" " [Not readable]"
+                         " [Too big]" " [Confirm]"))
+ (defun ido-disable-line-trucation ()
+   (set (make-local-variable 'truncate-lines) nil))
+ (add-hook 'ido-minibuffer-setup-hook 'ido-disable-line-trucation))
 
 ;; Do not use The Evil Tab, use Holy Spaces instead.
 (setq-default indent-tabs-mode nil) 
