@@ -141,9 +141,11 @@ able to know what they run under.")
       fill-column 70
       dired-recursive-copies t
       enable-local-variables :safe
-      undo-strong-limit 3000000)
+      undo-strong-limit 3000000
+      tab-width 2)
 
-(setq-default case-fold-search t)
+(setq-default case-fold-search t
+              show-trailing-whitespace t)
 
 (transient-mark-mode 0)
 (global-hl-line-mode 1)
@@ -219,6 +221,11 @@ able to know what they run under.")
 (defconst w "This is not vi!  Use C-x C-s instead.")
 (defconst q! "This is EMACS not vi!  Use C-x C-c instead.")
 (defconst wq! "This is EMACS not vi!  Use C-x C-c instead.")
+
+(with-feature
+ (package)
+ (add-to-list 'package-archives
+              '("marmalade" . "http://marmalade-repo.org/packages/")))
 
 ;;;; Generic Keybindings:
 ;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -355,7 +362,7 @@ Maps KEY to COMMAND in the keymaps listed in KEYMAPS."
 (global-set-key (kbd "<mouse-4>") 'sd-mousewheel-scroll-down) 
 
 ;; Define the way Emacs looks:
-(set-foreground-color "gray")
+(set-foreground-color "grey")
 (set-background-color "black")
 (set-cursor-color "red")
 (set-mouse-color "green")
@@ -367,6 +374,8 @@ Maps KEY to COMMAND in the keymaps listed in KEYMAPS."
  (color-theme-zenburn)
  )
 
+
+
 ;;;; Programming:
 ;;;;;;;;;;;;;;;;;
 
@@ -377,7 +386,7 @@ Maps KEY to COMMAND in the keymaps listed in KEYMAPS."
  (setq cssm-indent-function #'cssm-c-style-indenter)
  (setq cssm-mirror-mode nil))
 
-(setq c-basic-offset 4)
+(setq c-basic-offset 2)
 
 (noerr-require 'ld-script)
 
@@ -845,6 +854,17 @@ and irc.freenode.net using ERC."
  (setq erc-log-channels t)
  (setq erc-enable-logging t)
  (setq erc-log-channels-directory "~/.irclogs/")
+ (setq erc-generate-log-file-name-function 'erc-generate-log-file-name)
+
+ (defun erc-generate-log-file-name (buffer target nick server port)
+   "This function computes a somewhat short log file name.
+In fact, it only uses the target and server name, so
+you can affect that using `rename-buffer' and the-like.  This
+function is a possible value for
+`erc-generate-log-file-name-function'."
+   (let ((file (concat target "@" server ".txt")))
+     ;; we need a make-safe-file-name function.
+     (convert-standard-filename file)))
 
  (setq erc-save-buffer-on-part t
        erc-save-queries-on-quit t
