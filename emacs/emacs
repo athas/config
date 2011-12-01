@@ -8,12 +8,12 @@
 ;;;; modify it under the terms of the GNU General Public License as
 ;;;; published by the Free Software Foundation; either version 2 of
 ;;;; the License, or (at your option) any later version.
-;;;;  
+;;;;
 ;;;; This program is distributed in the hope that it will be useful,
 ;;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
 ;;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ;;;; General Public License for more details.
-;;;;  
+;;;;
 ;;;; You should have received a copy of the GNU General Public License
 ;;;; along with this program; if not, write to the Free Software
 ;;;; Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
@@ -161,15 +161,15 @@ able to know what they run under.")
  (setq ido-enable-flex-matching t)
  (defvar ido-enable-replace-completing-read nil
    "If t, use ido-completing-read instead of completing-read if possible.
-    
+
     Set it to nil using let in around-advice for functions where the
     original completing-read is required.  For example, if a function
     foo absolutely must use the original completing-read, define some
     advice like this:
-    
+
     (defadvice foo (around original-completing-read-only activate)
       (let (ido-enable-replace-completing-read) ad-do-it))")
-    
+
  ;; Replace completing-read wherever possible, unless directed otherwise
  (defadvice completing-read
    (around use-ido-when-possible activate)
@@ -196,7 +196,7 @@ able to know what they run under.")
  (add-hook 'ido-minibuffer-setup-hook 'ido-disable-line-trucation))
 
 ;; Do not use The Evil Tab, use Holy Spaces instead.
-(setq-default indent-tabs-mode nil) 
+(setq-default indent-tabs-mode nil)
 
 ;; Set up Twelf...
 (setq twelf-root "/home/athas/twelf/")
@@ -209,11 +209,11 @@ able to know what they run under.")
 )
 
 ;;; Make Emacs a bitch to close (C-x C-c is sooo easy to hit):
-(add-to-list 'kill-emacs-query-functions 
+(add-to-list 'kill-emacs-query-functions
              (lambda () (y-or-n-p "Last chance, your work would be lost. ")))
-(add-to-list 'kill-emacs-query-functions 
+(add-to-list 'kill-emacs-query-functions
              (lambda () (y-or-n-p "Are you ABSOLUTELY certain that Emacs should close? ")))
-(add-to-list 'kill-emacs-query-functions 
+(add-to-list 'kill-emacs-query-functions
              (lambda () (y-or-n-p "Should Emacs really close? ")))
 
 ;;; Tease the vi-users:
@@ -251,8 +251,8 @@ Maps KEY to COMMAND in the keymaps listed in KEYMAPS."
   (let ((defkey-list nil))
     (while keymaps
       (let ((current-map (first keymaps)))
-        (push `(define-key 
-                 ,current-map 
+        (push `(define-key
+                 ,current-map
                  (kbd ,key)
                  ,command)
               defkey-list))
@@ -359,7 +359,7 @@ Maps KEY to COMMAND in the keymaps listed in KEYMAPS."
       (select-window current-window))))
 
 (global-set-key (kbd "<mouse-5>") 'sd-mousewheel-scroll-up)
-(global-set-key (kbd "<mouse-4>") 'sd-mousewheel-scroll-down) 
+(global-set-key (kbd "<mouse-4>") 'sd-mousewheel-scroll-down)
 
 ;; Define the way Emacs looks:
 (set-foreground-color "grey")
@@ -367,6 +367,7 @@ Maps KEY to COMMAND in the keymaps listed in KEYMAPS."
 (set-cursor-color "red")
 (set-mouse-color "green")
 (set-border-color "light green")
+(set-face-background 'trailing-whitespace "turquoise")
 
 ;; Color theme overrides the above stuff.
 (with-features
@@ -399,7 +400,7 @@ Maps KEY to COMMAND in the keymaps listed in KEYMAPS."
 
 (with-feature
  (nxml-mode)
- (add-to-list 
+ (add-to-list
   'auto-mode-alist
   (cons (concat "\\."(regexp-opt '("xml" "xsd" "sch" "rng" "xslt" "svg" "rss") t) "\\'")
         'nxml-mode))
@@ -407,7 +408,7 @@ Maps KEY to COMMAND in the keymaps listed in KEYMAPS."
 
 (with-feature
  (maxima-mode)
- (add-to-list 
+ (add-to-list
   'auto-mode-alist '("\.max" . maxima-mode))
  )
 
@@ -511,10 +512,10 @@ This is used by the command `trh-hyperspec-lookup'.")
 ;;; Scheme setup.
 
 (setq scheme-program-name "mzscheme")
-(with-feature 
+(with-feature
  (quack)
- 
- 
+
+
  (set-face-foreground quack-pltish-defn-face "green")
 
  (define-key scheme-mode-map "\C-c\C-c" 'scheme-send-last-sexp)
@@ -559,7 +560,7 @@ This is used by the command `trh-hyperspec-lookup'.")
  ;; Use MOSML for DIKU.
  (setf sml-program-name "mosml")
  (setf sml-default-arg "-P full")
- 
+
  (add-to-list 'auto-mode-alist
               '("\\.sml$" . sml-mode))
  (add-to-list 'auto-mode-alist
@@ -575,7 +576,7 @@ This is used by the command `trh-hyperspec-lookup'.")
 ;;;; ERC-options:
 ;;;;;;;;;;;;;;;;;
 
-(with-feature 
+(with-feature
  (erc)
 
  (noerr-require 'erc-auto)
@@ -593,17 +594,14 @@ This is used by the command `trh-hyperspec-lookup'.")
  (push '("#linuxin.dk" . (iso-latin-1 . undecided))
        erc-encoding-coding-alist)
 
- ;;(push '("#linuxin.dk" . (iso-latin-1 . undecided))
- ;;      erc-encoding-coding-alist)
-
  (push '("#piratgruppen.org" . (iso-latin-1 . undecided))
        erc-encoding-coding-alist)
 
  ;; Display private messages in new buffers.
  (setq erc-auto-query 'buffer)
 
- (setq erc-paranoid t)                  ; Show CTCP-messages.
- (setq erc-email-userid "athas@@sigkill.dk"
+ (setq erc-paranoid t ; Show CTCP-messages.
+       erc-email-userid "athas@@sigkill.dk"
        erc-user-full-name "Troels Henriksen"
        erc-prompt (lambda () (concat (buffer-name) ">"))
        erc-track-visibility 'visible)
@@ -614,7 +612,7 @@ This is used by the command `trh-hyperspec-lookup'.")
 
  ;; Hooks, put stuff here:
  (add-hook 'erc-mode-hook
-           (lambda ()        
+           (lambda ()
              ;; Use emacs-mule as coding system for all erc-buffers (for easy logging).
              (set (make-variable-buffer-local 'coding-system-for-write) 'emacs-mule)))
 
@@ -655,14 +653,14 @@ This is used by the command `trh-hyperspec-lookup'.")
 
   ;; Yucky slap. :-(
  (defun erc-cmd-SLAPPENIS (&rest nick)
-   (erc-cmd-SLAPWITH (car nick) (concat 
+   (erc-cmd-SLAPWITH (car nick) (concat
                                  "his "
                                  (find-epenis)
                                  "cm long ePenis")))
 
  (defun erc-cmd-EPENIS ()
    "Calculates the size of your ePenis and writes it in `erc-default-target'"
-   (erc-send-message 
+   (erc-send-message
     (get-epenis)))
 
   (defun penisdyst (process response)
@@ -706,9 +704,9 @@ Returns the value in centimeters."
      (format "%.3f"
              (* 2.427
                 (log
-                 (string-to-int 
-                  (buffer-substring 
-                   (point-min) 
+                 (string-to-int
+                  (buffer-substring
+                   (point-min)
                    (search-forward "." (point-max)))))))))
 
  (defvar irc-nickname "Athas"
@@ -732,8 +730,8 @@ Returns the value in centimeters."
    "List of servers ERC is connected to.")
 
  (defun irc-connect (server &optional port)
-   "Connect to SERVER via ERC, using default values for nickname, realname and 
-port. Port can be specified as optional parameter PORT. The default values are 
+   "Connect to SERVER via ERC, using default values for nickname, realname and
+port. Port can be specified as optional parameter PORT. The default values are
 specified in the variables `irc-nickname', `irc-port' and `irc-realname'."
    (when (find server irc-connected-hosts)
      (error "Already connected to server."))
@@ -787,7 +785,7 @@ For now, it kills all buffers in ERC-mode."
            (obuffer (current-buffer)))
        (dolist (buffer (buffer-list))
          (set-buffer buffer)
-         (when (eq major-mode 'erc-mode) 
+         (when (eq major-mode 'erc-mode)
            (set-buffer buffer)
            (progn
               (kill-buffer buffer))))
@@ -901,7 +899,7 @@ function is a possible value for
 ;;; My own auxilliary functions are prefixed with trh-.
 
 ;;; I always end up with spurious whitespaces, this will remove them.
-(defun trh-remove-whitespace-around-point () 
+(defun trh-remove-whitespace-around-point ()
   "Removes whitespace from point up to, anc back to, the next non-whitespace.
 Will affect linebreaks, tabs and spaces"
   (interactive)
@@ -933,7 +931,7 @@ This is designed to be used in conjuction with ERC."
   (save-window-excursion
     (let ((print-list)
           (obuffer (current-buffer)))
-      (dolist (buffer (buffer-list)) 
+      (dolist (buffer (buffer-list))
         (switch-to-buffer buffer)))))
 
 (global-set-key "\C-cg" 'trh-visit-all-buffers)
@@ -986,8 +984,8 @@ if the buffer already exists."
    (save-excursion
      (save-window-excursion
        (set-buffer "*Shell Command Output*")
-       (buffer-substring 
-        (point-min) 
+       (buffer-substring
+        (point-min)
         (point-max))))))
 
 (global-set-key "\C-c!" 'trh-insert-shell-command-output)
