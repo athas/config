@@ -65,35 +65,8 @@ If any of FEATURES cannot be loaded, don't execute BODY."
 ;;;; Generic Emacs options:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;; Variable for portability:
-(defvar this-os nil
-  "A string describing the current OS.
-This variable holds the name of the currently running
-operating system. The idea is that Emacs functions are
-able to know what they run under.")
-
-(when (file-exists-p "/etc/gentoo-release")
-  (setq this-os 'gentoo))
-(when (file-exists-p "/etc/apt/sources.list")
-  (setq this-os 'debian))
-(when (file-exists-p "c:\windows")
-  (setq this-os 'win32))
-
-(defun windows-p ()
-  "Return NIL if not running on Win32."
-  (eq this-os 'win32))
-
-(defun gentoo-p ()
-  "Return NIL if not running on Gentoo."
-  (eq this-os 'gentoo))
-
-(defun debian-p ()
-  "Return NIL if not running on Debian."
-  (eq this-os 'debian))
-
 ;;; Loadpaths:
 (add-to-list 'load-path "~/emacs")
-(add-to-list 'load-path "/usr/share/maxima/5.9.1/emacs")
 (add-to-list 'load-path "~/emacs/imaxima-imath-0.97a/")
 
 (noerr-require 'gpl)
@@ -114,8 +87,7 @@ able to know what they run under.")
  (autoload 'imaxima "imaxima" "Image support for Maxima." t)
  (autoload 'imath-mode "imath" "Interactive Math minor mode." t))
 
-(when (not (windows-p))
-  (server-start))                       ; Convenient, at times.
+(server-start)                       ; Convenient, at times.
 
 (display-time)                          ; Display time in modeline.
 (column-number-mode 1)          ; Show column number on the mode-line.
@@ -711,9 +683,6 @@ Returns the value in centimeters."
 
  (defvar irc-nickname "Athas"
    "Standard nickname for use on IRC")
-
- (when (windows-p)
-   (setq irc-nickname "WinAthas"))
 
  (defvar irc-port 6667
    "Standard port to connect to IRC servers with.")
