@@ -56,7 +56,10 @@ URxvt.urlLauncher: /home/athas/bin/surf
 .xmessage.defaultButton:		okay
 .Xmessage.form.message.Scroll:		WhenNeeded
 
+Sindre*font: Monospace-6.5
 Sindre*background: #3f3f3f
 Sindre*foreground: #dcdccc
 Sindre*focusBackground: #4f4f4f
 Sindre*focusForeground: #8cd0d3
+gsmenu*focusBackground: #faff69
+gsmenu*focusForeground: #000000
