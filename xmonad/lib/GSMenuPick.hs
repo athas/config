@@ -322,11 +322,9 @@ gsmenu gsconfig ellist = do
         [(i :: Int, s)] ->
           case liftM snd $ ifind i ellist of
             Just x -> let (command, s') = break isSpace $ dropWhile isSpace s
-                      in do
-                        io $ hPutStr stderr $ show (command, M.keys responses)
-                        case M.lookup command responses of
-                           Just r  -> r x (dropWhile isSpace s')
-                           Nothing -> return Nothing
+                      in do case M.lookup command responses of
+                              Just r  -> r x (dropWhile isSpace s')
+                              Nothing -> return Nothing
             Nothing -> return Nothing
         _ -> return Nothing
   where ifind 0 (x:_)  = Just x
@@ -340,7 +338,7 @@ gsmenu gsconfig ellist = do
         actions = zipWith action [0..] $ gs_actions gsconfig
         action (i::Int) (k, (ingsmenu, inxmonad)) =
           (command
-          , (k ++ " { print grid.selected[\"value\"], \""
+          , (k ++ " { print (grid.selected ? grid.selected[\"value\"] : -1), \""
              ++ command ++ "\"; " ++ ingsmenu ++ "; next; }", inxmonad))
           where command ="internal__" ++ show i ++ "__"
 
