@@ -6,7 +6,6 @@ import Control.Applicative
 import Control.Monad
 import Data.Bits
 import Data.Maybe
-import Data.Word (Word64)
 
 import Foreign.Storable
 
