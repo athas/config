@@ -16,15 +16,16 @@ import XMonad
 import qualified XMonad.StackSet as W
 
 import XMonad.Actions.CycleWindows
-import XMonad.Actions.GridSelect
+import GSMenuPick
 import XMonad.Actions.Submap
 import XMonad.Actions.TagWindows
 import XMonad.Hooks.DynamicLog
-import XMonad.Hooks.ManageDocks
 import XMonad.Util.NamedWindows
 
+main :: IO ()
 main = xmonad =<< statusBar "xmobar" athasPP toggleStrutsKey myConfig
-       
+
+myConfig :: XConfig (Choose Tall (Choose (Mirror Tall) Full))
 myConfig = defaultConfig {
              modMask = mod4Mask
            , focusFollowsMouse = False
@@ -40,7 +41,8 @@ athasPP = xmobarPP { ppCurrent = xmobarColor "white" "black"
 
 toggleStrutsKey :: XConfig t -> (KeyMask, KeySym)
 toggleStrutsKey XConfig{modMask = modm} = (modm, xK_b )
-       
+
+prefix :: (KeyMask, KeySym)
 prefix = (controlMask, xK_t)
 
 utf8StringProperty :: String -> Query String
@@ -88,10 +90,11 @@ similarToWinMap :: Window -> X [(String,Window)]
 similarToWinMap w = do
   cn <- runQuery className w
   filterM (liftM (==cn) . runQuery className . snd) =<< windowMap
-  
+
 goToSelectedFrom :: X [(String,Window)] -> GSConfig Window -> X ()
 goToSelectedFrom m = withSelectedValue m $ windows . W.focusWindow
 
+prefixMap :: XConfig l -> [((KeyMask, KeySym), X ())]
 prefixMap conf =
     [((m , k), windows $ f i)
      | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
@@ -111,13 +114,14 @@ prefixMap conf =
     , ((0, xK_v), spawn "ogg123 /home/athas/saddestviolin.ogg")
     , ((shiftMask, xK_e), spawn "exe=`dmenu_path | dmenu` && eval \"exec $exe\"")
     , ((controlMask, xK_r), spawn "grani-session resume")
-    , ((0, xK_g), spawn "url=\"$(grani-field)\" && grani \"$url\"") ]
+    , ((0, xK_g), spawn "url=\"$(grani-field)\" && grani \"$url\"")
+    , ((0, xK_e), spawn "file=\"$(filesel)\" && emacsclient -n \"$file\"") ]
 
 forceKill :: Window -> X ()
 forceKill w = withDisplay $ \d -> io $ do
-  protocols <- getWMProtocols d w
   killClient d w >> return ()
 
+newKeys :: XConfig Layout -> M.Map (KeyMask, KeySym) (X ())
 newKeys x = M.insert prefix mappings $ keys defaultConfig x
     where stdmap = M.mapKeys (first rmMod) $ keys defaultConfig x
           rmMod m = m .&. complement (modMask x)
