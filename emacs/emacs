@@ -582,6 +582,16 @@ This is used by the command `trh-hyperspec-lookup'.")
  (add-hook 'erc-insert-post-hook 'erc-make-read-only)
  (add-hook 'erc-send-post-hook 'erc-make-read-only)
 
+ ;; Spellchecking.
+ (with-feature
+  (flyspell)
+  (erc-spelling-mode 1)
+
+  (setq erc-spelling-dictionaries '(("irc.quakenet.org" "dansk")
+                                    ("#eggsml" "dansk")
+                                    ("#diku" "dansk")
+                                    ("localhost" "dansk"))))
+
  ;; Hooks, put stuff here:
  (add-hook 'erc-mode-hook
            (lambda ()
@@ -681,7 +691,7 @@ Returns the value in centimeters."
                    (point-min)
                    (search-forward "." (point-max)))))))))
 
- (defvar irc-nickname "Athas"
+ (defvar irc-nickname "YuleAthas"
    "Standard nickname for use on IRC")
 
  (defvar irc-port 6667
@@ -797,11 +807,6 @@ and irc.freenode.net using ERC."
          ("oftc.net" "#suckless")
          ))
 
- ;; Emacs doesn't like when it's buffers grow too big, so we'll
- ;; truncate them at 100'000 characters.
- (setq erc-max-buffer-size 100000)
- (defvar erc-insert-post-hook)
- (add-hook 'erc-insert-post-hook 'erc-truncate-buffer)
  (setq erc-truncate-buffer-on-save nil)
 
  ;; Timestamps:
@@ -817,8 +822,8 @@ and irc.freenode.net using ERC."
 ;;; Logging
 
  ;; Set up logging:
- (setq erc-log-insert-log-on-open nil)
- (setq erc-log-channels t)
+ (setq erc-log-insert-log-on-open t)
+ (setq erc-log-channels nil)
  (setq erc-enable-logging t)
  (setq erc-log-channels-directory "~/.irclogs/")
  (setq erc-generate-log-file-name-function 'erc-generate-log-file-name)
