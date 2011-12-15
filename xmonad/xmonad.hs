@@ -5,8 +5,8 @@ import Control.Arrow
 import Control.Applicative
 import Control.Monad
 import Data.Bits
-import Data.List
 import Data.Maybe
+import Data.Word (Word64)
 
 import Foreign.Storable
 
@@ -62,7 +62,8 @@ instance AthasTags Window where
     where progTags "grani" = (:[]) <$> drop 7 <$> runQuery (utf8StringProperty "_GRANI_URI") w
           progTags _ = return []
 
-gsConfig = buildGsmenuGSConfig defaultColorizer athasTags
+gsConfig :: GSConfig Window
+gsConfig = defaultGSConfig { gs_tags = athasTags }
 
 windowMap :: X [(String,Window)]
 windowMap = do
@@ -78,7 +79,7 @@ decorateName' w = do
 gridselectValue :: X [(String, a)] -> GSConfig a -> X (Maybe a)
 gridselectValue m gsconf = m >>= gridselect gsconf
 
-withSelectedValue :: X [(String, a)] -> (a -> X ()) 
+withSelectedValue :: X [(String, a)] -> (a -> X ())
                   -> GSConfig a -> X ()
 withSelectedValue m callback conf = do
   maybe (return ()) callback =<< gridselectValue m conf
