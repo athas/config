@@ -51,7 +51,6 @@ import XMonad hiding (liftX)
 import XMonad.Actions.TagWindows
 import XMonad.Actions.WindowBringer (bringWindow)
 import XMonad.StackSet as W
-import XMonad.Util.Font hiding (fi)
 import XMonad.Util.NamedWindows
 import qualified Data.Map as M
 
