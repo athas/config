@@ -51,7 +51,7 @@ import XMonad hiding (liftX)
 import XMonad.Actions.TagWindows
 import XMonad.Actions.WindowBringer (bringWindow)
 import XMonad.StackSet as W
-import XMonad.Util.Font
+import XMonad.Util.Font hiding (fi)
 import XMonad.Util.NamedWindows
 import qualified Data.Map as M
 
@@ -380,3 +380,6 @@ interactWith out pid f = loop
                           io $ terminateProcess pid
                           return $ Right v'
             else liftM Left $ io $ waitForProcess pid
+
+fi :: (Integral a, Num b) => a -> b
+fi = fromIntegral
