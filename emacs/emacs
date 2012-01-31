@@ -691,7 +691,7 @@ Returns the value in centimeters."
                    (point-min)
                    (search-forward "." (point-max)))))))))
 
- (defvar irc-nickname "YuleAthas"
+ (defvar irc-nickname "Athas"
    "Standard nickname for use on IRC")
 
  (defvar irc-port 6667
