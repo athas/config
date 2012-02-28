@@ -800,7 +800,7 @@ and irc.freenode.net using ERC."
  (erc-autojoin-mode 1)
  (setq erc-autojoin-channels-alist
        '(("irc.inet.tele.dk" "#sslug")
-         ("freenode.net" "#emacs" "#lisp" "#diku" "#haskell" "#ghc" "#xmonad" "#cat-v" "#eggsml")
+         ("freenode.net" "#diku" "#haskell" "#ghc" "#xmonad" "#eggsml")
          ("chatsociety.net" "#piratgruppen.org")
          ("quakenet.org" "#udvikleren.dk")
          ("zybourne.net" "#cobol")
