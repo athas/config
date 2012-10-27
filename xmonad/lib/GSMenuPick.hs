@@ -38,8 +38,6 @@ module GSMenuPick (
     ) where
 import Control.Monad.State
 import Data.Char
-import Data.Either
-import Data.List as L
 import Data.Maybe
 import Data.Word (Word8)
 import System.Exit
