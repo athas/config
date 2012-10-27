@@ -18,6 +18,6 @@ umask 077
 export PATH=~/bin:$PATH/usr/lib/wine/bin
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/wine/lib
 export EDITOR=emacsclient
-export LC_ALL=da_DK.utf8
+export LC_ALL=en_DK.utf8
 export DARCS_EMAIL="athas@sigkill.dk"
 export DARCS_EDITOR="emacsclient"
