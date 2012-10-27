@@ -31,7 +31,7 @@
 *color15:     #ffffff
 
 ! Emacs
-Emacs*Font: -bitstream-terminal-medium-r-*-*-18-140-*-*-*-*-*-*
+Emacs*Font: Bitstream Vera Sans Mono-12:autohint=true
 Emacs*Foreground:	light grey
 Emacs*Background:	black
 
