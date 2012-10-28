@@ -2,7 +2,7 @@
 
 # I prefer my own scripts and programs, then those installed by cabal,
 # then system commands.
-export PATH=~/andets/:~/scripts/:~/.local/bin/:~/.cabal/bin:/usr/sbin:/sbin:$PATH
+export PATH=$HOME/andets/:$HOME/scripts/:$HOME/.local/bin/:$HOME/.cabal/bin:/usr/sbin:/sbin:$PATH
 
 # The u is because p9p has its own ssh-agent...
 eval `ssh-agent -s`
@@ -24,8 +24,8 @@ export EDITOR=emacsclient
 export LC_ALL=en_DK.UTF-8
 export DARCS_EMAIL="athas@sigkill.dk"
 export DARCS_EDITOR="emacsclient"
-export PREFIX=~/.local
+export PREFIX=$HOME/.local
 
 # XDG is useful, but not very many things respect it.
-export XDG_CONFIG_HOME=~/.config
-export XDG_DATA_HOME=~/.local/share
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_DATA_HOME=$HOME/.local/share
