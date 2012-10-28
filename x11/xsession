@@ -1,5 +1,9 @@
 #!/bin/sh
 # .xinitrc for Troels Henriksen <athas@sigkill.dk>
+echo Starting X session
+
+# On Debian XDM, .xsession is not a login shell!  That is very annoying.
+. ~/.profile
 
 xrdb ~/.Xdefaults
 
@@ -19,5 +23,9 @@ emacs -f on-start &
 # this works - it's pure magic.).
 xset m 4 25 &
 
+# Enable Thinkpad trackpoint scroll
+xinput set-int-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Button" 8 2
 # Start a window-manager.
-xmonad 2> ~/.xmonad.out
+echo $PATH
+xmonad
+echo Terminating x session
