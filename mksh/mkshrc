@@ -230,3 +230,6 @@ function pushd {
 
 export SHELL=`which mksh` MANWIDTH=80 LESSHISTFILE=-
 alias cls='print -n \\033c'
+alias ..='cd ..'
+
+ulimit -c unlimited
