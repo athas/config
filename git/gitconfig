@@ -1,6 +1,7 @@
 [user]
 	email = athas@sigkill.dk
         name = Troels Henriksen
+	signingkey = 2FDC6BD7
 
 [color]
         diff = auto
@@ -29,3 +30,7 @@
 [core]
         pager = less -FRSX
         whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
+[diff]
+	ignoreSubmodules = dirty
+[push]
+	default = simple
