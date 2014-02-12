@@ -23,6 +23,11 @@ emacs -f on-start &
 # this works - it's pure magic.).
 xset m 4 25 &
 
+# Do some stuff to make my Slimblade work properly.  I know how this
+# works.  It remaps the upper-right button to function as the middle
+# button (that's the 2 there at the end).
+xinput set-button-map 'Kensington Kensington Slimblade Trackball' 1 2 3 4 5 6 7 2
+
 # Enable Thinkpad trackpoint scroll
 xinput set-int-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Button" 8 2
 
