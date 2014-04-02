@@ -1,6 +1,8 @@
 {-# LANGUAGE TypeSynonymInstances #-}
 import qualified Data.Map as M
 
+import Data.Monoid
+
 import Control.Arrow
 import Control.Applicative
 import Control.Monad
@@ -31,6 +33,7 @@ myConfig = defaultConfig {
            , borderWidth = 1
            , terminal = "urxvt"
            , keys = newKeys
+           , manageHook = mempty
            }
 
 athasPP :: PP
@@ -114,8 +117,8 @@ prefixMap conf =
     , ((shiftMask, xK_e), spawn "exe=`dmenu_path | dmenu` && eval \"exec $exe\"")
     , ((controlMask, xK_r), spawn "grani-session resume")
     , ((0, xK_g), spawn "url=\"$(grani-field)\" && grani \"$url\"")
-    , ((0, xK_e), spawn "file=\"$(filesel)\" && emacsclient -n \"$file\"")
     , ((0, xK_h), spawn "url=\"$(cat .cache/grani/visits | grani-field)\" && grani \"$url\"")
+    , ((0, xK_o), spawn "disper --cycle-stages=-s:-S:-c:-e -C")
     ]
 
 forceKill :: Window -> X ()
