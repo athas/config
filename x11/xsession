@@ -14,7 +14,7 @@ xhost +local:
 xset b off
 
 # Set up keyboard
-setxkbmap dk -option ctrl:nocaps
+setxkbmap -layout us -variant altgr-intl -option ctrl:nocaps
 
 # Start GNU Emacs and redirect output to a logfile.
 emacs -f on-start &
