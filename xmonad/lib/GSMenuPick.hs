@@ -36,6 +36,7 @@ module GSMenuPick (
     stringColorizer,
     colorRangeFromClassName,
     ) where
+import Control.Exception (catch)
 import Control.Monad.State
 import Data.Char
 import Data.Maybe
@@ -294,12 +295,14 @@ mkKv :: GSConfig a -> Int -> (String, a) -> X String
 mkKv gsconfig i (name, v) = do
   (bg, fg) <- gs_colorizer gsconfig v False
   ts       <- gs_tags gsconfig v
-  return $ kvToStr [ ("name", name : ts), ("fg", [fg]), ("bg", [bg])
+  return $ kvToStr [ ("name", map hatescape $ name : ts)
+                   , ("fg", [fg]), ("bg", [bg])
                    , ("tags", ts), ("value", [show i])]
   where kvToStr = unwords . map fieldToStr
         fieldToStr (_, []) = ""
         fieldToStr (k, vs) = k ++ "=" ++ unwords (map escape vs)
         escape s = "\"" ++ foldr esc "" s ++ "\""
+        hatescape = concatMap $ \c -> if c == '^' then "^^" else [c]
         esc '"' s = "\"\"" ++ s
         esc c s    = c : s
 
@@ -330,7 +333,8 @@ gsmenu gsconfig ellist = do
         asChoice = liftM (either (const Nothing) Just)
         withGsmenu = externalProgram "gsmenu"
                      [ "-e", gs_extension gsconfig
-                     , "-e", unlines $ map (fst . snd) actions]
+                     , "-e", unlines $ map (fst . snd) actions
+                     , "+RTS",  "-xc" ]
         responses = M.fromList $ zip (map fst actions) (map (snd . snd) actions)
         actions = zipWith action [0..] $ gs_actions gsconfig
         action (i::Int) (k, (ingsmenu, inxmonad)) =
@@ -376,7 +380,9 @@ interactWith out pid f = loop
                         Just v' -> do
                           io $ terminateProcess pid
                           return $ Right v'
-            else liftM Left $ io $ waitForProcess pid
+            else liftM Left $ io $ (waitForProcess pid `catch` noproc)
+        noproc :: Monad m => IOError -> m ExitCode
+        noproc _ = return $ ExitFailure $ -1
 
 fi :: (Integral a, Num b) => a -> b
 fi = fromIntegral
