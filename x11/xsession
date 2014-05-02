@@ -34,6 +34,12 @@ xinput set-int-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Button" 8 2
 # Redshift changes colour warmth as appropriate to the time of day.
 redshift -l 55.693648:12.56424 &
 
+# xbindkeys manages keybindings not specific to the window manager.
+xbindkeys
+
+# Enable composition - without this, Steam is always on top.
+xcompmgr -c &
+
 # Start a window-manager.
 echo $PATH
 ulimit -c unlimited
