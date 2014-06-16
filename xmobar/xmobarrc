@@ -1,5 +1,19 @@
 Config { font = "xft:Terminus-10"
        , bgColor = "grey"
        , fgColor = "black"
-       , template = "%StdinReader% }{ <fc=#ffffff,#888888> %theDate%</fc>"
+       , template = "%StdinReader% }{ %eth0% - %wlan0% - %cpu% | %battery% <fc=#ffffff,#888888> %date%</fc>"
+       , commands = [ Run StdinReader
+                    , Run Network "eth0" ["-L","0","-H","32","--normal","green","--high","red"] 10
+                    , Run Network "wlan0" ["-L","0","-H","32","--normal","green","--high","red"] 10
+                    , Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10
+                    , Run BatteryP ["BAT0"]
+                      ["-t", "battery: <left>%",
+                       "-L", "10", "-H", "80", "-p", "3",
+                       "--", "-O", "<fc=green>On</fc> - ", "-i", "",
+                       "-L", "-15", "-H", "-5",
+                       "-l", "red", "-m", "blue", "-h", "green"]
+                      600
+    		    , Run Date "%a %b %_d %Y %H:%M:%S" "date" 10
+                    ]
        }
+
