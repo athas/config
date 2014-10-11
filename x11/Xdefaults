@@ -63,3 +63,4 @@ Sindre*focusBackground: #4f4f4f
 Sindre*focusForeground: #8cd0d3
 gsmenu*focusBackground: #faff69
 gsmenu*focusForeground: #000000
+gsmenu*font: Monospace-4.5
