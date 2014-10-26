@@ -1,7 +1,6 @@
 {-# LANGUAGE TypeSynonymInstances #-}
+module Main (main) where
 import qualified Data.Map as M
-
-import Data.Monoid
 
 import Control.Arrow
 import Control.Applicative
@@ -16,39 +15,34 @@ import Codec.Binary.UTF8.String
 import XMonad
 import qualified XMonad.StackSet as W
 
-import XMonad.Actions.CycleWindows
 import GSMenuPick
 import XMonad.Actions.Submap
 import XMonad.Actions.TagWindows
-import XMonad.Hooks.DynamicLog
 import XMonad.Util.NamedWindows
+import XMonad.Hooks.EwmhDesktops (ewmh)
+import System.Taffybar.Hooks.PagerHints (pagerHints)
+import XMonad.Hooks.ManageDocks
 
 main :: IO ()
-main = xmonad =<< statusBar "xmobar" athasPP toggleStrutsKey myConfig
-
-myConfig :: XConfig (Choose Tall (Choose (Mirror Tall) Full))
-myConfig = defaultConfig {
-             modMask = mod4Mask
-           , focusFollowsMouse = False
-           , borderWidth = 1
-           , terminal = "urxvt"
-           , keys = newKeys
-           , manageHook = mempty
-           }
-
-athasPP :: PP
-athasPP = xmobarPP { ppCurrent = xmobarColor "white" "black"
-                   , ppTitle = xmobarColor "#111111" "" . shorten 120
-                   }
-
-toggleStrutsKey :: XConfig t -> (KeyMask, KeySym)
-toggleStrutsKey XConfig{modMask = modm} = (modm, xK_b )
+main = xmonad $ ewmh $ pagerHints myConfig
+  where myConfig = defaultConfig { modMask = mod4Mask
+                                 , focusFollowsMouse = False
+                                 , borderWidth = 1
+                                 , terminal = "urxvt"
+                                 , keys = newKeys
+                                 , manageHook = manageDocks
+                                 , layoutHook = avoidStruts $ layoutHook defaultConfig
+                                 }
 
 prefix :: (KeyMask, KeySym)
 prefix = (controlMask, xK_t)
 
 utf8StringProperty :: String -> Query String
-utf8StringProperty p = ask >>= (\w -> liftX $ withDisplay $ \d -> fmap (fromMaybe "") $ getUtf8StringProperty d w p)
+utf8StringProperty p = do
+  w <- ask
+  liftX $
+    withDisplay $ \d ->
+    fromMaybe "" <$> getUtf8StringProperty d w p
 
 getUtf8StringProperty :: Display -> Window -> String -> X (Maybe String)
 getUtf8StringProperty d w p = do
@@ -71,21 +65,19 @@ gsConfig = defaultGSConfig { gs_tags = athasTags }
 
 windowMap :: X [(String,Window)]
 windowMap = do
-    ws <- gets windowset
-    wins <- mapM keyValuePair (W.allWindows ws)
-    return wins
- where keyValuePair w = flip (,) w `fmap` decorateName' w
+  ws <- gets windowset
+  mapM keyValuePair (W.allWindows ws)
+  where keyValuePair w = flip (,) w `fmap` decorateName' w
 
 decorateName' :: Window -> X String
-decorateName' w = do
-  fmap show $ getName w
+decorateName' w = show <$> getName w
 
 gridselectValue :: X [(String, a)] -> GSConfig a -> X (Maybe a)
 gridselectValue m gsconf = m >>= gridselect gsconf
 
 withSelectedValue :: X [(String, a)] -> (a -> X ())
                   -> GSConfig a -> X ()
-withSelectedValue m callback conf = do
+withSelectedValue m callback conf =
   maybe (return ()) callback =<< gridselectValue m conf
 
 similarToWinMap :: Window -> X [(String,Window)]
@@ -104,7 +96,7 @@ prefixMap conf =
     ++
     [ ((0, xK_k), kill)
     , ((0, xK_BackSpace), spawn "swarp 20000 20000")
-    , ((shiftMask, xK_k), withFocused $ forceKill)
+    , ((shiftMask, xK_k), withFocused forceKill)
     , ((0, xK_c), spawn $ XMonad.terminal conf)
     , ((0, xK_f), withFocused $ windows . W.sink)
     , ((0, xK_t), withFocused $ sendPress prefix)
@@ -112,18 +104,16 @@ prefixMap conf =
     , ((controlMask, xK_b), withFocused $ \w ->
         goToSelectedFrom (similarToWinMap w) gsConfig)
     , ((controlMask, xK_t), goToSelected gsConfig)
-    , ((0, xK_s), spawn "ogg123 /home/athas/sadtrombone.ogg")
-    , ((0, xK_v), spawn "ogg123 /home/athas/saddestviolin.ogg")
     , ((shiftMask, xK_e), spawn "exe=`dmenu_path | dmenu` && eval \"exec $exe\"")
     , ((controlMask, xK_r), spawn "grani-session resume")
     , ((0, xK_g), spawn "url=\"$(grani-field)\" && grani \"$url\"")
     , ((0, xK_h), spawn "url=\"$(cat .cache/grani/visits | grani-field)\" && grani \"$url\"")
     , ((0, xK_o), spawn "disper --cycle-stages=-s:-S:-c:-e -C")
+    , ((0, xK_s), sendMessage ToggleStruts)
     ]
 
 forceKill :: Window -> X ()
-forceKill w = withDisplay $ \d -> io $ do
-  killClient d w >> return ()
+forceKill w = withDisplay $ \d -> io $ void $ killClient d w
 
 newKeys :: XConfig Layout -> M.Map (KeyMask, KeySym) (X ())
 newKeys x = M.insert prefix mappings $ keys defaultConfig x
