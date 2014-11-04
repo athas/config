@@ -24,23 +24,26 @@ cpuCallback = do
 
 main :: IO ()
 main = do
-  let memCfg = defaultGraphConfig { graphDataColors = [(1, 0, 0, 1)]
+  let memCfg = defaultGraphConfig { graphDataColors = [(1, 0, 0, 0.5)]
                                   , graphLabel = Just "MEM"
                                   }
-      cpuCfg = defaultGraphConfig { graphDataColors = [ (0, 1, 0, 1)
+      cpuCfg = defaultGraphConfig { graphDataColors = [ (0, 1, 0, 0.5)
                                                       , (1, 0, 1, 0.5)
                                                       ]
                                   , graphLabel = Just "CPU"
                                   }
-  let clock = textClockNew Nothing "<span fgcolor='orange'>%a %b %_d %H:%M</span>" 1
-      pager = taffyPagerNew defaultPagerConfig
+      pagerCfg = defaultPagerConfig { activeWindow = id
+                                    }
+  let clock = textClockNew Nothing "%a %b %_d %H:%M" 1
+      pager = taffyPagerNew pagerCfg
       note = notifyAreaNew defaultNotificationConfig
       mpris = mprisNew
       mem = pollingGraphNew memCfg 2.0 memCallback
       cpu = pollingGraphNew cpuCfg 2.0 cpuCallback
       tray = systrayNew
-      bat = textBatteryNew "$percentage$%" 10.0
+      bat = batteryBarNew defaultBatteryConfig 10.0
   defaultTaffybar
     defaultTaffybarConfig { startWidgets = [ pager, note ]
                           , endWidgets   = [ clock, bat, tray, mem, cpu, mpris ]
+                          , barHeight    = 20
                           }
