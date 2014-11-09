@@ -1,0 +1,151 @@
+;;;; Changing Emacs defaults that are dumb, and other basic
+;;;; initialisation.
+;;;;
+;;;; Keybindings don't go here, but in keys.el, and mode-specific
+;;;; keybindings elsewhere.
+
+;; Backup-files in the working directory sucks; put them in ~/backup
+;; instead.
+(add-to-list 'backup-directory-alist
+             (cons ".*" "~/backup"))
+
+;; Lots of variables...
+;; Do not use The Evil Tab, use Holy Spaces instead.
+(setq-default indent-tabs-mode nil
+	      case-fold-search t
+              show-trailing-whitespace t)
+
+(setf pop-up-windows nil        ; Don't change my windowconfiguration.
+      pop-up-frames nil
+      european-calendar-style t         ; Use european date format.
+      delete-auto-save-files t   ; Delete unnecessary auto-save files.
+      default-major-mode 'fundamental-mode ; At least this mode won't do anything stupid.
+      scroll-step 1                   ; Only move in small increments.
+      scroll-conservatively 10000
+      frame-title-format "%b GNU Emacs" ; Make the frame a bit more useful.
+      ;; Personal information.
+      user-mail-address "athas@sigkill.dk"
+      user-full-name "Troels Henriksen"
+      user-company-name "Church of Emacs"
+      mail-user-agent 'gnus-user-agent
+      visible-bell t
+      fill-column 70
+      dired-recursive-copies t
+      enable-local-variables :safe
+      undo-strong-limit 3000000
+      tab-width 2
+      auto-revert-verbose nil
+      tab-always-indent t ;; Always run the indent-function on <Tab>.
+      inhibit-startup-screen t
+      )
+
+;; Revert files that change on disk.
+(global-auto-revert-mode 1)
+
+;; Don't show me the region.
+(transient-mark-mode 0)
+
+;; Highlight current line.
+(global-hl-line-mode 1)
+
+;; Enable syntax-highlighting.
+(global-font-lock-mode t)
+
+;; Enable emacsclient.
+(server-start)
+
+;; Show column number on the mode-line.
+(column-number-mode 1)
+
+;; Show line number on the mode-line.
+(line-number-mode 1)
+
+;; Paren-matching.
+(show-paren-mode 1)
+
+;; Don't auto-fill by default.
+(auto-fill-mode -1)
+
+;; ido is a really great way to switch between everything.
+(with-feature
+ (ido)
+ (ido-mode 1)
+ (setq ido-enable-flex-matching t)
+ (defvar ido-enable-replace-completing-read nil
+   "If t, use ido-completing-read instead of completing-read if possible.
+
+    Set it to nil using let in around-advice for functions where the
+    original completing-read is required.  For example, if a function
+    foo absolutely must use the original completing-read, define some
+    advice like this:
+
+    (defadvice foo (around original-completing-read-only activate)
+      (let (ido-enable-replace-completing-read) ad-do-it))")
+
+ ;; Replace completing-read wherever possible, unless directed otherwise
+ (defadvice completing-read
+   (around use-ido-when-possible activate)
+   (if (or (not ido-enable-replace-completing-read) ; Manual override disable ido
+           (boundp 'ido-cur-list)) ; Avoid infinite loop from ido calling this
+       ad-do-it
+     (let ((allcomp (all-completions "" collection predicate)))
+       (if allcomp
+           (setq ad-return-value
+                 (ido-completing-read prompt
+                                      allcomp
+                                      nil require-match initial-input hist def))
+         ad-do-it))))
+ (add-hook 'ido-define-mode-map-hook 'ido-my-keys)
+ (defun ido-my-keys ()
+   "Add my keybindings for ido."
+   (define-key ido-mode-map (kbd "C-w") 'backward-kill-word))
+ ;; Display ido results vertically, rather than horizontally
+ (setq ido-decorations '("\n-> " "" "\n   " "\n   ..." "[" "]"
+                         " [No match]" " [Matched]" " [Not readable]"
+                         " [Too big]" " [Confirm]"))
+ (defun ido-disable-line-trucation ()
+   (set (make-local-variable 'truncate-lines) nil))
+ (add-hook 'ido-minibuffer-setup-hook 'ido-disable-line-trucation))
+
+(with-feature
+ (ispell)
+ (ispell-change-dictionary "british" t)
+ )
+
+;; When opening files with identical names, name the buffers after
+;; their subdirectories.
+(with-feature
+ (uniquify)
+ (setq uniquify-buffer-name-style 'forward))
+
+;; Make Emacs a bitch to close (C-x C-c is sooo easy to hit):
+(add-to-list 'kill-emacs-query-functions
+             (lambda () (y-or-n-p "Last chance, your work would be lost. ")))
+(add-to-list 'kill-emacs-query-functions
+             (lambda () (y-or-n-p "Are you ABSOLUTELY certain that Emacs should close? ")))
+(add-to-list 'kill-emacs-query-functions
+             (lambda () (y-or-n-p "Should Emacs really close? ")))
+
+;;; Tease the vi-users:
+(defconst wq "This is not vi!  Use C-x C-c instead.")
+(defconst w "This is not vi!  Use C-x C-s instead.")
+(defconst q! "This is EMACS not vi!  Use C-x C-c instead.")
+(defconst wq! "This is EMACS not vi!  Use C-x C-c instead.")
+
+;; Load the Emacs package system.
+(with-feature
+ (package)
+ (add-to-list 'package-archives
+              '("marmalade" . "http://marmalade-repo.org/packages/")))
+
+;;; Disable X-fluff and remove stuff:
+(when (> (string-to-number emacs-version) 20) ; Why do I care?
+  (tool-bar-mode -1)
+  (menu-bar-mode -1)
+  (scroll-bar-mode -1)
+  (blink-cursor-mode -1))
+
+;;; Set my preferred browser.
+(setq browse-url-generic-program "grani"
+      browse-url-generic-args '()
+      browse-url-browser-function 'browse-url-generic)
