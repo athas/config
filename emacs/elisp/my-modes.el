@@ -200,7 +200,7 @@ This is used by the command `trh-hyperspec-lookup'.")
   (ghc)
   (autoload 'ghc-init "ghc" nil t)
   (setq ghc-flymake-command t)
-  (add-hook 'haskell-mode-hook (lambda () (ghc-init) (flymake-mode)))
+  ; (add-hook 'haskell-mode-hook (lambda () (ghc-init) (flymake-mode)))
   (define-key haskell-mode-map ghc-completion-key 'dabbrev-expand)
   (define-key haskell-mode-map (kbd "C-M-e") 'ghc-show-type))
 

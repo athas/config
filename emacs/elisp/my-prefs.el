@@ -136,7 +136,8 @@
 (with-feature
  (package)
  (add-to-list 'package-archives
-              '("marmalade" . "http://marmalade-repo.org/packages/")))
+              '("marmalade" . "http://marmalade-repo.org/packages/"))
+ (package-initialize))
 
 ;;; Disable X-fluff and remove stuff:
 (when (> (string-to-number emacs-version) 20) ; Why do I care?
@@ -149,3 +150,9 @@
 (setq browse-url-generic-program "grani"
       browse-url-generic-args '()
       browse-url-browser-function 'browse-url-generic)
+
+;; Put autosave files in /tmp.
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
