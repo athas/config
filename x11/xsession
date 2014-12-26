@@ -38,10 +38,11 @@ redshift -l 55.693648:12.56424 &
 xbindkeys
 
 # Enable composition - without this, Steam is always on top.
-xcompmgr -c &
+xcompmgr -c -C -t-5 -l-5 -r4.2 -o.55 &
 
 # Start a window-manager.
 echo $PATH
 ulimit -c unlimited
+(while true; do taffybar; sleep 10; done) &
 xmonad
 echo Terminating x session
