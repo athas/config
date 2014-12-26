@@ -1,5 +1,6 @@
 ! Set a default, standard font.
-*Font: -bitstream-bitstream vera sans mono-medium-r-normal--0-0-0-0-m-0-iso8859-15
+*Font: xft:Bitstream Vera Sans Mono-12:autohint=true
+*font: xft:Bitstream Vera Sans Mono-12:autohint=true
 
 ! Zenburn color-scheme
 *background:  #3f3f3f
@@ -31,13 +32,12 @@
 *color15:     #ffffff
 
 ! Emacs
-Emacs*Font: Bitstream Vera Sans Mono-10:autohint=true
+Emacs*Font: Bitstream Vera Sans Mono-12:autohint=true
 Emacs*Foreground:	light grey
 Emacs*Background:	black
 
 ! URxvt
 
-URxvt*font: xft:Bitstream Vera Sans Mono:autohint=true
 URxvt*scrollStyle: plain
 URxvt*scrollBar: False
 URxvt*scrollColor: black
@@ -56,11 +56,11 @@ URxvt.urlLauncher: /home/athas/bin/surf
 .xmessage.defaultButton:		okay
 .Xmessage.form.message.Scroll:		WhenNeeded
 
-Sindre*font: Monospace-6.5
+Sindre*font: Monospace-10
 Sindre*background: #3f3f3f
 Sindre*foreground: #dcdccc
 Sindre*focusBackground: #4f4f4f
 Sindre*focusForeground: #8cd0d3
 gsmenu*focusBackground: #faff69
 gsmenu*focusForeground: #000000
-gsmenu*font: Monospace-4.5
+gsmenu*font: Monospace-10
