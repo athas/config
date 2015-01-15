@@ -101,3 +101,15 @@ if the buffer already exists."
 (defun on-start ()
   (irc)
   (gnus))
+
+(defun six-windows ()
+  "Split the Emacs frame into a three-by-two window grid."
+  (interactive)
+  (delete-other-windows)
+  (let* ((tl (selected-window))
+         (tm (split-window tl nil 'right))
+         (tr (split-window tm nil 'right))
+         (bl (split-window tl nil 'below))
+         (bm (split-window tm nil 'below))
+         (br (split-window tr nil 'below)))
+    (balance-windows)))
