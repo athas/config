@@ -36,8 +36,6 @@ This is designed to be used in conjuction with ERC."
       (dolist (buffer (buffer-list))
         (switch-to-buffer buffer)))))
 
-(global-set-key "\C-cg" 'trh-visit-all-buffers)
-
 (defun trh-switch-to-gnus (&optional arg)
   "Switch to a Gnus related buffer.
     Candidates are buffers starting with

@@ -237,7 +237,9 @@ and irc.freenode.net using ERC."
   (with-feature (znc)
                 (znc-erc 'freenode)
                 (znc-erc 'bitlbee)
-                (znc-erc 'oftc))
+                (znc-erc 'oftc)
+                (znc-erc 'synirc)
+                (znc-erc 'quakenet))
   )
 
 ;; Set up highlight-options:
@@ -263,6 +265,14 @@ and irc.freenode.net using ERC."
         ))
 
 (setq erc-truncate-buffer-on-save nil)
+
+(defun reset-erc-track-mode ()
+  "Clear the list of channels with activity."
+  (interactive)
+  (setq erc-modified-channels-alist nil)
+  (erc-modified-channels-update))
+
+(global-set-key "\C-cg" 'reset-erc-track-mode)
 
 ;; Timestamps:
 (erc-timestamp-mode t)

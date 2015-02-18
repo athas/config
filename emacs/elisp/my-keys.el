@@ -77,6 +77,8 @@ Maps KEY to COMMAND in the keymaps listed in KEYMAPS."
  "<f1>"     'slime-scratch
  "C-x c s"  'slime-selector
  "C-x a r"  'align-regexp
+ "C-S-n"    'next-error
+ "C-S-p"    'previous-error
 )
 
 (global-set-key (kbd "C-c TAB") 'lisp-complete-symbol)
