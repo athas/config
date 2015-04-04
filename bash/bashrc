@@ -55,4 +55,4 @@ alias .....='.... && ..'
 alias ......='..... && ..'
 alias .......='...... && ..'
 
-PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
+PROMPT_COMMAND='echo -ne "\033]0;$(pwd|sed s!^$HOME!~!)\007"'
