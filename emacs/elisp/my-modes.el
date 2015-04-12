@@ -62,7 +62,6 @@
  (add-hook 'lisp-mode-hook (lambda () (paredit-mode +1)))
  (add-hook 'slime-repl-mode-hook (lambda () (paredit-mode +1)))
  (add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
- (add-to-list 'auto-mode-alist '("\\.cl$" . lisp-mode))
  (add-to-list 'auto-mode-alist '("\\.cmucl-init$" . lisp-mode))
  (add-to-list 'auto-mode-alist '("\\.asd$" . lisp-mode))
 
@@ -127,15 +126,12 @@ This is used by the command `trh-hyperspec-lookup'.")
 
   ;; Use notify.el (if you have it installed) at the end of running
   ;; Cabal commands or generally things worth notifying.
-  '(haskell-notify-p t)
+  '(haskell-notify-p nil)
 
   ;; To enable tags generation on save.
-  '(haskell-tags-on-save t)
+  '(haskell-tags-on-save nil))
 
-  ;; To enable stylish on save.
-  '(haskell-stylish-on-save t))
-
- (setq haskell-program-name "ghci +RTS -M4096m -RTS"
+ (setq haskell-program-name "ghci +RTS -M1028m -RTS"
        haskell-indent-offset 2)
 
  ;; Haskell main editing mode key bindings.
@@ -194,22 +190,7 @@ This is used by the command `trh-hyperspec-lookup'.")
    (define-key haskell-cabal-mode-map [?\C-c ?\C-z] 'haskell-interactive-switch))
 
  (add-hook 'haskell-mode-hook 'haskell-hook)
- (add-hook 'haskell-cabal-mode-hook 'haskell-cabal-hook)
-
- (with-feature
-  (ghc)
-  (autoload 'ghc-init "ghc" nil t)
-  (setq ghc-flymake-command t)
-  ; (add-hook 'haskell-mode-hook (lambda () (ghc-init) (flymake-mode)))
-  (define-key haskell-mode-map ghc-completion-key 'dabbrev-expand)
-  (define-key haskell-mode-map (kbd "C-M-e") 'ghc-show-type))
-
- (with-feature
-  (shm)
-  (add-hook 'haskell-mode-hook 'structured-haskell-mode)
-
-  (define-key shm-map (kbd "C-M-u") 'shm/goto-parent)
-  (define-key shm-map (kbd "C-w") 'shm/backward-kill-word)))
+ (add-hook 'haskell-cabal-mode-hook 'haskell-cabal-hook))
 
 ;;; SML setup.
 (with-feature
@@ -248,3 +229,5 @@ This is used by the command `trh-hyperspec-lookup'.")
   (setq eshell-history-size 16000)
   (add-to-list 'eshell-output-filter-functions 'eshell-handle-control-codes)
   )
+
+(noerr-require 'futhark-mode)

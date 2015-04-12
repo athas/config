@@ -316,4 +316,3 @@ you can affect that using `rename-buffer' and the-like."
    (lambda ()
      (when (and (eq major-mode 'erc-mode)
                 (not (null buffer-file-name))) t))))
-

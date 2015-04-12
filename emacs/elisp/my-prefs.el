@@ -22,7 +22,6 @@
       default-major-mode 'fundamental-mode ; At least this mode won't do anything stupid.
       scroll-step 1                   ; Only move in small increments.
       scroll-conservatively 10000
-      frame-title-format "%b GNU Emacs" ; Make the frame a bit more useful.
       ;; Personal information.
       user-mail-address "athas@sigkill.dk"
       user-full-name "Troels Henriksen"
@@ -38,6 +37,10 @@
       tab-always-indent t ;; Always run the indent-function on <Tab>.
       inhibit-startup-screen t
       )
+
+;; More useful frame title
+(setq frame-title-format
+      '("%b - Emacs " emacs-version))
 
 ;; Revert files that change on disk.
 (global-auto-revert-mode 1)
@@ -136,6 +139,8 @@
 (with-feature
  (package)
  (add-to-list 'package-archives
+              '("melpa" . "http://melpa.org/packages/"))
+ (add-to-list 'package-archives
               '("marmalade" . "http://marmalade-repo.org/packages/"))
  (package-initialize))
 
@@ -156,3 +161,7 @@
       `((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
+
+(with-feature
+ (epa)
+ (setq epg-gpg-home-directory "~/.gnupg"))
