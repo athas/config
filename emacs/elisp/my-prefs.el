@@ -152,7 +152,7 @@
   (blink-cursor-mode -1))
 
 ;;; Set my preferred browser.
-(setq browse-url-generic-program "grani"
+(setq browse-url-generic-program "firefox"
       browse-url-generic-args '()
       browse-url-browser-function 'browse-url-generic)
 
