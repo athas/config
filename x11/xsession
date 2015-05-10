@@ -37,6 +37,9 @@ redshift -l 55.693648:12.56424 &
 # xbindkeys manages keybindings not specific to the window manager.
 xbindkeys
 
+# ALSA Volume mixer tray icon - this also grabs volume keybindings.
+volumeicon &
+
 # Enable composition - without this, Steam is always on top.
 xcompmgr -c -C -t-5 -l-5 -r4.2 -o.55 &
 
