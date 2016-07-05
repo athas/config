@@ -1,0 +1,8 @@
+# Bash is annoying and only reads .bashrc from a shell that is
+# interactive and non-login.
+#
+# This is the bash_profile, read by all login shells.  It will read my
+# normal .profile, and then .bashrc.
+
+source $HOME/.profile
+source $HOME/.bashrc
