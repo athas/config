@@ -4,7 +4,7 @@
 # then system commands.
 export PATH=$HOME/.smackage/bin:$HOME/.local/bin:$HOME/.cabal/bin:$HOME/andets/:$HOME/scripts/:/usr/sbin:/sbin:/usr/games:$PATH
 
-if ! "$SSH_AGENT_PID"; then
+if ! "$SSH_AGENT_PID" && ! "$SSH_AUTH_SOCK"; then
     eval `ssh-agent -s`
 fi
 
