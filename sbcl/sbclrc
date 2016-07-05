@@ -11,11 +11,18 @@
 ;;; work (such as those called when you use M-. (edit definition) in
 ;;; ILISP or SLIME)
 
-(setf (logical-pathname-translations "SYS")
-      '(("SYS:SRC;**;*.*.*" #p"/home/athas/code/cvsrepos/sbcl/src/**/*.*")
-        ("SYS:CONTRIB;**;*.*.*" #p"/home/athas/code/cvsrepos/sbcl/**/*.*")))
+;; (setf (logical-pathname-translations "SYS")
+;;       '(("SYS:SRC;**;*.*.*" #p"/home/athas/code/cvsrepos/sbcl/src/**/*.*")
+;;         ("SYS:CONTRIB;**;*.*.*" #p"/home/athas/code/cvsrepos/sbcl/**/*.*")))
 
 ;;; sbclrc ends here
 
 (require 'asdf)
-(load "/home/athas/.init.lisp")
+; (load "/home/athas/.init.lisp")
+
+;;; The following lines added by ql:add-to-init-file:
+#-quicklisp
+(let ((quicklisp-init (merge-pathnames "quicklisp/setup.lisp"
+                                       (user-homedir-pathname))))
+  (when (probe-file quicklisp-init)
+    (load quicklisp-init)))

@@ -2,7 +2,7 @@
 
 # I prefer my own scripts and programs, then those installed by cabal,
 # then system commands.
-export PATH=$HOME/.cabal/bin:$HOME/andets/:$HOME/scripts/:$HOME/.local/bin/:/usr/sbin:/sbin:$PATH
+export PATH=$HOME/.smackage/bin:$HOME/.local/bin:$HOME/.cabal/bin:$HOME/andets/:$HOME/scripts/:/usr/sbin:/sbin:/usr/games:$PATH
 
 # The u is because p9p has its own ssh-agent...
 eval `ssh-agent -s`
@@ -29,3 +29,6 @@ export PREFIX=$HOME/.local
 # XDG is useful, but not very many things respect it.
 export XDG_CONFIG_HOME=$HOME/.config
 export XDG_DATA_HOME=$HOME/.local/share
+export CPATH=$HOME/.local/include/:$CPATH
+export LIBRARY_PATH=$HOME/.local/lib:$LIBRARY_PATH
+export LD_LIBRARY_PATH=$HOME/.local/lib:$LD_LIBRARY_PATH

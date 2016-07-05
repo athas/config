@@ -33,4 +33,4 @@
 [diff]
 	ignoreSubmodules = dirty
 [push]
-	default = simple
+	default = current

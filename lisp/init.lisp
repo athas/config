@@ -11,14 +11,14 @@
 #+openmcl(pushnew #P"/home/athas/code/clx_0.7.3-openmcl-060101/"
               asdf:*central-registry*)
 
-(asdf:oos 'asdf:load-op :asdf-binary-locations)
+#|(asdf:oos 'asdf:load-op :asdf-binary-locations)
 
 (setf asdf:*centralize-lisp-binaries* t)
 (setf asdf:*source-to-target-mappings*
       '((#p"/home/athas/code/cvsrepos/sbcl/" nil)
         (#p"/usr/lib/sbcl/" nil)
         (#p"/usr/lib64/sbcl/" nil)))
-
+|#
 (asdf:oos 'asdf:load-op :asdf-install)
 
 (defun loadsys (system)

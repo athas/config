@@ -111,3 +111,25 @@ if the buffer already exists."
          (bm (split-window tm nil 'below))
          (br (split-window tr nil 'below)))
     (balance-windows)))
+
+(defun three-windows ()
+  "Split the Emacs frame into a three-by-one window grid."
+  (interactive)
+  (delete-other-windows)
+  (let* ((tl (selected-window))
+         (tm (split-window tl nil 'right))
+         (tr (split-window tm nil 'right)))
+    (balance-windows)))
+
+(with-feature
+ (loadhist)
+ (defun reload-feature (feature)
+   "Uses `unload-feature' to get rid of a feature, then reload it
+with `require'."
+   (interactive
+    (list
+     (read-feature "Reload feature: " t)))
+   (unless (featurep feature)
+     (error "%s is not a currently loaded feature" (symbol-name feature)))
+   (unload-feature feature t)
+   (require feature)))

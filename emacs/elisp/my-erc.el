@@ -239,11 +239,12 @@ and irc.freenode.net using ERC."
                 (znc-erc 'bitlbee)
                 (znc-erc 'oftc)
                 (znc-erc 'synirc)
-                (znc-erc 'quakenet))
+                (znc-erc 'quakenet)
+                (znc-erc 'efnet))
   )
 
 ;; Set up highlight-options:
-(setq erc-keywords '("Athas" "YuleAthas" "Climacs" "climacs"))
+(setq erc-keywords '("Athas" "YuleAthas" "futhark" "Futhark"))
 
 (erc-match-mode 1)
 

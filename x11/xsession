@@ -43,6 +43,9 @@ volumeicon &
 # Enable composition - without this, Steam is always on top.
 xcompmgr -c -C -t-5 -l-5 -r4.2 -o.55 &
 
+# Start the Network Manager applet.
+nm-applet &
+
 # Start a window-manager.
 echo $PATH
 ulimit -c unlimited

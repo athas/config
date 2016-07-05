@@ -32,6 +32,8 @@ main = xmonad $ ewmh $ pagerHints myConfig
                                  , keys = newKeys
                                  , manageHook = manageDocks
                                  , layoutHook = avoidStruts $ layoutHook defaultConfig
+                                 , startupHook = docksStartupHook
+                                 , handleEventHook = docksEventHook
                                  }
 
 prefix :: (KeyMask, KeySym)

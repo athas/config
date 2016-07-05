@@ -1,6 +1,6 @@
 ! Set a default, standard font.
-*Font: xft:Bitstream Vera Sans Mono-12:autohint=true
-*font: xft:Bitstream Vera Sans Mono-12:autohint=true
+! *Font: xft:Bitstream Vera Sans Mono-12:autohint=true
+! *font: xft:Bitstream Vera Sans Mono-12:autohint=true
 
 ! Zenburn color-scheme
 *background:  #3f3f3f
@@ -32,19 +32,18 @@
 *color15:     #ffffff
 
 ! Emacs
-Emacs*Font: Bitstream Vera Sans Mono-12:autohint=true
+Emacs*Font: Bitstream Vera Sans Mono-11:autohint=true
 Emacs*Foreground:	light grey
 Emacs*Background:	black
 
 ! URxvt
 
+URxvt*font: xft:Bitstream Vera Sans Mono-12:autohint=true
 URxvt*scrollStyle: plain
 URxvt*scrollBar: False
 URxvt*scrollColor: black
 URxvt*saveLines: 60000
 URxvt.color12: LightSlateBlue
-URxvt.underlineURLs: true
-URxvt.urlLauncher: /home/athas/bin/surf
 
 ! xmessage
 
