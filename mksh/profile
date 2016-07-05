@@ -10,7 +10,9 @@ umask 077
 
 ulimit -s unlimited
 
-dmenu_path_watcher &
+if which dmenu_path_watcher 2>/dev/null; then
+    dmenu_path_watcher &
+fi
 
 export MANPATH="$HOME/.cabal/share/man/:$HOME/.local/share/man/:"
 
