@@ -4,8 +4,10 @@
 # then system commands.
 export PATH=$HOME/.smackage/bin:$HOME/.local/bin:$HOME/.cabal/bin:$HOME/andets/:$HOME/scripts/:/usr/sbin:/sbin:/usr/games:$PATH
 
-# The u is because p9p has its own ssh-agent...
-eval `ssh-agent -s`
+if ! "$SSH_AGENT_PID"; then
+    eval `ssh-agent -s`
+fi
+
 umask 077
 
 ulimit -s unlimited
