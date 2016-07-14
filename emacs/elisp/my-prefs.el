@@ -112,6 +112,7 @@
 
 (with-feature
  (ispell)
+ (setq ispell-program-name "aspell")
  (ispell-change-dictionary "british" t)
  )
 

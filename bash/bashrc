@@ -41,12 +41,8 @@ shopt -s histappend
 PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
 umask 077
-export PATH=~/bin:$PATH/usr/lib/wine/bin
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/wine/lib
 export EDITOR=emacsclient
 export LC_ALL=en_DK.utf8
-export DARCS_EMAIL="athas@sigkill.dk"
-export DARCS_EDITOR="emacsclient"
 export HISTSIZE=""
 alias ..='cd ..'
 alias ...='.. && ..'
@@ -56,3 +52,5 @@ alias ......='..... && ..'
 alias .......='...... && ..'
 
 PROMPT_COMMAND='echo -ne "\033]0;$(pwd|sed s!^$HOME!~!)\007"'
+
+
