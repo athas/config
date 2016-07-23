@@ -244,7 +244,7 @@ and irc.freenode.net using ERC."
   )
 
 ;; Set up highlight-options:
-(setq erc-keywords '("Athas" "YuleAthas" "futhark" "Futhark"))
+(setq erc-keywords '("Athas" "YuleAthas" "futhark" "Futhark" "accelerate" "Accelerate"))
 
 (erc-match-mode 1)
 
