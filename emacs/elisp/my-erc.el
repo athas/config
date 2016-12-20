@@ -239,7 +239,6 @@ and irc.freenode.net using ERC."
                 (znc-erc 'bitlbee)
                 (znc-erc 'oftc)
                 (znc-erc 'synirc)
-                (znc-erc 'quakenet)
                 (znc-erc 'efnet))
   )
 

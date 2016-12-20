@@ -178,7 +178,8 @@ This is used by the command `trh-hyperspec-lookup'.")
 ; (add-to-list 'TeX-view-program-selection '(output-pdf "Evince"))
  (add-to-list 'LaTeX-indent-environment-list
               '("lstlisting" current-indentation))
- )
+ (add-to-list 'LaTeX-verbatim-environments
+              "lstlisting") )
 
 ;;; Eshell:
 (with-feature
