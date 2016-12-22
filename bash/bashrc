@@ -25,9 +25,6 @@ PS1='$(exit_code=$?; [[ $exit_code -eq 0 ]] || printf %s \[$RED\] $exit_code \[$
 
 #Aliases...
 
-alias ls="ls $1 --color"
-alias grep="grep --color=auto"
-alias stumpwm="sbcl ~/.stumpwm"
 alias playmidi="aplaymidi -p 73:0"
 alias halt="sudo /sbin/halt"
 alias p3="play123"
