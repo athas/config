@@ -49,7 +49,8 @@
 (transient-mark-mode 0)
 
 ;; Highlight current line.
-(global-hl-line-mode 1)
+(if window-system
+    (global-hl-line-mode 1))
 
 ;; Enable syntax-highlighting.
 (global-font-lock-mode t)

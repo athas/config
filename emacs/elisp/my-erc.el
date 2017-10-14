@@ -237,7 +237,6 @@ and irc.freenode.net using ERC."
   (with-feature (znc)
                 (znc-erc 'freenode)
                 (znc-erc 'bitlbee)
-                (znc-erc 'oftc)
                 (znc-erc 'synirc)
                 (znc-erc 'efnet))
   )
@@ -256,12 +255,9 @@ and irc.freenode.net using ERC."
 ;; Auto-join of channels is a nice thing to have.
 (erc-autojoin-mode 1)
 (setq erc-autojoin-channels-alist
-      '(("irc.inet.tele.dk" "#sslug")
-        ("freenode.net" "#diku" "#haskell" "#ghc" "#xmonad" "#eggsml")
-        ("chatsociety.net" "#piratgruppen.org")
+      '(("freenode.net" "#diku" "#haskell" "#eggsml")
         ("quakenet.org" "#udvikleren.dk")
         ("zybourne.net" "#cobol")
-        ("oftc.net" "#suckless")
         ))
 
 (setq erc-truncate-buffer-on-save nil)

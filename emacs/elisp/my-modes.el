@@ -125,11 +125,9 @@ This is used by the command `trh-hyperspec-lookup'.")
    '(haskell-process-suggest-remove-import-lines t)
    '(haskell-process-auto-import-loaded-modules t)
    '(haskell-process-log t)
-   '(haskell-process-type 'ghci)
+   '(haskell-process-type 'stack-ghci)
    '(haskell-process-args-stack-ghci
-     '("--ghc-options=-ferror-spans"
-       "--ghc-options=-O0"
-       "+RTS" "-M2000m" "-K2000m" "-c30" "-RTS")))
+     '()))
 
  (setq haskell-program-name "ghci +RTS -M1028m -RTS"
        haskell-indent-offset 2)
@@ -138,18 +136,10 @@ This is used by the command `trh-hyperspec-lookup'.")
  (defun haskell-hook ()
    ;; Use simple indentation.
    (turn-on-haskell-indentation)
-   (interactive-haskell-mode))
+   )
 
- (define-key haskell-mode-map (kbd "C-x C-d") nil)
- (define-key haskell-mode-map (kbd "C-c C-z") 'haskell-interactive-switch)
- (define-key haskell-mode-map (kbd "C-c C-l") 'haskell-process-load-file)
- (define-key haskell-mode-map (kbd "C-c C-b") 'haskell-interactive-switch)
- (define-key haskell-mode-map (kbd "C-c C-t") 'haskell-process-do-type)
- (define-key haskell-mode-map (kbd "C-c C-i") 'haskell-process-do-info)
- (define-key haskell-mode-map (kbd "C-c M-.") nil)
- (define-key haskell-mode-map (kbd "C-c C-d") nil)
-
- (add-hook 'haskell-mode-hook 'haskell-hook)
+ ; (add-hook 'haskell-mode-hook 'haskell-hook)
+ ; (add-hook 'haskell-mode-hook 'intero-mode)
  (add-hook 'haskell-cabal-mode-hook 'haskell-cabal-hook))
 
 ;;; SML setup.
@@ -173,6 +163,7 @@ This is used by the command `trh-hyperspec-lookup'.")
  (setq TeX-auto-save nil)
  (setq TeX-parse-self t)
  (setq-default TeX-master nil)
+ (setq-default TeX-engine 'xetex)
  (TeX-global-PDF-mode t)
  (setq TeX-electric-sub-and-superscript t)
 ; (add-to-list 'TeX-view-program-selection '(output-pdf "Evince"))
