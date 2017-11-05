@@ -152,9 +152,9 @@
   (blink-cursor-mode -1))
 
 ;;; Set my preferred browser.
-(setq browse-url-generic-program "firefox"
-      browse-url-generic-args '()
-      browse-url-browser-function 'browse-url-generic)
+(setq browse-url-browser-function 'browse-url-firefox
+      browse-url-new-window-flag  t
+      browse-url-firefox-new-window-is-tab t)
 
 ;; Put autosave files in /tmp.
 (setq backup-directory-alist

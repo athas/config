@@ -234,11 +234,10 @@ and irc.freenode.net using ERC."
   ;; (irc-freenode)
   ;; (irc-oftc)
   ;; (irc-bitlbee)
-  (with-feature (znc)
-                (znc-erc 'freenode)
-                (znc-erc 'bitlbee)
-                (znc-erc 'synirc)
-                (znc-erc 'efnet))
+  (znc-erc 'freenode)
+  (znc-erc 'bitlbee)
+  (znc-erc 'synirc)
+  (znc-erc 'efnet)
   )
 
 ;; Set up highlight-options:

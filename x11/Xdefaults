@@ -44,6 +44,13 @@ URxvt*scrollBar: False
 URxvt*scrollColor: black
 URxvt*saveLines: 60000
 URxvt.color12: LightSlateBlue
+URxvt.perl-ext-common: ...,font-size
+URxvt.keysym.C-Up:     font-size:increase
+URxvt.keysym.C-Down:   font-size:decrease
+URxvt.keysym.C-S-Up:   font-size:incglobal
+URxvt.keysym.C-S-Down: font-size:decglobal
+URxvt.keysym.C-equal:  font-size:reset
+URxvt.keysym.C-slash:  font-size:show
 
 ! xmessage
 

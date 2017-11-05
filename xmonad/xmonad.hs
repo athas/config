@@ -106,7 +106,7 @@ prefixMap conf =
     , ((controlMask, xK_b), withFocused $ \w ->
         goToSelectedFrom (similarToWinMap w) gsConfig)
     , ((controlMask, xK_t), goToSelected gsConfig)
-    , ((shiftMask, xK_e), spawn "exe=`dmenu_path | dmenu` && eval \"exec $exe\"")
+    , ((shiftMask, xK_e), spawn "exe=`dmenu_path | sinmenu` && eval \"exec $exe\"")
     , ((controlMask, xK_r), spawn "grani-session resume")
     , ((0, xK_g), spawn "url=\"$(grani-field)\" && grani \"$url\"")
     , ((0, xK_h), spawn "url=\"$(cat .cache/grani/visits | grani-field)\" && grani \"$url\"")
