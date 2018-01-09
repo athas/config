@@ -165,3 +165,16 @@
 (with-feature
  (epa)
  (setq epg-gpg-home-directory "~/.gnupg"))
+
+(with-feature
+ (color-theme)
+ (color-theme-initialize)
+ (color-theme-charcoal-black))
+
+;; Do not auto-revert files bigger than 1MiB.
+(defun my-not-too-big (&rest _)
+  (or (not buffer-file-name)
+      (let ((size (nth 7 (file-attributes buffer-file-name))))
+        (< size 10000000))))
+(add-function :after-while buffer-stale-function
+              #'my-not-too-big)

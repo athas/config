@@ -191,3 +191,12 @@ This is used by the command `trh-hyperspec-lookup'.")
               '("\\.cu$" . c++-mode))
  (add-to-list 'auto-mode-alist
               '("\\.cl$" . c-mode)))
+
+(with-feature
+ (org)
+ (define-key org-mode-map (kbd "<C-tab>") nil))
+
+(with-feature
+ (fsharp-mode)
+
+ (setq fsharp-ac-intellisense-enabled nil))
