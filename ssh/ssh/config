@@ -1,0 +1,89 @@
+Host *
+  ServerAliveInterval 60
+
+Host dk.migrid.org
+Hostname dk.migrid.org
+User L0M9REsvU1Q9TkEvTD1OQS9PPURJS1UvT1U9TkEvQ049VHJvZWxzIEhlbnJpa3Nlbi9lbWFpbEFkZHJlc3M9YXRoYXNAZGlrdS5kaw__
+Port 2222
+IdentityFile ~/.ssh/id_rsa
+
+Host eggsml.dk
+user concieggs
+ForwardAgent yes
+
+Host sigkill.dk
+ForwardAgent yes
+
+Host gpu01-diku-apl
+ProxyCommand ssh -q mzd885@ssh-diku-apl.science.ku.dk nc gpu01-diku-apl 22
+user mzd885
+ForwardAgent yes
+
+Host gpu02-diku-apl
+ProxyCommand ssh -q mzd885@ssh-diku-apl.science.ku.dk nc gpu02-diku-apl 22
+user mzd885
+ForwardAgent yes
+
+Host gpu03-diku-apl
+ProxyCommand ssh -q mzd885@ssh-diku-apl.science.ku.dk nc gpu03-diku-apl 22
+user mzd885
+ForwardAgent yes
+
+Host gpu04-diku-apl
+ProxyCommand ssh -q mzd885@ssh-diku-apl.science.ku.dk nc gpu04-diku-apl 22
+user mzd885
+ForwardAgent yes
+
+Host titan-diku-apl
+ProxyCommand ssh -q mzd885@ssh-diku-apl.science.ku.dk nc titan-diku-apl 22
+user mzd885
+ForwardAgent yes
+
+Host phi-diku-apl
+ProxyCommand ssh -q mzd885@ssh-diku-apl.science.ku.dk nc phi-diku-apl 22
+user mzd885
+ForwardAgent yes
+
+Host infoscreen
+Hostname infoscreen
+User odroid
+ProxyCommand ssh -W %h:%p odroid@diku.kantinen.org
+
+Host cokepc
+Hostname cokepc
+User odroid
+ProxyCommand ssh -W %h:%p odroid@diku.kantinen.org
+
+Host bifrost
+Proxycommand ssh -q athas@sigkill.dk nc localhost 19999
+user athas
+ForwardAgent yes
+
+Host krabaten
+Proxycommand ssh -q athas@sigkill.dk nc localhost 20000
+user athas
+ForwardAgent yes
+
+Host uhyret
+Proxycommand ssh -q athas@sigkill.dk nc localhost 20001
+user athas
+ForwardAgent yes
+
+Host napoleon
+Hostname napoleon.hiperfit.dk
+ForwardAgent yes
+
+Host napoleon.hiperfit.dk
+Hostname napoleon.hiperfit.dk
+ForwardAgent yes
+
+Host einherjar
+ProxyCommand ssh -q athas@napoleon.hiperfit.dk nc localhost 19999
+ForwardAgent yes
+
+Host juropa3
+Hostname juropa3.zam.kfa-juelich.de
+ForwardAgent yes
+
+Host dikunix.dk
+ForwardAgent yes
