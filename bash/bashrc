@@ -31,6 +31,7 @@ alias murder="killall -9"
 #Other stuff
 
 shopt -s histappend
+shopt -s checkwinsize
 export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 
 # Disable programmable completion
@@ -38,7 +39,6 @@ complete -r
 
 umask 077
 export EDITOR=emacsclient
-export LC_ALL=en_DK.utf8
 export HISTSIZE=""
 alias ..='cd ..'
 alias ...='.. && ..'
