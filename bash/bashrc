@@ -31,7 +31,7 @@ alias murder="killall -9"
 #Other stuff
 
 shopt -s histappend
-PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 
 # Disable programmable completion
 complete -r
