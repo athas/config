@@ -10,8 +10,6 @@ fi
 
 umask 077
 
-ulimit -s unlimited
-
 if which dmenu_path_watcher 2>/dev/null; then
     dmenu_path_watcher &
 fi
@@ -25,7 +23,7 @@ export CXX=g++
 export MANPAGER=less
 export PAGER=less
 export EDITOR=emacsclient
-export LC_ALL=en_DK.UTF-8
+export LC_ALL=en_US.UTF-8
 export DARCS_EMAIL="athas@sigkill.dk"
 export DARCS_EDITOR="emacsclient"
 export PREFIX=$HOME/.local
