@@ -36,3 +36,7 @@ export LIBRARY_PATH=$HOME/.local/lib:/usr/local/cuda/lib64:$LIBRARY_PATH
 export LD_LIBRARY_PATH=$HOME/.local/lib:/usr/local/cuda/lib64/$LD_LIBRARY_PATH
 
 export PATH="$HOME/.cargo/bin:$PATH"
+
+if [ $(hostname) = uhyret ]; then
+  export LIBRARY_PATH=/opt/amdgpu-pro/lib64/:$LIBRARY_PATH
+fi

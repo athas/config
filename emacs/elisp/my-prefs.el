@@ -176,5 +176,7 @@
   (or (not buffer-file-name)
       (let ((size (nth 7 (file-attributes buffer-file-name))))
         (< size 10000000))))
-(add-function :after-while buffer-stale-function
-              #'my-not-too-big)
+
+(when (>= (string-to-number emacs-version) 25)
+  (add-function :after-while buffer-stale-function
+                #'my-not-too-big))

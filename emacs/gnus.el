@@ -61,6 +61,7 @@
       gnus-message-replysignencrypted t
       shr-color-visible-luminance-min 80 ; fix grey-on-grey problems.
       mm-keep-viewer-alive-types '(".*")
+      gnutls-min-prime-bits 1024
       )
 
 ;;; Make my own posts and replies to them stand out in boldface.
