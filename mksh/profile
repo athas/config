@@ -39,4 +39,5 @@ export PATH="$HOME/.cargo/bin:$PATH"
 
 if [ $(hostname) = uhyret ]; then
   export LIBRARY_PATH=/opt/amdgpu-pro/lib64/:$LIBRARY_PATH
+  export PATH=$HOME/.texlive2017/bin/x86_64-linux/:$PATH
 fi
