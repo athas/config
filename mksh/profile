@@ -10,9 +10,9 @@ fi
 
 umask 077
 
-if which dmenu_path_watcher 2>/dev/null; then
-    dmenu_path_watcher &
-fi
+# if which dmenu_path_watcher 2>/dev/null; then
+#     dmenu_path_watcher &
+# fi
 
 export MANPATH="$HOME/.cabal/share/man/:$HOME/.local/share/man/:"
 

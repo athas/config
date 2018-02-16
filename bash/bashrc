@@ -1,4 +1,4 @@
-source /etc/bashrc
+[ -f /etc/bashrc ] && source /etc/bashrc
 
 export red=$'\e[0;31m'
 export RED=$'\e[1;31m'

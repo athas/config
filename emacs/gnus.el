@@ -64,6 +64,15 @@
       gnutls-min-prime-bits 1024
       )
 
+(when (eq system-type 'darwin)
+  (setq mailcap-mime-data '(("application"
+                             ("pdf"
+                              (viewer . "/usr/bin/open %s")
+                              (type . "application/pdf")))
+                            ("application"
+                             (".*"
+                              (viewer . "/usr/bin/open %s"))))))
+
 ;;; Make my own posts and replies to them stand out in boldface.
 (defface dz-gnus-own-posting-face nil
   "Use this face to display own postings in Summary Buffer")

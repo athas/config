@@ -156,6 +156,10 @@
       browse-url-new-window-flag  t
       browse-url-firefox-new-window-is-tab t)
 
+(when (eq system-type 'darwin)
+  (setq browse-url-browser-function (quote browse-url-generic))
+  (setq browse-url-generic-program "open"))
+
 ;; Put autosave files in /tmp.
 (setq backup-directory-alist
       `((".*" . ,temporary-file-directory)))
