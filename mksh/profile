@@ -31,13 +31,21 @@ export PREFIX=$HOME/.local
 # XDG is useful, but not very many things respect it.
 export XDG_CONFIG_HOME=$HOME/.config
 export XDG_DATA_HOME=$HOME/.local/share
-export CPATH=$HOME/.local/include/:/usr/local/cuda/include:$CPATH
-export LIBRARY_PATH=$HOME/.local/lib:/usr/local/cuda/lib64:$LIBRARY_PATH
-export LD_LIBRARY_PATH=$HOME/.local/lib:/usr/local/cuda/lib64/$LD_LIBRARY_PATH
+
+if [ -d /usr/local/cuda ]; then
+    export CPATH=$HOME/.local/include/:/usr/local/cuda/include:$CPATH
+    export LIBRARY_PATH=$HOME/.local/lib:/usr/local/cuda/lib64:$LIBRARY_PATH
+    export LD_LIBRARY_PATH=$HOME/.local/lib:/usr/local/cuda/lib64/$LD_LIBRARY_PATH
+fi
 
 export PATH="$HOME/.cargo/bin:$PATH"
 
 if [ $(hostname) = uhyret ]; then
   export LIBRARY_PATH=/opt/amdgpu-pro/lib64/:$LIBRARY_PATH
   export PATH=$HOME/.texlive2017/bin/x86_64-linux/:$PATH
+fi
+
+if [ $(uname) = Darwin ]; then
+    export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
+    export LIBRARY_PATH="/usr/local/Cellar/llvm/5.0.1/lib:$LIBRARY_PATH"
 fi

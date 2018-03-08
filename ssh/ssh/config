@@ -9,7 +9,6 @@ IdentityFile ~/.ssh/id_rsa
 
 Host eggsml.dk
 user concieggs
-ForwardAgent yes
 
 Host sigkill.dk
 ForwardAgent yes
@@ -66,6 +65,11 @@ ForwardAgent yes
 
 Host uhyret
 Proxycommand ssh -q athas@sigkill.dk nc localhost 20001
+user athas
+ForwardAgent yes
+
+Host ragnarok
+Proxycommand ssh -q athas@sigkill.dk nc localhost 20003
 user athas
 ForwardAgent yes
 

@@ -71,7 +71,8 @@
                               (type . "application/pdf")))
                             ("application"
                              (".*"
-                              (viewer . "/usr/bin/open %s"))))))
+                              (viewer . "/usr/bin/open %s")
+                              (type . "application/octet-stream"))))))
 
 ;;; Make my own posts and replies to them stand out in boldface.
 (defface dz-gnus-own-posting-face nil
