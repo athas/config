@@ -158,7 +158,8 @@
 
 (when (eq system-type 'darwin)
   (setq browse-url-browser-function (quote browse-url-generic))
-  (setq browse-url-generic-program "open"))
+  (setq browse-url-generic-program "open")
+  (set-frame-font "Menlo 15" nil t))
 
 ;; Put autosave files in /tmp.
 (setq backup-directory-alist

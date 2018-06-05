@@ -63,8 +63,13 @@ Proxycommand ssh -q athas@sigkill.dk nc localhost 20000
 user athas
 ForwardAgent yes
 
+# Host uhyret
+# Proxycommand ssh -q athas@sigkill.dk nc localhost 20001
+# user athas
+# ForwardAgent yes
+
 Host uhyret
-Proxycommand ssh -q athas@sigkill.dk nc localhost 20001
+Proxycommand ssh -q athas@bifrost nc 192.168.1.20 22
 user athas
 ForwardAgent yes
 

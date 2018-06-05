@@ -51,3 +51,9 @@ if [ $(uname) = Darwin ]; then
     export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
     export LIBRARY_PATH="/usr/local/Cellar/llvm/5.0.1/lib:$LIBRARY_PATH"
 fi
+
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+
+if [ "$BASH_VERSION" ] && [ -f $HOME/.bashrc ]; then
+  source $HOME/.bashrc
+fi

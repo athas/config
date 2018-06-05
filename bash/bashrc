@@ -51,3 +51,9 @@ PROMPT_COMMAND='echo -ne "\033]0;$(pwd|sed s!^$HOME!~!)\007"'
 
 # HACK
 MONO_PATH=/usr/lib/mono/fsharp/api/.NETFramework/v4.0/4.4.0.0/:$MONO_PATH
+
+PATH="/Users/athas/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/Users/athas/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/Users/athas/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/Users/athas/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/Users/athas/perl5"; export PERL_MM_OPT;
