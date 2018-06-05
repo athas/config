@@ -5,6 +5,10 @@
 (noerr-require 'gnu-apl-mode)
 
 (with-feature
+ (flycheck-mode)
+ (global-flycheck-mode))
+
+(with-feature
  (c-mode)
  (setq c-basic-offset 2)
  (add-to-list 'auto-mode-alist '("\\.cu$" . c++-mode)))
@@ -120,27 +124,7 @@ This is used by the command `trh-hyperspec-lookup'.")
 
 (with-features
  (haskell-mode haskell-interactive-mode haskell-process)
- (load "haskell-mode-autoloads")
- (custom-set-variables
-   '(haskell-process-suggest-remove-import-lines t)
-   '(haskell-process-auto-import-loaded-modules t)
-   '(haskell-process-log t)
-   '(haskell-process-type 'stack-ghci)
-   '(haskell-process-args-stack-ghci
-     '()))
-
- (setq haskell-program-name "ghci +RTS -M1028m -RTS"
-       haskell-indent-offset 2)
-
- ;; Haskell main editing mode key bindings.
- (defun haskell-hook ()
-   ;; Use simple indentation.
-   (turn-on-haskell-indentation)
-   )
-
- ; (add-hook 'haskell-mode-hook 'haskell-hook)
- ; (add-hook 'haskell-mode-hook 'intero-mode)
- (add-hook 'haskell-cabal-mode-hook 'haskell-cabal-hook))
+ )
 
 ;;; SML setup.
 (with-feature
@@ -182,7 +166,9 @@ This is used by the command `trh-hyperspec-lookup'.")
   (add-to-list 'eshell-output-filter-functions 'eshell-handle-control-codes)
   )
 
-(noerr-require 'futhark-mode)
+(with-feature
+ (futhark-mode)
+ )
 
 (with-feature
  (cc-mode)

@@ -43,6 +43,8 @@ export PATH="$HOME/.cargo/bin:$PATH"
 if [ $(hostname) = uhyret ]; then
   export LIBRARY_PATH=/opt/amdgpu-pro/lib64/:$LIBRARY_PATH
   export PATH=$HOME/.texlive2017/bin/x86_64-linux/:$PATH
+  export LIBRARY_PATH=/opt/amdgpu-pro/lib/x86_64-linux-gnu/
+  export LD_LIBRARY_PATH=/opt/amdgpu-pro/lib/x86_64-linux-gnu/
 fi
 
 if [ $(uname) = Darwin ]; then
