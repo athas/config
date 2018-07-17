@@ -1,9 +1,5 @@
 # This file is evaluated for all login shells.
 
-# I prefer my own scripts and programs, then those installed by cabal,
-# then system commands.
-export PATH=$HOME/.smackage/bin:$HOME/bin:$HOME/.local/bin:$HOME/.cabal/bin:$HOME/andets/:$HOME/scripts/:/usr/local/cuda/bin:/usr/sbin:/sbin:/usr/games:$PATH
-
 if [ ! "$SSH_AGENT_PID" -a ! "$SSH_AUTH_SOCK" ]; then
     eval `ssh-agent -s`
 fi
