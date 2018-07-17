@@ -59,6 +59,12 @@ if [ "$BASH_VERSION" ] && [ -f $HOME/.bashrc ]; then
 fi
 
 # Linuxbrew setup.
-export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
-export MANPATH="/home/linuxbrew/.linuxbrew/share/man:$MANPATH"
-export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:$INFOPATH"
+if [ -d /home/linuxbrew/.linuxbrew ]; then
+    LINUXBREW=/home/linuxbrew/.linuxbrew
+else
+    LINUXBREW=$HOME/.linuxbrew
+fi
+
+export PATH="$LINUXBREW/bin:$PATH"
+export MANPATH="$LINUXBREW/share/man:$MANPATH"
+export INFOPATH="$LINUXBREW/share/info:$INFOPATH"
