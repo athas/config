@@ -57,3 +57,8 @@ test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shel
 if [ "$BASH_VERSION" ] && [ -f $HOME/.bashrc ]; then
   source $HOME/.bashrc
 fi
+
+# Linuxbrew setup.
+export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+export MANPATH="/home/linuxbrew/.linuxbrew/share/man:$MANPATH"
+export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:$INFOPATH"
