@@ -262,3 +262,6 @@ setopt                       \
     unset                \
     NO_verbose              \
     zle
+
+# added by travis gem
+[ -f /home/athas/.travis/travis.sh ] && source /home/athas/.travis/travis.sh

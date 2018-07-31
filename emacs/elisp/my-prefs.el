@@ -180,7 +180,7 @@
 (defun my-not-too-big (&rest _)
   (or (not buffer-file-name)
       (let ((size (nth 7 (file-attributes buffer-file-name))))
-        (< size 10000000))))
+        (< size 1000000))))
 
 (when (>= (string-to-number emacs-version) 25)
   (add-function :after-while buffer-stale-function
