@@ -29,9 +29,11 @@ alias p3="play123"
 alias nano="nano -w"
 alias clim="/usr/bin/sbcl --eval \"(run-clim-desktop)\""
 alias murder="killall -9"
-if ls --version | grep -q GNU; then
+if ls --version 2>&1 | grep -q GNU; then
    alias ls="ls --color=auto"
 fi
+
+export CLICOLOR=1
 
 #Other stuff
 
