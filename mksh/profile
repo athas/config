@@ -44,8 +44,7 @@ if [ $(hostname) = uhyret ]; then
 fi
 
 if [ $(uname) = Darwin ]; then
-    export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
-    export LIBRARY_PATH="/usr/local/Cellar/llvm/5.0.1/lib:$LIBRARY_PATH"
+   true
 fi
 
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
