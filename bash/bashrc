@@ -33,6 +33,10 @@ if ls --version 2>&1 | grep -q GNU; then
    alias ls="ls --color=auto"
 fi
 
+if [ $(uname) = Darwin ]; then
+  alias lldb='PATH=/usr/bin:$PATH lldb'
+fi
+
 export CLICOLOR=1
 
 #Other stuff
