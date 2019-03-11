@@ -44,7 +44,7 @@ if [ $(hostname) = uhyret ]; then
 fi
 
 if [ $(uname) = Darwin ]; then
-   true
+    PATH=/Users/athas/Library/Python/3.7/bin:$PATH
 fi
 
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
@@ -64,6 +64,9 @@ export PATH="$LINUXBREW/bin:$PATH"
 export MANPATH="$LINUXBREW/share/man:$MANPATH"
 export INFOPATH="$LINUXBREW/share/info:$INFOPATH"
 
+export PATH=$HOME/go/bin:$PATH
+
 # I prefer my own scripts and programs, then those installed by cabal,
 # then system commands.
 export PATH=$HOME/.smackage/bin:$HOME/bin:$HOME/.local/bin:$HOME/.cabal/bin:$HOME/andets/:$HOME/scripts/:/usr/local/cuda/bin:/usr/sbin:/sbin:/usr/games:$PATH
+if [ -e /Users/athas/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/athas/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
