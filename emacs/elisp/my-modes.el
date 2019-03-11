@@ -124,6 +124,8 @@ This is used by the command `trh-hyperspec-lookup'.")
 
 (with-features
  (haskell-mode haskell-interactive-mode haskell-process)
+
+ (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
  )
 
 ;;; SML setup.
@@ -168,6 +170,8 @@ This is used by the command `trh-hyperspec-lookup'.")
 
 (with-feature
  (futhark-mode)
+
+ (add-hook 'futhark-mode-hook (lambda () (flycheck-mode)))
  )
 
 (with-feature
