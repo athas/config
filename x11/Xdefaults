@@ -32,9 +32,9 @@
 *color15:     #ffffff
 
 ! Emacs
-Emacs*Font: Bitstream Vera Sans Mono-11:autohint=true
-Emacs*Foreground:	light grey
-Emacs*Background:	black
+! Emacs*Font: Bitstream Vera Sans Mono-11:autohint=true
+! Emacs*Foreground:	light grey
+! Emacs*Background:	black
 
 ! URxvt
 
@@ -51,6 +51,10 @@ URxvt.keysym.C-S-Up:   font-size:incglobal
 URxvt.keysym.C-S-Down: font-size:decglobal
 URxvt.keysym.C-equal:  font-size:reset
 URxvt.keysym.C-slash:  font-size:show
+
+! xterm
+
+*.vt100.metaSendsEscape: true
 
 ! xmessage
 

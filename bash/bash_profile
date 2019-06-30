@@ -4,6 +4,6 @@
 # This is the bash_profile, read by all login shells.  It will read my
 # normal .profile, and then .bashrc.
 
+if [ -e /home/athas/.nix-profile/etc/profile.d/nix.sh ]; then . /home/athas/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 source $HOME/.profile
 source $HOME/.bashrc
-if [ -e /home/athas/.nix-profile/etc/profile.d/nix.sh ]; then . /home/athas/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer

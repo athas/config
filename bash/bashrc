@@ -23,6 +23,7 @@ PS1='$(exit_code=$?; [[ $exit_code -eq 0 ]] || printf $exit_code)[\[\033[00;31m\
 
 #Aliases...
 
+alias e="emacsclient -n --"
 alias playmidi="aplaymidi -p 73:0"
 alias halt="sudo /sbin/halt"
 alias p3="play123"
@@ -35,6 +36,11 @@ fi
 
 if [ $(uname) = Darwin ]; then
   alias lldb='PATH=/usr/bin:$PATH lldb'
+  PATH="/Users/athas/perl5/bin${PATH:+:${PATH}}"; export PATH;
+  PERL5LIB="/Users/athas/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+  PERL_LOCAL_LIB_ROOT="/Users/athas/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+  PERL_MB_OPT="--install_base \"/Users/athas/perl5\""; export PERL_MB_OPT;
+  PERL_MM_OPT="INSTALL_BASE=/Users/athas/perl5"; export PERL_MM_OPT;
 fi
 
 export CLICOLOR=1
@@ -46,7 +52,7 @@ shopt -s checkwinsize
 export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 
 # Disable programmable completion
-complete -r
+# complete -r
 
 umask 077
 export EDITOR=emacsclient
@@ -62,12 +68,6 @@ PROMPT_COMMAND='echo -ne "\033]0;$(pwd|sed s!^$HOME!~!)\007"'
 
 # HACK
 MONO_PATH=/usr/lib/mono/fsharp/api/.NETFramework/v4.0/4.4.0.0/:$MONO_PATH
-
-PATH="/Users/athas/perl5/bin${PATH:+:${PATH}}"; export PATH;
-PERL5LIB="/Users/athas/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/Users/athas/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/Users/athas/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/Users/athas/perl5"; export PERL_MM_OPT;
 
 # added by travis gem
 [ -f /home/athas/.travis/travis.sh ] && source /home/athas/.travis/travis.sh
