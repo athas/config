@@ -58,6 +58,12 @@ mode "prefix" {
     # Switch back and forth between workspaces.
     bindsym Control+t workspace back_and_forth; mode "default"
 
+    # Start launcher.
+    bindsym p exec $menu; mode "default"
+
+    # Exit sway.
+    bindsym Shift+q exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'; mode "default"
+
     # Switch to workspace.
     bindsym 1 workspace 1; mode "default"
     bindsym 2 workspace 2; mode "default"
@@ -136,10 +142,10 @@ bindsym Control+t mode "prefix"
 #
 # Moving around by holding Control and using the arrow keys
 #
-bindsym Control+Left focus left
-bindsym Control+Down focus down
-bindsym Control+Up focus up
-bindsym Control+Right focus right
+bindsym Control+Mod1+Left focus left
+bindsym Control+Mod1+Down focus down
+bindsym Control+Mod1+Up focus up
+bindsym Control+Mod1+Right focus right
 
 #
 # Status Bar:
@@ -150,7 +156,7 @@ bar {
 
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
-    status_command while date +'%Y-%m-%d %l:%M:%S %p'; do sleep 1; done
+    status_command while date +'%Y-%m-%d %H:%M:%S'; do sleep 1; done
 
     colors {
         statusline #ffffff
