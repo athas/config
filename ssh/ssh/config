@@ -69,7 +69,7 @@ user athas
 ForwardAgent yes
 
 Host uhyret
-Proxycommand ssh -q athas@bifrost nc 192.168.1.20 22
+Proxycommand ssh -q athas@bifrost nc 192.168.1.139 22
 user athas
 ForwardAgent yes
 
