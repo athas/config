@@ -15,6 +15,12 @@ export WHITE=$'\e[1;37m'
 export yellow=$'\e[0;33m'
 export YELLOW=$'\e[01;33m'
 export NC=$'\e[0m'
+
+# Work around old terminfo data.
+if [ "$TERM" = alacritty ]; then
+    TERM=xterm-256color
+fi
+
 if [ "$TERM" ]; then
     reset=$(tput sgr0 2>/dev/null)
 fi
