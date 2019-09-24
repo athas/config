@@ -74,7 +74,7 @@ Maps KEY to COMMAND in the keymaps listed in KEYMAPS."
                (interactive)
                (find-file "~/.todo"))
 
- "<f1>"     'slime-scratch
+ "<f1>"     'other-window
  "C-x c s"  'slime-selector
  "C-x a r"  'align-regexp
  "C-S-n"    'next-error

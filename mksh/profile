@@ -66,6 +66,10 @@ export INFOPATH="$LINUXBREW/share/info:$INFOPATH"
 
 export PATH=$HOME/go/bin:$PATH
 
+if [ $(hostname) = uhyret ]; then
+  export MOZ_ENABLE_WAYLAND=1
+fi
+
 # Nix setup.
 if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then . $HOME/.nix-profile/etc/profile.d/nix.sh; fi
 

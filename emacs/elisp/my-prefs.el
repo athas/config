@@ -171,11 +171,6 @@
  (epa)
  (setq epg-gpg-home-directory "~/.gnupg"))
 
-(with-feature
- (color-theme)
- (color-theme-initialize)
- (color-theme-charcoal-black))
-
 ;; Do not auto-revert files bigger than 1MiB.
 (defun my-not-too-big (&rest _)
   (or (not buffer-file-name)
