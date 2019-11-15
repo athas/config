@@ -135,7 +135,7 @@ Returns the value in centimeters."
     (format "%.3f"
             (* 2.427
                (log
-                (string-to-int
+                (string-to-number
                  (buffer-substring
                   (point-min)
                   (search-forward "." (point-max)))))))))
