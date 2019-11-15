@@ -19,7 +19,7 @@
   documentation.dev.enable = true;
 
   networking.hostName = "uhyret";
-  networking.nameservers = [ "192.168.1.1" ]; # Local router.
+  # networking.nameservers = [ "192.168.1.1" ]; # Local router.
 
   # Select internationalisation properties.
   i18n = {
@@ -33,6 +33,7 @@
   time.timeZone = "Europe/Amsterdam";
 
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.rocmTargets = ["gfx900"]; # Vega 64
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -52,11 +53,15 @@
     lm_sensors
     cloc rsync
     dosbox
+    whois
+    groff
+    exif
+    rlwrap
 
     memtest86plus
 
     # Hacking stuff
-    gcc clang cmake gnumake stack hlint cabal-install cabal2nix ghc
+    gcc gdb clang cmake gnumake stack hlint cabal-install ghc
     zlib zlib.dev binutils # futhark
     automake autoconf pkg-config libtool
     nix-diff nix-prefetch-git
@@ -66,6 +71,8 @@
     mosml
     manpages
     ispc
+    go
+    smlnj
 
     libGL_driver opencl-info
     lynx
@@ -92,10 +99,15 @@
     mplus-outline-fonts
     dina-font
     proggyfonts
+    cm_unicode
+    corefonts
+    libertine
+    monoid
+    sudo-font
   ];
 
   nixpkgs.overlays =
-    [ (import "/home/athas/repos/nixos-rocm")
+    [ (import /home/athas/repos/nixos-rocm)
     ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -110,7 +122,7 @@
   services.openssh.enable = true;
 
   # Emacs daemon.
-  services.emacs.enable = true;
+  services.emacs.install = true;
 
   # Suspend when I press the power button.
   services.logind.extraConfig = "HandlePowerKey=suspend";
