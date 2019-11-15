@@ -1,1 +1,2 @@
 set revert-all-at-newline on
+set completion-ignore-case On
