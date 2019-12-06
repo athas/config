@@ -8,7 +8,17 @@
 { config, pkgs, ... }:
 
 {
-  boot.kernelPackages = pkgs.linuxPackages_5_2;
+  boot.kernelPackages = pkgs.linuxPackages_5_4;
+
+  boot.kernelPatches = [ {
+    name = "make-rocm-work";
+    patch = null;
+    extraConfig = ''
+                ZONE_DEVICE y
+                HMM_MIRROR y
+                DRM_AMDGPU_USERPTR y
+                '';
+  } ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -39,9 +49,10 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     wget curl git glxinfo emacs file htop tree coreutils-full autossh
-    killall pass unzip nmap sshfs ranger neofetch xdg_utils pstree
-    texlive.combined.scheme-full groff imagemagick ott
-    evince firefox mplayer gimp gnupg feh imv
+    killall pass zip unzip nmap sshfs ranger neofetch xdg_utils pstree
+    texlive.combined.scheme-full groff imagemagick ott graphviz
+    evince firefox mplayer gimp inkscape gnupg feh imv
+    pandoc
     sway rxvt_unicode xterm dmenu bemenu xwayland alacritty wl-clipboard grim
     numix-cursor-theme xorg.xcursorthemes hicolor_icon_theme
     xorg.xev xdotool
@@ -51,7 +62,7 @@
     ispell aspell aspellDicts.en aspellDicts.en-computers aspellDicts.da
     mime-types shared-mime-info
     lm_sensors
-    cloc rsync
+    cloc rsync cowsay figlet bc
     dosbox
     whois
     groff
@@ -73,6 +84,7 @@
     ispc
     go
     smlnj
+    idris
 
     libGL_driver opencl-info
     lynx
@@ -81,7 +93,7 @@
 
     vgo2nix
 
-    rocm-opencl-runtime
+    rocm-opencl-runtime rocminfo
 
     # Proprietary
     steam
@@ -162,7 +174,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.athas = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "video" ]; # Enable ‘sudo’ for the user.
   };
 
   # This value determines the NixOS release with which your system is to be
