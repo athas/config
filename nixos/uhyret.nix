@@ -8,7 +8,7 @@
 { config, pkgs, ... }:
 
 {
-  boot.kernelPackages = pkgs.linuxPackages_5_4;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   boot.kernelPatches = [ {
     name = "make-rocm-work";
@@ -33,10 +33,19 @@
 
   # Select internationalisation properties.
   i18n = {
+    defaultLocale = "en_US.UTF-8";
+
+    # The following are gone in unstable.
     consoleFont = "ter-i32b";
     consolePackages = with pkgs; [ terminus_font ];
     consoleUseXkbConfig = true;
-    defaultLocale = "en_US.UTF-8";
+  };
+
+  # Configure system console.
+  console = {
+    font = "ter-i32b";
+    packages = with pkgs; [ terminus_font ];
+    useXkbConfig = true;
   };
 
   # Set your time zone.
@@ -49,11 +58,11 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     wget curl git glxinfo emacs file htop tree coreutils-full autossh
-    killall pass zip unzip nmap sshfs ranger neofetch xdg_utils pstree
+    killall pass pinentry zip unzip lz4 nmap sshfs ranger neofetch xdg_utils pstree
     texlive.combined.scheme-full groff imagemagick ott graphviz
-    evince firefox mplayer gimp inkscape gnupg feh imv
+    evince firefox-esr mplayer gimp inkscape gnupg feh imv
     pandoc
-    sway rxvt_unicode xterm dmenu bemenu xwayland alacritty wl-clipboard grim
+    sway rxvt_unicode xterm dmenu xwayland alacritty kitty wl-clipboard grim slurp
     numix-cursor-theme xorg.xcursorthemes hicolor_icon_theme
     xorg.xev xdotool
     pavucontrol
@@ -62,7 +71,8 @@
     ispell aspell aspellDicts.en aspellDicts.en-computers aspellDicts.da
     mime-types shared-mime-info
     lm_sensors
-    cloc rsync cowsay figlet bc
+    cloc rsync cowsay figlet bc gist
+    audacity
     dosbox
     whois
     groff
@@ -93,7 +103,15 @@
 
     vgo2nix
 
-    rocm-opencl-runtime rocminfo
+    # ROCm stuff
+    rocm-opencl-runtime
+    rocr-ext # proprietary image support
+    rocminfo
+    rocm-bandwidth
+    roctracer
+    rocprofiler
+    clpeak
+    cxlactivitylogger
 
     # Proprietary
     steam
@@ -181,6 +199,5 @@
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change this only after NixOS release notes say you
   # should.
-  system.stateVersion = "19.03"; # Did you read the comment?
-
+  system.stateVersion = "19.09"; # Did you read the comment?
 }

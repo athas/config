@@ -63,6 +63,7 @@ export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 umask 077
 export EDITOR=emacsclient
 export HISTSIZE=""
+export HISTCONTROL=ignoredups
 alias ..='cd ..'
 alias ...='.. && ..'
 alias ....='... && ..'
