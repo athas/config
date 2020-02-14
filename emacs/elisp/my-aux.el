@@ -90,6 +90,29 @@ if the buffer already exists."
 
 (global-set-key "\C-c!" 'trh-insert-shell-command-output)
 
+
+(defun revert-all-file-buffers ()
+  "Refresh all open buffers from their respective files."
+  (interactive)
+  (let* ((list (buffer-list))
+         (buffer (car list)))
+    (while buffer
+      (let ((filename (buffer-file-name buffer)))
+        ;; Revert only buffers containing files, which are not modified;
+        ;; do not try to revert non-file buffers like *Messages*.
+        (when (and filename
+                   (not (buffer-modified-p buffer)))
+          (if (file-exists-p filename)
+              ;; If the file exists, revert the buffer.
+              (with-current-buffer buffer
+                (revert-buffer :ignore-auto :noconfirm :preserve-modes))
+            ;; If the file doesn't exist, kill the buffer.
+            (let (kill-buffer-query-functions) ; No query done when killing buffer
+              (kill-buffer buffer)
+              (message "Killed non-existing file buffer: %s" filename)))))
+      (setq buffer (pop list)))
+    (message "Finished reverting buffers containing unmodified files.")))
+
 (defun untabify-buffer ()
   "Call `untabify' with the entire buffer as region."
   (interactive)

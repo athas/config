@@ -15,7 +15,7 @@
 	      case-fold-search t
               show-trailing-whitespace t)
 
-(setf pop-up-windows nil        ; Don't change my windowconfiguration.
+(setf pop-up-windows t
       pop-up-frames nil
       european-calendar-style t         ; Use european date format.
       delete-auto-save-files t   ; Delete unnecessary auto-save files.
@@ -41,9 +41,6 @@
 ;; More useful frame title
 (setq frame-title-format
       '("%b - Emacs " emacs-version))
-
-;; Revert files that change on disk.
-(global-auto-revert-mode 1)
 
 ;; Don't show me the region.
 (transient-mark-mode 0)
@@ -131,12 +128,6 @@
 (add-to-list 'kill-emacs-query-functions
              (lambda () (y-or-n-p "Should Emacs really close? ")))
 
-;;; Tease the vi-users:
-(defconst wq "This is not vi!  Use C-x C-c instead.")
-(defconst w "This is not vi!  Use C-x C-s instead.")
-(defconst q! "This is EMACS not vi!  Use C-x C-c instead.")
-(defconst wq! "This is EMACS not vi!  Use C-x C-c instead.")
-
 ;; Load the Emacs package system.
 (with-feature
  (package)
@@ -145,11 +136,10 @@
  (package-initialize))
 
 ;;; Disable X-fluff and remove stuff:
-(when (> (string-to-number emacs-version) 20) ; Why do I care?
-  (tool-bar-mode -1)
-  (menu-bar-mode -1)
-  (scroll-bar-mode -1)
-  (blink-cursor-mode -1))
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+(blink-cursor-mode -1)
 
 ;;; Set my preferred browser.
 (setq browse-url-browser-function 'browse-url-firefox
