@@ -8,17 +8,17 @@
 { config, pkgs, ... }:
 
 {
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_5_4;
 
-  boot.kernelPatches = [ {
-    name = "make-rocm-work";
-    patch = null;
-    extraConfig = ''
-                ZONE_DEVICE y
-                HMM_MIRROR y
-                DRM_AMDGPU_USERPTR y
-                '';
-  } ];
+  # boot.kernelPatches = [ {
+  #   name = "make-rocm-work";
+  #   patch = null;
+  #   extraConfig = ''
+  #               ZONE_DEVICE y
+  #               HMM_MIRROR y
+  #               DRM_AMDGPU_USERPTR y
+  #               '';
+  # } ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -34,11 +34,6 @@
   # Select internationalisation properties.
   i18n = {
     defaultLocale = "en_US.UTF-8";
-
-    # The following are gone in unstable.
-    consoleFont = "ter-i32b";
-    consolePackages = with pkgs; [ terminus_font ];
-    consoleUseXkbConfig = true;
   };
 
   # Configure system console.
@@ -53,6 +48,10 @@
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.rocmTargets = ["gfx900"]; # Vega 64
+  nixpkgs.config.permittedInsecurePackages = [ "openssl-1.0.2u" ];
+
+  # Provide debug symbols.
+  environment.enableDebugInfo = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -78,14 +77,19 @@
     groff
     exif
     rlwrap
+    cmatrix
+    skype
 
     memtest86plus
 
+    # Games
+    openra
+
     # Hacking stuff
-    gcc gdb clang cmake gnumake stack hlint cabal-install ghc
-    zlib zlib.dev binutils # futhark
+    gcc gdb clang cmake gnumake hlint cabal-install ghc
+    zlib zlib.dev binutils futhark
     automake autoconf pkg-config libtool
-    nix-diff nix-prefetch-git
+    nix-prefetch-git cabal2nix
     valgrind tmux oclgrind
     mono powershell
     gforth
@@ -94,12 +98,15 @@
     ispc
     go
     smlnj
-    idris
+    fsharp
 
     libGL_driver opencl-info
     lynx
 
-    python3 python3Packages.pip python3Packages.setuptools
+    # Convenient Python things
+    python3
+    python3Packages.pip python3Packages.setuptools
+    python3Packages.matplotlib python3Packages.pyopencl python3Packages.numpy
 
     vgo2nix
 
@@ -151,9 +158,6 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
-  # Emacs daemon.
-  services.emacs.install = true;
-
   # Suspend when I press the power button.
   services.logind.extraConfig = "HandlePowerKey=suspend";
 
@@ -167,9 +171,6 @@
     enable = true;
   };
 
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
-
   # Enable sound.
   sound.enable = true;
   hardware.pulseaudio.enable = true;
@@ -178,16 +179,6 @@
 
   hardware.opengl.enable = true;
   hardware.opengl.extraPackages = [ pkgs.rocm-opencl-icd ];
-
-  # Enable the X11 windowing system.
-  services.xserver.enable = false;
-  services.xserver.layout = "us";
-  services.xserver.xkbVariant = "altgr-intl";
-  services.xserver.xkbOptions = "ctrl:nocaps";
-
-  # Desktop environment
-  services.xserver.displayManager.gdm.enable = false;
-  services.xserver.desktopManager.gnome3.enable = false;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.athas = {
