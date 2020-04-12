@@ -7,6 +7,14 @@
 
 { config, pkgs, ... }:
 
+let mesa_llvm_overlay = self: super:
+      {
+        # I need at most LLVM 8 for Mesa because otherwise
+        # OpenCL/OpenGL interop will not work.
+        mesa = super.mesa.override
+          { llvmPackages = super.pkgs.llvmPackages_8; };
+      };
+in
 {
   boot.kernelPackages = pkgs.linuxPackages_5_4;
 
@@ -57,11 +65,11 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     wget curl git glxinfo emacs file htop tree coreutils-full autossh
-    killall pass pinentry zip unzip lz4 nmap sshfs ranger neofetch xdg_utils pstree
+    killall pass pinentry-curses zip unzip lz4 nmap sshfs ranger neofetch xdg_utils pstree
     texlive.combined.scheme-full groff imagemagick ott graphviz
     evince firefox-esr mplayer gimp inkscape gnupg feh imv
     pandoc
-    sway rxvt_unicode xterm dmenu xwayland alacritty kitty wl-clipboard grim slurp
+    sway dmenu xwayland alacritty wl-clipboard grim slurp
     numix-cursor-theme xorg.xcursorthemes hicolor_icon_theme
     xorg.xev xdotool
     pavucontrol
@@ -74,19 +82,23 @@
     audacity
     dosbox
     whois
+    moreutils
     groff
     exif
     rlwrap
     cmatrix
-    skype
+    skype zoom-us
 
     memtest86plus
 
     # Games
     openra
 
+    # X11
+    openbox
+
     # Hacking stuff
-    gcc gdb clang cmake gnumake hlint cabal-install ghc
+    gcc gdb clang cmake gnumake hlint cabal-install ghc stack
     zlib zlib.dev binutils futhark
     automake autoconf pkg-config libtool
     nix-prefetch-git cabal2nix
@@ -97,10 +109,9 @@
     manpages
     ispc
     go
-    smlnj
     fsharp
 
-    libGL_driver opencl-info
+    libGL_driver
     lynx
 
     # Convenient Python things
@@ -111,6 +122,7 @@
     vgo2nix
 
     # ROCm stuff
+    rocm-smi
     rocm-opencl-runtime
     rocr-ext # proprietary image support
     rocminfo
@@ -141,10 +153,12 @@
     libertine
     monoid
     sudo-font
+    iosevka
   ];
 
   nixpkgs.overlays =
     [ (import /home/athas/repos/nixos-rocm)
+      mesa_llvm_overlay
     ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -170,6 +184,8 @@
   services.cron = {
     enable = true;
   };
+
+  services.xserver.enable = true;
 
   # Enable sound.
   sound.enable = true;
