@@ -7,3 +7,6 @@
 if [ -e /home/athas/.nix-profile/etc/profile.d/nix.sh ]; then . /home/athas/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 source $HOME/.profile
 source $HOME/.bashrc
+
+# opam configuration
+test -r /home/athas/.opam/opam-init/init.sh && . /home/athas/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true

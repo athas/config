@@ -7,14 +7,6 @@
 
 { config, pkgs, ... }:
 
-let mesa_llvm_overlay = self: super:
-      {
-        # I need at most LLVM 8 for Mesa because otherwise
-        # OpenCL/OpenGL interop will not work.
-        mesa = super.mesa.override
-          { llvmPackages = super.pkgs.llvmPackages_8; };
-      };
-in
 {
   boot.kernelPackages = pkgs.linuxPackages_5_4;
 
@@ -94,15 +86,12 @@ in
     # Games
     openra
 
-    # X11
-    openbox
-
     # Hacking stuff
     gcc gdb clang cmake gnumake hlint cabal-install ghc stack
     zlib zlib.dev binutils futhark
     automake autoconf pkg-config libtool
     nix-prefetch-git cabal2nix
-    valgrind tmux oclgrind
+    valgrind linuxPackages.perf tmux oclgrind
     mono powershell
     gforth
     mosml
@@ -119,6 +108,10 @@ in
     python3Packages.pip python3Packages.setuptools
     python3Packages.matplotlib python3Packages.pyopencl python3Packages.numpy
 
+    # SAT solvers
+    lingeling
+    minisat
+
     vgo2nix
 
     # ROCm stuff
@@ -133,8 +126,8 @@ in
     cxlactivitylogger
 
     # Proprietary
-    steam
-    steam-run
+    # steam
+    # steam-run
   ];
 
   fonts.fonts = with pkgs; [
@@ -154,11 +147,12 @@ in
     monoid
     sudo-font
     iosevka
+    vistafonts
+    montserrat
   ];
 
   nixpkgs.overlays =
     [ (import /home/athas/repos/nixos-rocm)
-      mesa_llvm_overlay
     ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -186,6 +180,8 @@ in
   };
 
   services.xserver.enable = true;
+  services.xserver.displayManager.defaultSession = "sway"; # or xfce
+  services.xserver.desktopManager.xfce.enable = false;     # if true
 
   # Enable sound.
   sound.enable = true;

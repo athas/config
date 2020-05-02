@@ -5,50 +5,8 @@ echo Starting X session
 # On Debian XDM, .xsession is not a login shell!  That is very annoying.
 . ~/.profile
 
-xrdb ~/.Xdefaults
-
-# Accept all connections from the local machine.
-xhost +local:
-
-# Disable bell.
-xset b off
-
-# Set up keyboard
-setxkbmap -layout us -variant altgr-intl -option ctrl:nocaps
-
-# Start GNU Emacs and redirect output to a logfile.
-emacs -f on-start &
-
-# Do some stuff to make my Trackman work properly (I'm not sure how
-# this works - it's pure magic.).
-xset m 4 25 &
-
-# Do some stuff to make my Slimblade work properly.  I know how this
-# works.  It remaps the upper-right button to function as the middle
-# button (that's the 2 there at the end).
-xinput set-button-map 'Kensington Kensington Slimblade Trackball' 1 2 3 4 5 6 7 2
-
-# Enable Thinkpad trackpoint scroll
-xinput set-int-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Button" 8 2
-
-# Redshift changes colour warmth as appropriate to the time of day.
-redshift -l 55.693648:12.56424 &
-
-# xbindkeys manages keybindings not specific to the window manager.
-xbindkeys
-
-# ALSA Volume mixer tray icon - this also grabs volume keybindings.
-volumeicon &
-
-# Enable composition - without this, Steam is always on top.
-xcompmgr -c -C -t-5 -l-5 -r4.2 -o.55 &
-
-# Start the Network Manager applet.
-nm-applet &
-
 # Start a window-manager.
 echo $PATH
 ulimit -c unlimited
-(while true; do taffybar; sleep 10; done) &
-xmonad
+exec openbox
 echo Terminating x session
