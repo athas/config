@@ -8,7 +8,8 @@
 { config, pkgs, ... }:
 
 {
-  boot.kernelPackages = pkgs.linuxPackages_5_4;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelParams = [ "amd_iommu=on" "iommu=pt" ];
 
   # boot.kernelPatches = [ {
   #   name = "make-rocm-work";
@@ -29,7 +30,7 @@
   documentation.dev.enable = true;
 
   networking.hostName = "uhyret";
-  # networking.nameservers = [ "192.168.1.1" ]; # Local router.
+  networking.nameservers = [ "192.168.1.1" ]; # Local router.
 
   # Select internationalisation properties.
   i18n = {
@@ -79,6 +80,7 @@
     exif
     rlwrap
     cmatrix
+    bat
     skype zoom-us
 
     memtest86plus
@@ -126,8 +128,8 @@
     cxlactivitylogger
 
     # Proprietary
-    # steam
-    # steam-run
+    steam
+    steam-run
   ];
 
   fonts.fonts = with pkgs; [
@@ -179,13 +181,14 @@
     enable = true;
   };
 
-  services.xserver.enable = true;
-  services.xserver.displayManager.defaultSession = "sway"; # or xfce
-  services.xserver.desktopManager.xfce.enable = false;     # if true
+#  services.xserver.enable = true;
+#  services.xserver.displayManager.defaultSession = "sway"; # or xfce
+#  services.xserver.desktopManager.xfce.enable = false;     # if true
 
   # Enable sound.
   sound.enable = true;
   hardware.pulseaudio.enable = true;
+  nixpkgs.config.pulseaudio = true;
   hardware.opengl.driSupport32Bit = true;
   hardware.pulseaudio.support32Bit = true;
 
@@ -195,12 +198,12 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.athas = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "video" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "video" "audio" ]; # Enable ‘sudo’ for the user.
   };
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change this only after NixOS release notes say you
   # should.
-  system.stateVersion = "19.09"; # Did you read the comment?
+  system.stateVersion = "20.03"; # Did you read the comment?
 }

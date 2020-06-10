@@ -190,3 +190,8 @@ This is used by the command `trh-hyperspec-lookup'.")
  (fsharp-mode)
 
  (setq fsharp-ac-intellisense-enabled nil))
+
+;; Do not indent C++ namespace contents.
+(defun my-c-setup ()
+   (c-set-offset 'innamespace [0]))
+(add-hook 'c++-mode-hook 'my-c-setup)

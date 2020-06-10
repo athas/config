@@ -29,7 +29,11 @@ PS1='$(exit_code=$?; [[ $exit_code -eq 0 ]] || printf $exit_code)[\[\033[00;31m\
 
 #Aliases...
 
-alias e="emacsclient -n --"
+if [ $(uname) = Darwin ]; then
+    alias e="emacsclient -n --"
+else
+    alias e="TMPDIR=/tmp emacsclient -n --"
+fi
 alias playmidi="aplaymidi -p 73:0"
 alias halt="sudo /sbin/halt"
 alias p3="play123"
@@ -70,6 +74,7 @@ alias ....='... && ..'
 alias .....='.... && ..'
 alias ......='..... && ..'
 alias .......='...... && ..'
+alias alfa='systemctl --user $(systemctl --user is-active alfa.service >/dev/null && echo stop || echo start) alfa.service'
 
 PROMPT_COMMAND='echo -ne "\033]0;$(pwd|sed s!^$HOME!~!)\007"'
 
