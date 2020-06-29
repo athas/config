@@ -101,6 +101,7 @@
     ispc
     go
     fsharp
+    cachix
 
     libGL_driver
     lynx
@@ -122,8 +123,8 @@
     rocr-ext # proprietary image support
     rocminfo
     rocm-bandwidth
-    roctracer
-    rocprofiler
+    # roctracer
+    # rocprofiler
     clpeak
     cxlactivitylogger
 
@@ -200,6 +201,9 @@
     isNormalUser = true;
     extraGroups = [ "wheel" "video" "audio" ]; # Enable ‘sudo’ for the user.
   };
+
+  # Users that can configure binary caches and perhaps other things.
+  nix.trustedUsers = [ "root" "athas" ];
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database

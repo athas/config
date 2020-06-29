@@ -66,8 +66,13 @@ export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 
 umask 077
 export EDITOR=emacsclient
-export HISTSIZE=""
+
+# No limit on history size
+export HISTSIZE=
+export HISTFILESIZE=
+
 export HISTCONTROL=ignoredups
+
 alias ..='cd ..'
 alias ...='.. && ..'
 alias ....='... && ..'
