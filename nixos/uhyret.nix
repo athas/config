@@ -51,8 +51,8 @@
   nixpkgs.config.rocmTargets = ["gfx900"]; # Vega 64
   nixpkgs.config.permittedInsecurePackages = [ "openssl-1.0.2u" ];
 
-  # Provide debug symbols.
-  environment.enableDebugInfo = true;
+  # If set, provide debug symbols.
+  # environment.enableDebugInfo = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -89,7 +89,7 @@
     openra
 
     # Hacking stuff
-    gcc gdb clang cmake gnumake hlint cabal-install ghc stack
+    gcc gdb clang cmake gnumake hlint cabal-install ghc stack ormolu
     zlib zlib.dev binutils futhark
     automake autoconf pkg-config libtool
     nix-prefetch-git cabal2nix
@@ -134,24 +134,24 @@
   ];
 
   fonts.fonts = with pkgs; [
-    dejavu_fonts
-    noto-fonts
-    noto-fonts-cjk
-    noto-fonts-emoji
-    liberation_ttf
+    # dejavu_fonts
+    # noto-fonts
+    # noto-fonts-cjk
+    # noto-fonts-emoji
+    # liberation_ttf
     fira-code
     fira-code-symbols
-    mplus-outline-fonts
-    dina-font
-    proggyfonts
-    cm_unicode
-    corefonts
-    libertine
-    monoid
+    # mplus-outline-fonts
+    # dina-font
+    # proggyfonts
+    # cm_unicode
+    # corefonts
+    # libertine
+    # monoid
     sudo-font
     iosevka
-    vistafonts
-    montserrat
+    # vistafonts
+    # montserrat
   ];
 
   nixpkgs.overlays =
@@ -180,6 +180,13 @@
 
   services.cron = {
     enable = true;
+  };
+
+  services.xserver = {
+    enable = true;
+    autorun = false; # Important!
+
+    exportConfiguration = true; # Important!
   };
 
 #  services.xserver.enable = true;

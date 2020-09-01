@@ -122,11 +122,16 @@ This is used by the command `trh-hyperspec-lookup'.")
   (add-to-list 'agda2-include-dirs
                "/home/athas/oregon-summer-school/agda-prelude/src/"))
 
+;;; Haskell setup
 (with-features
  (haskell-mode haskell-interactive-mode haskell-process)
 
  (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
  )
+
+(with-features
+ (haskell-mode ormolu)
+ (add-hook 'haskell-mode-hook 'ormolu-format-on-save-mode))
 
 ;;; SML setup.
 (with-feature

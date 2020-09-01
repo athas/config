@@ -74,36 +74,11 @@
                               (viewer . "/usr/bin/open %s")
                               (type . "application/octet-stream"))))))
 
-;;; Make my own posts and replies to them stand out in boldface.
-(defface dz-gnus-own-posting-face nil
-  "Use this face to display own postings in Summary Buffer")
-(copy-face 'gnus-summary-high-unread-face 'dz-gnus-own-posting-face)
-(set-face-background 'dz-gnus-own-posting-face "aquamarine")
-
-(defface dz-gnus-direct-fup-face nil
-  "Use this face to display direct follow-ups to my postings.")
-(copy-face 'gnus-summary-high-unread-face 'dz-gnus-direct-fup-face)
-(set-face-background 'dz-gnus-direct-fup-face "yellow")
-
-(defface dz-gnus-indirect-fup-face nil
-  "Use this face to display indirect follow-ups to my postings.")
-(copy-face 'gnus-summary-high-unread-face 'dz-gnus-indirect-fup-face)
-(set-face-background 'dz-gnus-indirect-fup-face "lightgreen")
-
 (add-to-list 'gnus-message-setup-hook (lambda ()
 					(auto-fill-mode 't)))
 
-(add-to-list 'gnus-summary-highlight
-             '((and (> score 8500) (eq mark gnus-unread-mark)) . dz-gnus-own-posting-face))
-
-(add-to-list 'gnus-summary-highlight
-             '((and (>= 8500 score) (>= score 7500) (eq mark gnus-unread-mark)) . dz-gnus-direct-fup-face))
-
-(add-to-list 'gnus-summary-highlight
-             '((and (>= 7499 score) (>= score 6500) (eq mark gnus-unread-mark)) . dz-gnus-indirect-fup-face))
-
-;;; I don't have a local SMTP-server running (todo: Get one), 
-;;; so Emacs will have to emulate it.
+;;; I don't have a local SMTP-server running, so Emacs will have to
+;;; emulate it.
 (setq send-mail-function 'smtpmail-send-it)
 (setq message-send-mail-function 'smtpmail-send-it)
 (setq smtpmail-default-smtp-server "localhost")
