@@ -76,3 +76,4 @@ if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then . $HOME/.nix-profile/etc
 # I prefer my own scripts and programs, then those installed by cabal,
 # then system commands.
 export PATH=$HOME/.smackage/bin:$HOME/.local/bin:$HOME/.cabal/bin:$HOME/andets/:$HOME/scripts/:/usr/local/cuda/bin:/usr/sbin:/sbin:/usr/games:$PATH
+if [ -e /Users/athas/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/athas/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer

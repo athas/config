@@ -156,3 +156,19 @@ with `require'."
      (error "%s is not a currently loaded feature" (symbol-name feature)))
    (unload-feature feature t)
    (require feature)))
+
+;;; BBDB setup
+
+(with-feature
+ (bbdb)
+ ;;If you don't live in Northern America, you should disable the
+ ;;syntax check for telephone numbers by saying
+ (setq bbdb-north-american-phone-numbers-p nil)
+ ;;Tell bbdb about your email address:
+ (setq bbdb-user-mail-names
+       (regexp-opt '("athas@sigkill.dk"
+                     "mzd885@alumni.ku.dk")))
+ ;;cycling while completing email addresses
+ (setq bbdb-complete-name-allow-cycling t)
+ ;;No popup-buffers
+ (setq bbdb-use-pop-up nil))

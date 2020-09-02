@@ -1,32 +1,18 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; My Gnus configuration file
-;;;; - Troels Henriksen
-;;;;
-
 (require 'gnus-sum)
 (require 'smime)
 (require 'epa)
 
-(setq fastmail '(nnimap "Fastmail"
-                        (nnimap-address "imap.fastmail.com")
-                        (nnimap-server-port 993)
-                        (nnimap-authenticator login)
-                        (nnimap-stream ssl)
-                        (nnimap-inbox "INBOX")
-                        (nnimap-split-methods fancy)
-                        (nnimap-split-fancy
-                         (| (any "tech@openbsd.org" "openbsd-tech")
-                            (any "misc@openbsd.org" "openbsd-misc")
-                            (any "announce@openbsd.org" "openbsd-announce")
-                            (any "haskell-cafe@haskell.org" "haskell-cafe")
-                            (any "ghc-commits@haskell.org" "ghc-commits")
-                            (any "ghc-devs@haskell.org" "ghc-devs")
-                            (any "revy@dikurevy.dk" "dikurevy")
-                            (from "buildbot@futhark-lang.org" "futhark")
-                            (from "builds@travis-ci.org" "travis")
-                            (to ".*noreply.github.com.*" "github")
-                            (any ".*@spiltirsdag.dk" "spiltirsdag")
-                            ("subject" ".*tophemmelig.*" "hemmeligheder")))))
+(with-feature
+ (bbdb)
+ (bbdb-initialize 'gnus 'message)
+
+ (add-hook 'message-mode-hook
+           (function (lambda()
+                       (local-set-key (kbd "<tab>") 'bbdb-complete-mail))))
+
+ (setq bbdb-mua-auto-update-p 'query)
+
+ (setq bbdb-mua-update-interactive-p '(query . create)))
 
 (setq gnus-select-method '(nnnil "news.tele.dk")
       gnus-use-full-window nil
@@ -75,7 +61,7 @@
                               (type . "application/octet-stream"))))))
 
 (add-to-list 'gnus-message-setup-hook (lambda ()
-					(auto-fill-mode 't)))
+                                        (auto-fill-mode 't)))
 
 ;;; I don't have a local SMTP-server running, so Emacs will have to
 ;;; emulate it.
@@ -96,7 +82,7 @@ FULLADDR is non-NIL, filter by FULLADDR."
                            (list (concat "mail."
                                          name)
                                  (concat "^"
-                                         header 
+                                         header
                                          ":.*"
                                          (or fulladdr name)))))
     (push (match-builder "To")

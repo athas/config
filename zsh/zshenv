@@ -19,3 +19,4 @@ export DARCS_EDITOR="emacsclient"
 # XDG is useful, but not very many things respect it.
 export XDG_CONFIG_HOME=~/.config
 export XDG_DATA_HOME=~/.local/share
+if [ -e /Users/athas/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/athas/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
