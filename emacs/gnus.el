@@ -2,6 +2,27 @@
 (require 'smime)
 (require 'epa)
 
+(setq fastmail '(nnimap "Fastmail"
+                        (nnimap-address "imap.fastmail.com")
+                        (nnimap-server-port 993)
+                        (nnimap-authenticator login)
+                        (nnimap-stream ssl)
+                        (nnimap-inbox "INBOX")
+                        (nnimap-split-methods fancy)
+                        (nnimap-split-fancy
+                         (| (any "tech@openbsd.org" "openbsd-tech")
+                            (any "misc@openbsd.org" "openbsd-misc")
+                            (any "announce@openbsd.org" "openbsd-announce")
+                            (any "haskell-cafe@haskell.org" "haskell-cafe")
+                            (any "ghc-commits@haskell.org" "ghc-commits")
+                            (any "ghc-devs@haskell.org" "ghc-devs")
+                            (any "revy@dikurevy.dk" "dikurevy")
+                            (from "buildbot@futhark-lang.org" "futhark")
+                            (from "builds@travis-ci.org" "travis")
+                            (to ".*noreply.github.com.*" "github")
+                            (any ".*@spiltirsdag.dk" "spiltirsdag")
+                            ("subject" ".*tophemmelig.*" "hemmeligheder")))))
+
 (with-feature
  (bbdb)
  (bbdb-initialize 'gnus 'message)
