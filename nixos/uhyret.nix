@@ -7,6 +7,14 @@
 
 { config, pkgs, ... }:
 
+let mesa_llvm_overlay = self: super:
+      {
+        # I need this LLVM for Mesa because otherwise
+        # OpenCL/OpenGL interop will not work.
+        mesa = super.mesa.override
+          { llvmPackages = super.pkgs.llvmPackages_11; };
+      };
+in
 {
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelParams = [ "amd_iommu=on" "iommu=pt" ];
@@ -90,7 +98,7 @@
 
     # Hacking stuff
     gcc gdb clang cmake gnumake hlint cabal-install ghc stack ormolu
-    zlib zlib.dev binutils futhark
+    zlib zlib.dev binutils # futhark
     automake autoconf pkg-config libtool
     nix-prefetch-git cabal2nix
     valgrind linuxPackages.perf tmux oclgrind
@@ -105,6 +113,7 @@
 
     libGL_driver
     lynx
+    sacc
 
     # Convenient Python things
     python3
@@ -120,13 +129,14 @@
     # ROCm stuff
     rocm-smi
     rocm-opencl-runtime
-    rocr-ext # proprietary image support
-    rocminfo
-    rocm-bandwidth
+    # rocr-ext # proprietary image support
+    # rocminfo
+    clinfo
+    # rocm-bandwidth
     # roctracer
     # rocprofiler
-    clpeak
-    cxlactivitylogger
+    # clpeak
+    # cxlactivitylogger
 
     # Proprietary
     steam
@@ -134,7 +144,7 @@
   ];
 
   fonts.fonts = with pkgs; [
-    # dejavu_fonts
+    dejavu_fonts
     # noto-fonts
     # noto-fonts-cjk
     # noto-fonts-emoji
@@ -145,17 +155,19 @@
     # dina-font
     # proggyfonts
     # cm_unicode
-    # corefonts
-    # libertine
+    corefonts
+    libertine
     # monoid
     sudo-font
     iosevka
     # vistafonts
+    caladea
     # montserrat
   ];
 
   nixpkgs.overlays =
-    [ (import /home/athas/repos/nixos-rocm)
+    [ # (import /home/athas/repos/nixos-rocm)
+      # mesa_llvm_overlay
     ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -177,6 +189,7 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   networking.firewall.enable = false;
+  networking.enableIPv6 = true;
 
   services.cron = {
     enable = true;
@@ -187,11 +200,12 @@
     autorun = false; # Important!
 
     exportConfiguration = true; # Important!
+    xkbOptions = "ctrl:nocaps";
   };
 
 #  services.xserver.enable = true;
-#  services.xserver.displayManager.defaultSession = "sway"; # or xfce
-#  services.xserver.desktopManager.xfce.enable = false;     # if true
+#  services.xserver.displayManager.defaultSession = "sway";
+  services.xserver.desktopManager.xfce.enable = true;
 
   # Enable sound.
   sound.enable = true;

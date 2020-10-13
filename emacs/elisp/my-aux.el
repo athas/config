@@ -172,3 +172,13 @@ with `require'."
  (setq bbdb-complete-name-allow-cycling t)
  ;;No popup-buffers
  (setq bbdb-use-pop-up nil))
+
+(defun termbin ()
+  "Send the current region to termbin.com, and put the URL into the kill ring."
+  (interactive)
+  (shell-command-on-region
+   (region-beginning) (region-end)
+   "nc termbin.com 9999"
+   t
+   nil))
+
