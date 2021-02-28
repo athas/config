@@ -36,6 +36,7 @@
       auto-revert-verbose nil
       tab-always-indent t ;; Always run the indent-function on <Tab>.
       inhibit-startup-screen t
+      vc-follow-symlinks t
       )
 
 ;; More useful frame title

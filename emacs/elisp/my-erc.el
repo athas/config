@@ -254,7 +254,7 @@ and irc.freenode.net using ERC."
 ;; Auto-join of channels is a nice thing to have.
 (erc-autojoin-mode 1)
 (setq erc-autojoin-channels-alist
-      '(("freenode.net" "#diku" "#haskell" "#eggsml")
+      '(("freenode.net" "#diku" "#haskell" "#eggsml" "#proglangdesign" "#haskell-offtopic")
         ("quakenet.org" "#udvikleren.dk")
         ("zybourne.net" "#cobol")
         ))

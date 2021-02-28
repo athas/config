@@ -144,6 +144,16 @@ if the buffer already exists."
          (tr (split-window tm nil 'right)))
     (balance-windows)))
 
+(defun four-windows ()
+  "Split the Emacs frame into a four-by-one window grid."
+  (interactive)
+  (delete-other-windows)
+  (let* ((a (selected-window))
+         (b (split-window a nil 'right))
+         (c (split-window b nil 'right))
+         (d (split-window c nil 'right)))
+    (balance-windows)))
+
 (with-feature
  (loadhist)
  (defun reload-feature (feature)

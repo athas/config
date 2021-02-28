@@ -100,3 +100,7 @@ ForwardAgent yes
 Host tegra
 User ubuntu
 Hostname 10.61.32.40
+
+Host ssh.computerome.dk
+user trohen
+ForwardAgent yes

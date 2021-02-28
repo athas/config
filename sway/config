@@ -7,7 +7,7 @@ set $mousemod Mod1
 set $term alacritty
 # Your preferred application launcher
 # Note: it's recommended that you pass the final command to sway
-set $menu dmenu_path | dmenu | xargs swaymsg exec
+set $menu bemenu-run | xargs swaymsg exec
 # Scaling factor - higher than 1 for HiDPI displays.
 output DP-1 scale 2 res 5120x2160
 # seat seat0 xcursor_theme default 48
